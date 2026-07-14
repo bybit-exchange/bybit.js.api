@@ -1,0 +1,27 @@
+src/http/request.ts
+  96762fd9974060d5 78-84,175
+tests/request.test.ts
+  96762fd9974060d5 1-224
+src/index.ts
+  96762fd9974060d5 23
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.3.2-bit.10+672fbf0",
+  "base_commit_sha": "f2b5d0feef44980b07d891ca41f5110b2c1c2412",
+  "prompts": {
+    "96762fd9974060d5": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "41032857-724d-4b8a-9515-9ed219090f04",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "doris-xiao-bybit",
+      "messages": [],
+      "total_additions": 2302,
+      "total_deletions": 278,
+      "accepted_lines": 353,
+      "overriden_lines": 0
+    }
+  }
+}
