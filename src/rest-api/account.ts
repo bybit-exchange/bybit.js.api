@@ -216,6 +216,25 @@ export class AccountService {
   }
 
   /**
+   * Get Wallet Balance - Query the wallet balance for a specific account type (and optionally a coin filter).
+   * @see https://bybit-exchange.github.io/docs/v5/account/wallet-balance
+   */
+  async getWalletBalance(params: {
+    accountType: string
+    coin?:       string
+  }): Promise<ApiResponse<unknown>> {
+    return requestJson(this.http, this.opts, {
+      method: 'GET',
+      path:   '/v5/account/wallet-balance',
+      signed: true,
+      query: {
+        accountType: params.accountType,
+        coin:        params.coin,
+      },
+    })
+  }
+
+  /**
    * Get User Settings - Query the user settings configuration.
    */
   async getUserSettings(): Promise<ApiResponse<unknown>> {

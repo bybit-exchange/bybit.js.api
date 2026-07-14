@@ -12,7 +12,7 @@ export class P2pService {
   /**
    * Get Account Information - retrieve the caller's P2P account information.
    */
-  async getAccountInfoPost(): Promise<ApiResponse<unknown>> {
+  async getAccountInfo(): Promise<ApiResponse<unknown>> {
     return requestJson(this.http, this.opts, {
       method: 'POST',
       path:   '/v5/p2p/user/personal/info',

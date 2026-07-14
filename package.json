@@ -1,5 +1,5 @@
 {
-  "name": "bybit-connector-js",
+  "name": "@bybit-exchange/api",
   "version": "0.1.0",
   "description": "Official Bybit V5 REST API connector for Node.js (TypeScript-first, axios-based).",
   "keywords": [
@@ -21,8 +21,18 @@
   },
   "license": "MIT",
   "author": "Bybit",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "sideEffects": false,
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/types/index.d.ts",
+      "import": "./dist/esm/index.js",
+      "require": "./dist/cjs/index.js"
+    },
+    "./package.json": "./package.json"
+  },
   "files": [
     "dist",
     "README.md",
@@ -33,11 +43,14 @@
     "node": ">=18"
   },
   "scripts": {
-    "build": "tsc -p tsconfig.json",
+    "build": "npm run clean && npm run build:cjs && npm run build:esm && node scripts/write-dist-package-json.js",
+    "build:cjs": "tsc -p tsconfig.json",
+    "build:esm": "tsc -p tsconfig.esm.json",
     "clean": "rm -rf dist",
     "lint": "eslint src",
+    "lint:fix": "eslint src --fix",
     "format": "prettier --write \"src/**/*.ts\"",
-    "prepublishOnly": "npm run clean && npm run build",
+    "prepublishOnly": "npm run clean && npm run lint && npm run test && npm run build",
     "test": "jest"
   },
   "dependencies": {

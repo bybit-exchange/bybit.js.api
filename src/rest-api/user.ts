@@ -100,7 +100,7 @@ export class UserService {
   /**
    * Delete a Sub-account.
    */
-  async deleteSubMemberV5(params: {
+  async deleteSubMember(params: {
     subuid: number
   }): Promise<ApiResponse<unknown>> {
     return requestJson(this.http, this.opts, {
@@ -135,7 +135,7 @@ export class UserService {
   /**
    * Get Affiliate User Info.
    */
-  async getAffiliateCustomOpenInfoV5(params: {
+  async getAffiliateCustomOpenInfo(params: {
     uid:        string
     coin?:      string
     business?:  string
@@ -172,7 +172,7 @@ export class UserService {
    * List all API keys of a Sub-account.
    * @see https://bybit-exchange.github.io/docs/v5/user/list-sub-apikeys
    */
-  async listSubApiKeysV5(params: {
+  async listSubApiKeys(params: {
     subuid:  number
     limit?:  number
     cursor?: string
@@ -204,7 +204,7 @@ export class UserService {
   /**
    * Query Escrow Sub-accounts under Fund Management.
    */
-  async queryEscrowSubMembersV5(params: {
+  async queryEscrowSubMembers(params: {
     nextCursor?: number
     pageSize?:   number
   }): Promise<ApiResponse<unknown>> {
@@ -254,7 +254,7 @@ export class UserService {
   /**
    * Query the Sub-accounts List with pagination.
    */
-  async querySubMembersV5(params: {
+  async querySubMembersPaginated(params: {
     pageSize?:   number
     nextCursor?: number
   }): Promise<ApiResponse<unknown>> {

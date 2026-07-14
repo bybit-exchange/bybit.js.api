@@ -113,7 +113,7 @@ export class PositionService {
     endTime?:      number
     status?:       string
     blockTradeId?: string
-    limit?:        string
+    limit?:        number
     cursor?:       string
   }): Promise<ApiResponse<unknown>> {
     return requestJson(this.http, this.opts, {

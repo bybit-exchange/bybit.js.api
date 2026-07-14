@@ -3,6 +3,74 @@ import { requestJson } from '../http/request'
 import type { ApiResponse } from '../types/common'
 import type { RestClientOptions } from '../config'
 
+export interface CreateOrderRequest {
+  category:               string
+  symbol:                 string
+  side:                   string
+  orderType:              string
+  qty:                    string
+  isLeverage?:            number
+  marketUnit?:            string
+  slippageToleranceType?: string
+  slippageTolerance?:     string
+  price?:                 string
+  triggerDirection?:      number
+  orderFilter?:           string
+  triggerPrice?:          string
+  triggerBy?:             string
+  orderIv?:               string
+  timeInForce?:           string
+  positionIdx?:           string
+  orderLinkId?:           string
+  takeProfit?:            string
+  stopLoss?:              string
+  tpTriggerBy?:           string
+  slTriggerBy?:           string
+  reduceOnly?:            boolean
+  closeOnTrigger?:        boolean
+  smpType?:               string
+  mmp?:                   boolean
+  tpslMode?:              string
+  tpLimitPrice?:          string
+  slLimitPrice?:          string
+  tpOrderType?:           string
+  slOrderType?:           string
+  bboSideType?:           string
+  bboLevel?:              string
+  rpiTakerAccess?:        boolean
+}
+
+export interface AmendOrderRequest {
+  category:      string
+  symbol:        string
+  orderId?:      string
+  orderLinkId?:  string
+  orderIv?:      string
+  triggerPrice?: string
+  qty?:          string
+  price?:        string
+  tpslMode?:     string
+  takeProfit?:   string
+  stopLoss?:     string
+  tpTriggerBy?:  string
+  slTriggerBy?:  string
+  triggerBy?:    string
+  tpLimitPrice?: string
+  slLimitPrice?: string
+}
+
+export interface CancelOrderRequest {
+  category:     string
+  symbol:       string
+  orderId?:     string
+  orderLinkId?: string
+  orderFilter?: string
+}
+
+export type BatchCreateOrderRequest = Omit<CreateOrderRequest, 'category'>
+export type BatchAmendOrderRequest  = Omit<AmendOrderRequest, 'category'>
+export type BatchCancelOrderRequest = Omit<CancelOrderRequest, 'category'>
+
 export class TradeService {
   constructor(
     protected readonly http: AxiosInstance,
@@ -50,24 +118,7 @@ export class TradeService {
    * Amend an existing open order (unfilled or partially filled) — modify price, quantity, trigger price, TP/SL, and related parameters.
    * @see https://bybit-exchange.github.io/docs/v5/order/amend-order
    */
-  async amendOrder(params: {
-    category:      string
-    symbol:        string
-    orderId?:      string
-    orderLinkId?:  string
-    orderIv?:      string
-    triggerPrice?: string
-    qty?:          string
-    price?:        string
-    tpslMode?:     string
-    takeProfit?:   string
-    stopLoss?:     string
-    tpTriggerBy?:  string
-    slTriggerBy?:  string
-    triggerBy?:    string
-    tpLimitPrice?: string
-    slLimitPrice?: string
-  }): Promise<ApiResponse<unknown>> {
+  async amendOrder(params: AmendOrderRequest): Promise<ApiResponse<unknown>> {
     return requestJson(this.http, this.opts, {
       method: 'POST',
       path:   '/v5/order/amend',
@@ -99,7 +150,7 @@ export class TradeService {
    */
   async batchAmendOrders(params: {
     category: string
-    request:  Array<Record<string, unknown>>
+    request:  BatchAmendOrderRequest[]
   }): Promise<ApiResponse<unknown>> {
     return requestJson(this.http, this.opts, {
       method: 'POST',
@@ -118,7 +169,7 @@ export class TradeService {
    */
   async batchCancelOrders(params: {
     category: string
-    request:  Array<Record<string, unknown>>
+    request:  BatchCancelOrderRequest[]
   }): Promise<ApiResponse<unknown>> {
     return requestJson(this.http, this.opts, {
       method: 'POST',
@@ -137,7 +188,7 @@ export class TradeService {
    */
   async batchCreateOrders(params: {
     category: string
-    request:  Array<Record<string, unknown>>
+    request:  BatchCreateOrderRequest[]
   }): Promise<ApiResponse<unknown>> {
     return requestJson(this.http, this.opts, {
       method: 'POST',
@@ -181,13 +232,7 @@ export class TradeService {
    * Cancel a single unfilled or partially filled order.
    * @see https://bybit-exchange.github.io/docs/v5/order/cancel-order
    */
-  async cancelOrder(params: {
-    category:     string
-    symbol:       string
-    orderId?:     string
-    orderLinkId?: string
-    orderFilter?: string
-  }): Promise<ApiResponse<unknown>> {
+  async cancelOrder(params: CancelOrderRequest): Promise<ApiResponse<unknown>> {
     return requestJson(this.http, this.opts, {
       method: 'POST',
       path:   '/v5/order/cancel',
@@ -206,42 +251,7 @@ export class TradeService {
    * Place a new order (spot, linear, inverse, or option).
    * @see https://bybit-exchange.github.io/docs/v5/order/create-order
    */
-  async createOrder(params: {
-    category:               string
-    symbol:                 string
-    side:                   string
-    orderType:              string
-    qty:                    string
-    isLeverage?:            number
-    marketUnit?:            string
-    slippageToleranceType?: string
-    slippageTolerance?:     string
-    price?:                 string
-    triggerDirection?:      number
-    orderFilter?:           string
-    triggerPrice?:          string
-    triggerBy?:             string
-    orderIv?:               string
-    timeInForce?:           string
-    positionIdx?:           string
-    orderLinkId?:           string
-    takeProfit?:            string
-    stopLoss?:              string
-    tpTriggerBy?:           string
-    slTriggerBy?:           string
-    reduceOnly?:            boolean
-    closeOnTrigger?:        boolean
-    smpType?:               string
-    mmp?:                   boolean
-    tpslMode?:              string
-    tpLimitPrice?:          string
-    slLimitPrice?:          string
-    tpOrderType?:           string
-    slOrderType?:           string
-    bboSideType?:           string
-    bboLevel?:              string
-    rpiTakerAccess?:        boolean
-  }): Promise<ApiResponse<unknown>> {
+  async createOrder(params: CreateOrderRequest): Promise<ApiResponse<unknown>> {
     return requestJson(this.http, this.opts, {
       method: 'POST',
       path:   '/v5/order/create',

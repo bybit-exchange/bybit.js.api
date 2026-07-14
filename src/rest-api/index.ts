@@ -17,3 +17,12 @@ export { SpotMarginService } from './spot-margin'
 export { TradeService } from './trade'
 export { UserService } from './user'
 // gen-sdk-js:service-exports:end
+
+export type {
+  CreateOrderRequest,
+  AmendOrderRequest,
+  CancelOrderRequest,
+  BatchCreateOrderRequest,
+  BatchAmendOrderRequest,
+  BatchCancelOrderRequest,
+} from './trade'

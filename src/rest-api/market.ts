@@ -467,7 +467,7 @@ export class MarketService {
   }): Promise<ApiResponse<unknown>> {
     return requestJson(this.http, this.opts, {
       method: 'GET',
-      path:   '/v5/market/rpi_orderbook',
+      path:   '/v5/market/rpi-orderbook',
       signed: false,
       query: {
         symbol:   params.symbol,
