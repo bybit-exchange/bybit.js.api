@@ -20,5 +20,6 @@ export {
   BybitParseError,
 } from './http/errors'
 export type { BybitErrorContext } from './http/errors'
+export { getRateLimit } from './http/request'
 export type { RateLimitInfo } from './http/request'
 export * from './rest-api'

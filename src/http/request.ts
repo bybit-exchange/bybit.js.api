@@ -75,6 +75,13 @@ function stripEmpty<T extends Record<string, unknown>>(o: T): T {
   return out as T
 }
 
+const RATE_LIMIT_KEY = Symbol.for('@bybit-exchange/api::rateLimit')
+
+export function getRateLimit(response: unknown): RateLimitInfo | undefined {
+  if (!response || typeof response !== 'object') return undefined
+  return (response as Record<symbol, RateLimitInfo | undefined>)[RATE_LIMIT_KEY]
+}
+
 function readRateLimit(
   headers: AxiosResponseHeaders | RawAxiosResponseHeaders | undefined,
 ): RateLimitInfo | undefined {
@@ -165,7 +172,7 @@ export async function requestJson<T = unknown>(
   }
 
   if (rateLimit) {
-    Object.defineProperty(body, '__rateLimit', { value: rateLimit, enumerable: false })
+    Object.defineProperty(body, RATE_LIMIT_KEY, { value: rateLimit, enumerable: false })
   }
   return body
 }
