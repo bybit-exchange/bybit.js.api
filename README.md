@@ -1,6 +1,6 @@
-# @bybit-exchange/api
+# bybit-official-ts-sdk
 
-[![npm version](https://img.shields.io/npm/v/@bybit-exchange/api.svg)](https://www.npmjs.com/package/@bybit-exchange/api)
+[![npm version](https://img.shields.io/npm/v/bybit-official-ts-sdk.svg)](https://www.npmjs.com/package/bybit-official-ts-sdk)
 [![Node ≥ 18](https://img.shields.io/badge/node-%E2%89%A518-brightgreen.svg)](https://nodejs.org)
 [![TypeScript-first](https://img.shields.io/badge/TypeScript-first-3178c6.svg)](https://www.typescriptlang.org)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
@@ -8,7 +8,7 @@
 
 Official lightweight TypeScript / JavaScript connector for the [Bybit V5 REST API](https://bybit-exchange.github.io/docs/v5/intro).
 
-`@bybit-exchange/api` is a thin, typed wrapper around the Bybit V5 HTTP endpoints. It ships as a single npm package with one service class per API group (`market`, `trade`, `account`, `position`, `asset`, `user`, `affiliate`, `broker`, `crypto-loan`, `rfq`, `spot-margin`, `earn`, `p2p`, `bot`). Its goal is the same as [`pybit`](https://github.com/bybit-exchange/pybit) on the Python side: an easy-to-use, high-performance connector with a small dependency footprint.
+`bybit-official-ts-sdk` is a thin, typed wrapper around the Bybit V5 HTTP endpoints. It ships as a single npm package with one service class per API group (`market`, `trade`, `account`, `position`, `asset`, `user`, `affiliate`, `broker`, `crypto-loan`, `rfq`, `spot-margin`, `earn`, `p2p`, `bot`). Its goal is the same as [`pybit`](https://github.com/bybit-exchange/pybit) on the Python side: an easy-to-use, high-performance connector with a small dependency footprint.
 
 The client currently exposes REST endpoints across **14 service modules**, all reachable from a single `BybitClient`.
 
@@ -71,23 +71,23 @@ Design choices:
 Node 18 or higher is required.
 
 ```bash
-npm install @bybit-exchange/api
+npm install bybit-official-ts-sdk
 # or
-yarn add @bybit-exchange/api
+yarn add bybit-official-ts-sdk
 # or
-pnpm add @bybit-exchange/api
+pnpm add bybit-official-ts-sdk
 ```
 
 The package ships dual entrypoints — both ESM `import` and CommonJS `require` are supported:
 
 ```ts
 // ESM (TypeScript, modern Node, bundlers)
-import { BybitClient } from '@bybit-exchange/api'
+import { BybitClient } from 'bybit-official-ts-sdk'
 ```
 
 ```js
 // CommonJS (require)
-const { BybitClient } = require('@bybit-exchange/api')
+const { BybitClient } = require('bybit-official-ts-sdk')
 ```
 
 ## Quick Start
@@ -95,7 +95,7 @@ const { BybitClient } = require('@bybit-exchange/api')
 Get an API key at <https://www.bybit.com/app/user/api-management> (mainnet) or <https://testnet.bybit.com/app/user/api-management> (testnet). Whitelist your IP on the key page — otherwise every signed call fails with `retCode 10010`.
 
 ```ts
-import { BybitClient } from '@bybit-exchange/api'
+import { BybitClient } from 'bybit-official-ts-sdk'
 
 const client = new BybitClient({
   apiKey:    process.env.BYBIT_KEY,
@@ -129,7 +129,7 @@ console.log('orderId:', order.result.orderId)
 Copy-pasteable recipes for the most common flows. All examples assume:
 
 ```ts
-import { BybitClient, BybitApiError, BybitRateLimitError, getRateLimit } from '@bybit-exchange/api'
+import { BybitClient, BybitApiError, BybitRateLimitError, getRateLimit } from 'bybit-official-ts-sdk'
 const client = new BybitClient({ apiKey: process.env.BYBIT_KEY, apiSecret: process.env.BYBIT_SECRET, testnet: true })
 ```
 
@@ -361,7 +361,7 @@ Applies uniformly to `getOpenOrders`, `getOrderHistory`, `getTradeHistory`, `get
 Bybit V5 returns rate-limit budget headers (`X-Bapi-Limit`, `X-Bapi-Limit-Status`, `X-Bapi-Limit-Reset-Timestamp`) on successful responses. The SDK attaches them non-enumerably to the response body so JSON serialization stays unchanged:
 
 ```ts
-import { getRateLimit } from '@bybit-exchange/api'
+import { getRateLimit } from 'bybit-official-ts-sdk'
 
 const positions = await client.position.getPositionInfo({ category: 'linear' })
 const limit = getRateLimit(positions)
@@ -383,7 +383,7 @@ import {
   BybitTimeoutError,
   BybitNetworkError,
   BybitParseError,
-} from '@bybit-exchange/api'
+} from 'bybit-official-ts-sdk'
 
 try {
   await client.trade.createOrder({ /* … */ })
@@ -461,7 +461,7 @@ import {
   BybitTimeoutError,
   BybitNetworkError,
   BybitRateLimitError,
-} from '@bybit-exchange/api'
+} from 'bybit-official-ts-sdk'
 
 const http = axios.create({ baseURL: 'https://api.bybit.com', timeout: 10_000 })
 axiosRetry(http, {
@@ -536,7 +536,7 @@ Other endpoints return `ApiResponse<unknown>` — narrow at the call site. More 
 The package is authored in TypeScript and ships pre-built `.js` + `.d.ts` files with dual CJS / ESM entrypoints and an `exports` map.
 
 ```ts
-import type { RestClientOptions, ApiResponse, Category, Side } from '@bybit-exchange/api'
+import type { RestClientOptions, ApiResponse, Category, Side } from 'bybit-official-ts-sdk'
 ```
 
 Every endpoint method's params are typed. Enumerated fields (`category`, `side`, `orderType`, `timeInForce`, `orderStatus`, `accountType`) use `Category | Side | OrderType | TimeInForce | OrderStatus | AccountType` unions with a `(string & {})` escape hatch — future values won't need a bump.
@@ -551,7 +551,7 @@ Bring your own `AxiosInstance` when you need interceptors, retries, proxies, or 
 
 ```ts
 import axios from 'axios'
-import { BybitClient } from '@bybit-exchange/api'
+import { BybitClient } from 'bybit-official-ts-sdk'
 
 const shared = axios.create({
   baseURL: 'https://api-testnet.bybit.com',
