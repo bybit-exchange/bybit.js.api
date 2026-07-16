@@ -6,6 +6,7 @@
     "sourceMap": true,
     "rootDir": "./src",
     "strict": true,
+    "isolatedModules": true,
     "noUncheckedIndexedAccess": true,
     "noImplicitOverride": true,
     "esModuleInterop": true,
