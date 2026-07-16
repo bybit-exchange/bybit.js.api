@@ -56,7 +56,7 @@ jobs:
         # is the one rule we accept today: types are emitted by the CJS build and shared with
         # ESM consumers, so NodeNext callers of `.d.ts` see a CJS module shape. Fix by producing
         # dedicated .d.mts / .d.cts and drop this ignore.
-        run: npx -y @arethetypeswrong/cli@0.15.4 --pack . --ignore-rules=cjs-resolves-to-esm
+        run: npx -y @arethetypeswrong/cli@0.18.2 --pack . --ignore-rules=cjs-resolves-to-esm
 
   audit:
     name: npm audit (prod deps, high+)
