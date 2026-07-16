@@ -111,8 +111,8 @@ export interface CreateOrderResult {
   orderLinkId: string
 }
 
-export interface AmendOrderResult extends CreateOrderResult {}
-export interface CancelOrderResult extends CreateOrderResult {}
+export type AmendOrderResult  = CreateOrderResult
+export type CancelOrderResult = CreateOrderResult
 
 export interface OrderDetail {
   orderId:            string

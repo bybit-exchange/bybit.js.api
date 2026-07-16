@@ -1,6 +1,6 @@
 import type { AxiosInstance } from 'axios'
 import { requestJson } from '../http/request.js'
-import type { ApiResponse, Category, Side, OrderType, TimeInForce, OrderStatus, AccountType } from '../types/common.js'
+import type { ApiResponse, Category } from '../types/common.js'
 import type { KlineResult, OrderbookResult, ServerTimeResult, TickersResult } from '../types/responses.js'
 import type { RestClientOptions } from '../config.js'
 

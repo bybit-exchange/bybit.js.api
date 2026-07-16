@@ -1,6 +1,6 @@
 import type { AxiosInstance } from 'axios'
 import { requestJson } from '../http/request.js'
-import type { ApiResponse , Category, Side, OrderType, TimeInForce, OrderStatus, AccountType } from '../types/common.js'
+import type { ApiResponse , Side } from '../types/common.js'
 import type { P2pPaymentIdItem } from '../types/nested.js'
 import type { RestClientOptions } from '../config.js'
 
