@@ -1,6 +1,5 @@
-import type { Config } from 'jest'
-
-const config: Config = {
+/** @type {import('jest').Config} */
+module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'node',
   roots: ['<rootDir>/tests'],
@@ -12,7 +11,7 @@ const config: Config = {
     '^(\\.{1,2}/.*)\\.js$': '$1',
   },
   clearMocks: true,
-  // Coverage gate — the hand-maintained plumbing under src/http and src/client must stay well-tested.
+  // Coverage gate — the hand-maintained plumbing under src/http must stay well-tested.
   // Generated rest-api/* files are ignored from the strict gate but still measured.
   collectCoverageFrom: [
     'src/**/*.ts',
@@ -34,5 +33,3 @@ const config: Config = {
     },
   },
 }
-
-export default config
