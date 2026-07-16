@@ -1,0 +1,29 @@
+package.json
+  96762fd9974060d5 27,31,35
+tsconfig.esm.json
+  96762fd9974060d5 7
+.github/workflows/ci.yml
+  96762fd9974060d5 140
+.gitignore
+  96762fd9974060d5 6
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.3.2-bit.10+672fbf0",
+  "base_commit_sha": "a52071469a7caa437d6587b3c6408f1853985ae5",
+  "prompts": {
+    "96762fd9974060d5": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "41032857-724d-4b8a-9515-9ed219090f04",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "doris-xiao-bybit",
+      "messages": [],
+      "total_additions": 6,
+      "total_deletions": 6,
+      "accepted_lines": 348,
+      "overriden_lines": 0
+    }
+  }
+}
