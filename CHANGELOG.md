@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## 0.1.0 — 2026-07-14
+## [Unreleased] — targeting 0.1.0
 
 ### Added
 - `AccountService.batchSetCollateral(...)`
@@ -41,7 +41,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `AssetService.createWithdrawal(...)`
 - `AssetService.getAllCoinsBalance(...)`
 - `AssetService.getAssetInfo(...)`
-- `AssetService.getCoinBalance(...)`
 - `AssetService.getCoinGreeks(...)`
 - `AssetService.getCoinInfo(...)`
 - `AssetService.getConvertResult(...)`
@@ -263,13 +262,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `TradeService.cancelAllOrders(...)`
 - `TradeService.cancelOrder(...)`
 - `TradeService.createOrder(...)`
-- `TradeService.setDcpTimeWindow(...)`
 - `TradeService.getOpenOrders(...)`
 - `TradeService.getOrderHistory(...)`
 - `TradeService.getSpotBorrowQuota(...)`
 - `TradeService.getTradeHistory(...)`
 - `TradeService.getTradeHistoryAllTime(...)`
 - `TradeService.preCheckOrder(...)`
+- `TradeService.setDcpTimeWindow(...)`
 - `UserService.createSubApiKey(...)`
 - `UserService.createSubMember(...)`
 - `UserService.deleteApiKey(...)`
@@ -302,6 +301,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `EarnService.*` and `PWM*` bodies use hand-written `interface` types for their
   nested `Record<string, unknown>` fields, so key names are checked at compile
   time even where individual values are still `unknown`.
-- The `bot.grid` / `bot.futuresGrid` / `bot.futuresCombo` / `bot.futuresMartingale`
-  / `bot.dca` / `bot.combo` subsystems accept snake_case params matching the
-  Bybit docs; a camelCase→snake_case body translator is a v0.2 follow-up.
+- `BotService` methods (`createGridBot`, `createFuturesGridBot`, `createComboBot`,
+  `createFuturesMartingaleBot`, `createDcaBot`, and their `close*` / `get*` /
+  `validate*` peers) accept `camelCase` params on the call site and translate
+  to `snake_case` on the wire. `createDcaBot.parameters` is a passthrough object
+  and must use the keys from the Bybit docs verbatim.

@@ -10,30 +10,8 @@ export class AssetService {
   ) {}
 
   /**
-   * Get Coin Balance across a single account type (optionally filtered by coin).
-   * @see https://bybit-exchange.github.io/docs/v5/asset/balance/account-coin-balance
-   */
-  async getCoinBalance(params: {
-    accountType: AccountType
-    memberId?:   string
-    coin?:       string
-    withBonus?:  number
-  }): Promise<ApiResponse<unknown>> {
-    return requestJson(this.http, this.opts, {
-      method: 'GET',
-      path:   '/v5/asset/transfer/query-account-coins-balance',
-      signed: true,
-      query: {
-        accountType: params.accountType,
-        memberId:    params.memberId,
-        coin:        params.coin,
-        withBonus:   params.withBonus,
-      },
-    })
-  }
-
-  /**
-   * Get all coin balances across every account type. Returns totalEquity + per-account/per-coin breakdown.
+   * Get coin balances for an account type (optionally filtered by coin / sub-member).
+   * Returns totalEquity + per-coin breakdown.
    * @see https://bybit-exchange.github.io/docs/v5/asset/balance/all-balance
    */
   async getAllCoinsBalance(params: {

@@ -154,7 +154,7 @@ client.bot           // BotService           — DCA / grid / futures-combo / fu
 
 ### Wire-key conventions
 
-Most services accept and emit `camelCase` fields end-to-end. A subset of bot-family services (`grid`, `futures-grid`, `futures-combo`, `futures-martingale`, `dca`, `combo`) require `snake_case` on the wire — the SDK preserves the wire representation in those params so the request maps 1:1 with the Bybit docs. Follow the type hints for each method.
+Every service accepts `camelCase` fields on the call site. Bot-family endpoints (grid / futures-grid / futures-combo / futures-martingale / DCA) require `snake_case` on the wire — the SDK translates the body internally so your call sites stay consistent. `BotService.createDcaBot.parameters` is passed through verbatim, so if you're constructing a DCA strategy body yourself, use the exact keys from the Bybit docs.
 
 ## Error Handling
 

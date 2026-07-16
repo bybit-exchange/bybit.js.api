@@ -4,10 +4,9 @@ import type { ApiResponse, Category, Side, OrderType, TimeInForce, OrderStatus, 
 import type { BotSymbolSetting } from '../types/nested.js'
 import type { RestClientOptions } from '../config.js'
 
-// TODO(v0.2): the grid / futures-grid / futures-combo / futures-martingale / dca / combo bot subsystems
-// use snake_case on the wire. Follow-up: accept camelCase params on these methods and translate to
-// snake_case on the request body (like the rest of the SDK). Until then, params exactly match the
-// Bybit docs for those subsystems.
+// Bot subsystems (grid / futures-grid / futures-combo / futures-martingale / dca) require
+// snake_case on the wire. The SDK accepts camelCase params and translates them at the request
+// boundary — call sites stay consistent with the rest of the SDK.
 
 export class BotService {
   constructor(
@@ -16,50 +15,50 @@ export class BotService {
   ) {}
 
   /**
-   * Close a running futures grid bot by bot ID
+   * Close a running futures grid bot by bot ID.
    */
   async closeFuturesGridBot(params: {
-    bot_id: number
+    botId: number
   }): Promise<ApiResponse<unknown>> {
     return requestJson(this.http, this.opts, {
       method: 'POST',
       path:   '/v5/fgridbot/close',
       signed: true,
       body: {
-        bot_id: params.bot_id,
+        bot_id: params.botId,
       },
     })
   }
 
   /**
-   * Create a new futures grid trading bot with specified parameters
+   * Create a new futures grid trading bot with specified parameters.
    */
   async createFuturesGridBot(params: {
-    symbol: string
-    grid_mode: number
-    min_price: string
-    max_price: string
-    cell_number: number
-    leverage: string
-    grid_type: number
-    total_investment: string
-    take_profit_per?: string
-    stop_loss_per?: string
-    entry_price?: string
-    source?: number
-    followed_grid_id?: number
+    symbol:                   string
+    gridMode:                 number
+    minPrice:                 string
+    maxPrice:                 string
+    cellNumber:               number
+    leverage:                 string
+    gridType:                 number
+    totalInvestment:          string
+    takeProfitPer?:           string
+    stopLossPer?:             string
+    entryPrice?:              string
+    source?:                  number
+    followedGridId?:          number
     toolsDiscoveryParameter?: Record<string, unknown>
-    stop_loss_price?: string
-    take_profit_price?: string
-    tp_sl_type?: number
-    block_source?: number
-    create_type?: number
-    init_bonus?: string
-    business_remark?: string
-    trailing_stop_per?: string
-    move_up_price?: string
-    move_down_price?: string
-    channel?: string
+    stopLossPrice?:           string
+    takeProfitPrice?:         string
+    tpSlType?:                number
+    blockSource?:             number
+    createType?:              number
+    initBonus?:               string
+    businessRemark?:          string
+    trailingStopPer?:         string
+    moveUpPrice?:             string
+    moveDownPrice?:           string
+    channel?:                 string
   }): Promise<ApiResponse<unknown>> {
     return requestJson(this.http, this.opts, {
       method: 'POST',
@@ -67,71 +66,71 @@ export class BotService {
       signed: true,
       body: {
         symbol:                    params.symbol,
-        grid_mode:                 params.grid_mode,
-        min_price:                 params.min_price,
-        max_price:                 params.max_price,
-        cell_number:               params.cell_number,
+        grid_mode:                 params.gridMode,
+        min_price:                 params.minPrice,
+        max_price:                 params.maxPrice,
+        cell_number:               params.cellNumber,
         leverage:                  params.leverage,
-        grid_type:                 params.grid_type,
-        total_investment:          params.total_investment,
-        take_profit_per:           params.take_profit_per,
-        stop_loss_per:             params.stop_loss_per,
-        entry_price:               params.entry_price,
+        grid_type:                 params.gridType,
+        total_investment:          params.totalInvestment,
+        take_profit_per:           params.takeProfitPer,
+        stop_loss_per:             params.stopLossPer,
+        entry_price:               params.entryPrice,
         source:                    params.source,
-        followed_grid_id:          params.followed_grid_id,
+        followed_grid_id:          params.followedGridId,
         tools_discovery_parameter: params.toolsDiscoveryParameter,
-        stop_loss_price:           params.stop_loss_price,
-        take_profit_price:         params.take_profit_price,
-        tp_sl_type:                params.tp_sl_type,
-        block_source:              params.block_source,
-        create_type:               params.create_type,
-        init_bonus:                params.init_bonus,
-        business_remark:           params.business_remark,
-        trailing_stop_per:         params.trailing_stop_per,
-        move_up_price:             params.move_up_price,
-        move_down_price:           params.move_down_price,
+        stop_loss_price:           params.stopLossPrice,
+        take_profit_price:         params.takeProfitPrice,
+        tp_sl_type:                params.tpSlType,
+        block_source:              params.blockSource,
+        create_type:               params.createType,
+        init_bonus:                params.initBonus,
+        business_remark:           params.businessRemark,
+        trailing_stop_per:         params.trailingStopPer,
+        move_up_price:             params.moveUpPrice,
+        move_down_price:           params.moveDownPrice,
         channel:                   params.channel,
       },
     })
   }
 
   /**
-   * Get full details of a futures grid bot including PnL, positions, and status
+   * Get full details of a futures grid bot including PnL, positions, and status.
    */
   async getFuturesGridDetail(params: {
-    bot_id: number
+    botId: number
   }): Promise<ApiResponse<unknown>> {
     return requestJson(this.http, this.opts, {
       method: 'POST',
       path:   '/v5/fgridbot/detail',
       signed: true,
       body: {
-        bot_id: params.bot_id,
+        bot_id: params.botId,
       },
     })
   }
 
   /**
-   * Validate futures grid bot input parameters and return allowable ranges
+   * Validate futures grid bot input parameters and return allowable ranges.
    */
   async validateFuturesGridInput(params: {
-    symbol: string
-    cell_number: number
-    min_price: string
-    max_price: string
-    leverage: string
-    grid_type: number
-    grid_mode: number
-    stop_loss_price?: string
-    take_profit_price?: string
-    tp_sl_type?: number
-    entry_price?: string
-    stop_loss_per?: string
-    take_profit_per?: string
-    trailing_stop_per?: string
-    init_margin?: string
-    move_up_price?: string
-    move_down_price?: string
+    symbol:            string
+    cellNumber:        number
+    minPrice:          string
+    maxPrice:          string
+    leverage:          string
+    gridType:          number
+    gridMode:          number
+    stopLossPrice?:    string
+    takeProfitPrice?:  string
+    tpSlType?:         number
+    entryPrice?:       string
+    stopLossPer?:      string
+    takeProfitPer?:    string
+    trailingStopPer?:  string
+    initMargin?:       string
+    moveUpPrice?:      string
+    moveDownPrice?:    string
   }): Promise<ApiResponse<unknown>> {
     return requestJson(this.http, this.opts, {
       method: 'POST',
@@ -139,22 +138,22 @@ export class BotService {
       signed: true,
       body: {
         symbol:            params.symbol,
-        cell_number:       params.cell_number,
-        min_price:         params.min_price,
-        max_price:         params.max_price,
+        cell_number:       params.cellNumber,
+        min_price:         params.minPrice,
+        max_price:         params.maxPrice,
         leverage:          params.leverage,
-        grid_type:         params.grid_type,
-        grid_mode:         params.grid_mode,
-        stop_loss_price:   params.stop_loss_price,
-        take_profit_price: params.take_profit_price,
-        tp_sl_type:        params.tp_sl_type,
-        entry_price:       params.entry_price,
-        stop_loss_per:     params.stop_loss_per,
-        take_profit_per:   params.take_profit_per,
-        trailing_stop_per: params.trailing_stop_per,
-        init_margin:       params.init_margin,
-        move_up_price:     params.move_up_price,
-        move_down_price:   params.move_down_price,
+        grid_type:         params.gridType,
+        grid_mode:         params.gridMode,
+        stop_loss_price:   params.stopLossPrice,
+        take_profit_price: params.takeProfitPrice,
+        tp_sl_type:        params.tpSlType,
+        entry_price:       params.entryPrice,
+        stop_loss_per:     params.stopLossPer,
+        take_profit_per:   params.takeProfitPer,
+        trailing_stop_per: params.trailingStopPer,
+        init_margin:       params.initMargin,
+        move_up_price:     params.moveUpPrice,
+        move_down_price:   params.moveDownPrice,
       },
     })
   }
@@ -163,7 +162,7 @@ export class BotService {
    * Close a running DCA bot with a specified settlement mode.
    */
   async closeDcaBot(params: {
-    botId: number
+    botId:     number
     closeMode: number
   }): Promise<ApiResponse<unknown>> {
     return requestJson(this.http, this.opts, {
@@ -181,9 +180,9 @@ export class BotService {
    * Create a new DCA (Dollar-Cost Averaging) bot with custom parameters.
    */
   async createDcaBot(params: {
-    parameters: Record<string, unknown>
+    parameters:               Record<string, unknown>
     toolsDiscoveryParameter?: Record<string, unknown>
-    channel?: string
+    channel?:                 string
   }): Promise<ApiResponse<unknown>> {
     return requestJson(this.http, this.opts, {
       method: 'POST',
@@ -201,16 +200,16 @@ export class BotService {
    * Close a running futures combo bot by bot ID.
    */
   async closeComboBot(params: {
-    bot_id: number
-    stop_type?: number
+    botId:     number
+    stopType?: number
   }): Promise<ApiResponse<unknown>> {
     return requestJson(this.http, this.opts, {
       method: 'POST',
       path:   '/v5/fcombobot/close',
       signed: true,
       body: {
-        bot_id:    params.bot_id,
-        stop_type: params.stop_type,
+        bot_id:    params.botId,
+        stop_type: params.stopType,
       },
     })
   }
@@ -219,21 +218,21 @@ export class BotService {
    * Create a new futures combo bot with multi-symbol portfolio and rebalancing.
    */
   async createComboBot(params: {
-    leverage: string
-    init_margin: string
-    adjust_position_mode: number
-    symbol_settings: BotSymbolSetting[]
-    adjust_position_percent?: string
-    adjust_position_time_interval?: number
-    sl_percent?: string
-    tp_percent?: string
-    source?: number
-    block_source?: number
-    create_type?: number
-    followed_bot_id?: number
-    init_bonus?: string
-    trailing_stop_percent?: string
-    channel?: string
+    leverage:                   string
+    initMargin:                 string
+    adjustPositionMode:         number
+    symbolSettings:             BotSymbolSetting[]
+    adjustPositionPercent?:     string
+    adjustPositionTimeInterval?: number
+    slPercent?:                 string
+    tpPercent?:                 string
+    source?:                    number
+    blockSource?:               number
+    createType?:                number
+    followedBotId?:             number
+    initBonus?:                 string
+    trailingStopPercent?:       string
+    channel?:                   string
   }): Promise<ApiResponse<unknown>> {
     return requestJson(this.http, this.opts, {
       method: 'POST',
@@ -241,19 +240,19 @@ export class BotService {
       signed: true,
       body: {
         leverage:                      params.leverage,
-        init_margin:                   params.init_margin,
-        adjust_position_mode:          params.adjust_position_mode,
-        symbol_settings:               params.symbol_settings,
-        adjust_position_percent:       params.adjust_position_percent,
-        adjust_position_time_interval: params.adjust_position_time_interval,
-        sl_percent:                    params.sl_percent,
-        tp_percent:                    params.tp_percent,
+        init_margin:                   params.initMargin,
+        adjust_position_mode:          params.adjustPositionMode,
+        symbol_settings:               params.symbolSettings,
+        adjust_position_percent:       params.adjustPositionPercent,
+        adjust_position_time_interval: params.adjustPositionTimeInterval,
+        sl_percent:                    params.slPercent,
+        tp_percent:                    params.tpPercent,
         source:                        params.source,
-        block_source:                  params.block_source,
-        create_type:                   params.create_type,
-        followed_bot_id:               params.followed_bot_id,
-        init_bonus:                    params.init_bonus,
-        trailing_stop_percent:         params.trailing_stop_percent,
+        block_source:                  params.blockSource,
+        create_type:                   params.createType,
+        followed_bot_id:               params.followedBotId,
+        init_bonus:                    params.initBonus,
+        trailing_stop_percent:         params.trailingStopPercent,
         channel:                       params.channel,
       },
     })
@@ -263,14 +262,14 @@ export class BotService {
    * Get full details of a futures combo bot including PnL, positions, and status.
    */
   async getComboDetail(params: {
-    bot_id: number
+    botId: number
   }): Promise<ApiResponse<unknown>> {
     return requestJson(this.http, this.opts, {
       method: 'POST',
       path:   '/v5/fcombobot/detail',
       signed: true,
       body: {
-        bot_id: params.bot_id,
+        bot_id: params.botId,
       },
     })
   }
@@ -279,17 +278,17 @@ export class BotService {
    * Validate combo bot input parameters and return allowable ranges.
    */
   async getComboLimit(params: {
-    leverage: string
-    init_margin: string
-    adjust_position_mode: number
-    symbol_settings: BotSymbolSetting[]
-    adjust_position_percent?: string
-    adjust_position_time_interval?: number
-    sl_percent?: string
-    tp_percent?: string
-    need_to_slippage?: boolean
-    app_name?: string
-    trailing_stop_percent?: string
+    leverage:                    string
+    initMargin:                  string
+    adjustPositionMode:          number
+    symbolSettings:              BotSymbolSetting[]
+    adjustPositionPercent?:      string
+    adjustPositionTimeInterval?: number
+    slPercent?:                  string
+    tpPercent?:                  string
+    needToSlippage?:             boolean
+    appName?:                    string
+    trailingStopPercent?:        string
   }): Promise<ApiResponse<unknown>> {
     return requestJson(this.http, this.opts, {
       method: 'POST',
@@ -297,16 +296,16 @@ export class BotService {
       signed: true,
       body: {
         leverage:                      params.leverage,
-        init_margin:                   params.init_margin,
-        adjust_position_mode:          params.adjust_position_mode,
-        symbol_settings:               params.symbol_settings,
-        adjust_position_percent:       params.adjust_position_percent,
-        adjust_position_time_interval: params.adjust_position_time_interval,
-        sl_percent:                    params.sl_percent,
-        tp_percent:                    params.tp_percent,
-        need_to_slippage:              params.need_to_slippage,
-        app_name:                      params.app_name,
-        trailing_stop_percent:         params.trailing_stop_percent,
+        init_margin:                   params.initMargin,
+        adjust_position_mode:          params.adjustPositionMode,
+        symbol_settings:               params.symbolSettings,
+        adjust_position_percent:       params.adjustPositionPercent,
+        adjust_position_time_interval: params.adjustPositionTimeInterval,
+        sl_percent:                    params.slPercent,
+        tp_percent:                    params.tpPercent,
+        need_to_slippage:              params.needToSlippage,
+        app_name:                      params.appName,
+        trailing_stop_percent:         params.trailingStopPercent,
       },
     })
   }
@@ -315,7 +314,7 @@ export class BotService {
    * Close a running futures Martingale bot by bot ID.
    */
   async closeFuturesMartingaleBot(params: {
-    botId: number
+    botId:     number
     stopType?: string
   }): Promise<ApiResponse<unknown>> {
     return requestJson(this.http, this.opts, {
@@ -333,23 +332,23 @@ export class BotService {
    * Create a new futures Martingale bot with DCA averaging strategy.
    */
   async createFuturesMartingaleBot(params: {
-    symbol: string
-    martingaleMode: string
-    leverage: string
-    priceFloatPercent: string
-    addPositionPercent: string
-    addPositionNum: number
-    initMargin: string
-    roundTpPercent: string
-    autoCycleToggle?: string
-    slPercent?: string
-    entryPrice?: string
-    source?: string
-    followedBotId?: number
-    blockSource?: string
-    createType?: string
-    initBonus?: string
-    channel?: string
+    symbol:              string
+    martingaleMode:      string
+    leverage:            string
+    priceFloatPercent:   string
+    addPositionPercent:  string
+    addPositionNum:      number
+    initMargin:          string
+    roundTpPercent:      string
+    autoCycleToggle?:    string
+    slPercent?:          string
+    entryPrice?:         string
+    source?:             string
+    followedBotId?:      number
+    blockSource?:        string
+    createType?:         string
+    initBonus?:          string
+    channel?:            string
   }): Promise<ApiResponse<unknown>> {
     return requestJson(this.http, this.opts, {
       method: 'POST',
@@ -397,18 +396,18 @@ export class BotService {
    * Validate Martingale bot input parameters and return allowable ranges.
    */
   async getFuturesMartingaleLimit(params: {
-    symbol: string
-    martingaleMode: string
-    leverage: string
-    priceFloatPercent?: string
+    symbol:              string
+    martingaleMode:      string
+    leverage:            string
+    priceFloatPercent?:  string
     addPositionPercent?: string
-    addPositionNum?: number
-    initMargin?: string
-    roundTpPercent?: string
-    slPercent?: string
-    entryPrice?: string
-    needToSlippage?: boolean
-    appName?: string
+    addPositionNum?:     number
+    initMargin?:         string
+    roundTpPercent?:     string
+    slPercent?:          string
+    entryPrice?:         string
+    needToSlippage?:     boolean
+    appName?:            string
   }): Promise<ApiResponse<unknown>> {
     return requestJson(this.http, this.opts, {
       method: 'POST',
@@ -435,16 +434,16 @@ export class BotService {
    * Close a running spot grid bot with a specified settlement mode.
    */
   async closeGridBot(params: {
-    grid_id: number
-    close_mode: number
+    gridId:    number
+    closeMode: number
   }): Promise<ApiResponse<unknown>> {
     return requestJson(this.http, this.opts, {
       method: 'POST',
       path:   '/v5/grid/close-grid',
       signed: true,
       body: {
-        grid_id:    params.grid_id,
-        close_mode: params.close_mode,
+        grid_id:    params.gridId,
+        close_mode: params.closeMode,
       },
     })
   }
@@ -453,26 +452,26 @@ export class BotService {
    * Create a new spot grid trading bot.
    */
   async createGridBot(params: {
-    symbol: string
-    max_price: string
-    min_price: string
-    total_investment: string
-    cell_number: number
-    followed_grid_id?: number
-    source?: number
-    entry_price?: string
-    stop_loss_price?: string
-    take_profit_price?: string
+    symbol:                   string
+    maxPrice:                 string
+    minPrice:                 string
+    totalInvestment:          string
+    cellNumber:               number
+    followedGridId?:          number
+    source?:                  number
+    entryPrice?:              string
+    stopLossPrice?:           string
+    takeProfitPrice?:         string
     toolsDiscoveryParameter?: Record<string, unknown>
-    base_investment?: string
-    quote_investment?: string
-    invest_mode?: number
-    block_source?: number
-    create_type?: number
-    ts_percent?: string
-    enable_trailing?: boolean
-    limit_up_price?: string
-    channel?: string
+    baseInvestment?:          string
+    quoteInvestment?:         string
+    investMode?:              number
+    blockSource?:             number
+    createType?:              number
+    tsPercent?:               string
+    enableTrailing?:          boolean
+    limitUpPrice?:            string
+    channel?:                 string
   }): Promise<ApiResponse<unknown>> {
     return requestJson(this.http, this.opts, {
       method: 'POST',
@@ -480,41 +479,41 @@ export class BotService {
       signed: true,
       body: {
         symbol:                    params.symbol,
-        max_price:                 params.max_price,
-        min_price:                 params.min_price,
-        total_investment:          params.total_investment,
-        cell_number:               params.cell_number,
-        followed_grid_id:          params.followed_grid_id,
+        max_price:                 params.maxPrice,
+        min_price:                 params.minPrice,
+        total_investment:          params.totalInvestment,
+        cell_number:               params.cellNumber,
+        followed_grid_id:          params.followedGridId,
         source:                    params.source,
-        entry_price:               params.entry_price,
-        stop_loss_price:           params.stop_loss_price,
-        take_profit_price:         params.take_profit_price,
+        entry_price:               params.entryPrice,
+        stop_loss_price:           params.stopLossPrice,
+        take_profit_price:         params.takeProfitPrice,
         tools_discovery_parameter: params.toolsDiscoveryParameter,
-        base_investment:           params.base_investment,
-        quote_investment:          params.quote_investment,
-        invest_mode:               params.invest_mode,
-        block_source:              params.block_source,
-        create_type:               params.create_type,
-        ts_percent:                params.ts_percent,
-        enable_trailing:           params.enable_trailing,
-        limit_up_price:            params.limit_up_price,
+        base_investment:           params.baseInvestment,
+        quote_investment:          params.quoteInvestment,
+        invest_mode:               params.investMode,
+        block_source:              params.blockSource,
+        create_type:               params.createType,
+        ts_percent:                params.tsPercent,
+        enable_trailing:           params.enableTrailing,
+        limit_up_price:            params.limitUpPrice,
         channel:                   params.channel,
       },
     })
   }
 
   /**
-   * Query full details of a specific grid bot by grid_id.
+   * Query full details of a specific grid bot by grid ID.
    */
   async getGridDetail(params: {
-    grid_id: number
+    gridId: number
   }): Promise<ApiResponse<unknown>> {
     return requestJson(this.http, this.opts, {
       method: 'POST',
       path:   '/v5/grid/query-grid-detail',
       signed: true,
       body: {
-        grid_id: params.grid_id,
+        grid_id: params.gridId,
       },
     })
   }
@@ -523,20 +522,20 @@ export class BotService {
    * Validate spot grid bot parameters before creation.
    */
   async validateGridInput(params: {
-    symbol: string
-    cell_number: number
-    min_price: string
-    max_price: string
-    total_investment: string
-    stop_loss?: string
-    take_profit?: string
-    entry_price?: string
-    base_investment?: string
-    quote_investment?: string
-    invest_mode?: number
-    ts_percent?: string
-    enable_trailing?: boolean
-    limit_up_price?: string
+    symbol:           string
+    cellNumber:       number
+    minPrice:         string
+    maxPrice:         string
+    totalInvestment:  string
+    stopLoss?:        string
+    takeProfit?:      string
+    entryPrice?:      string
+    baseInvestment?:  string
+    quoteInvestment?: string
+    investMode?:      number
+    tsPercent?:       string
+    enableTrailing?:  boolean
+    limitUpPrice?:    string
   }): Promise<ApiResponse<unknown>> {
     return requestJson(this.http, this.opts, {
       method: 'POST',
@@ -544,19 +543,19 @@ export class BotService {
       signed: true,
       body: {
         symbol:           params.symbol,
-        cell_number:      params.cell_number,
-        min_price:        params.min_price,
-        max_price:        params.max_price,
-        total_investment: params.total_investment,
-        stop_loss:        params.stop_loss,
-        take_profit:      params.take_profit,
-        entry_price:      params.entry_price,
-        base_investment:  params.base_investment,
-        quote_investment: params.quote_investment,
-        invest_mode:      params.invest_mode,
-        ts_percent:       params.ts_percent,
-        enable_trailing:  params.enable_trailing,
-        limit_up_price:   params.limit_up_price,
+        cell_number:      params.cellNumber,
+        min_price:        params.minPrice,
+        max_price:        params.maxPrice,
+        total_investment: params.totalInvestment,
+        stop_loss:        params.stopLoss,
+        take_profit:      params.takeProfit,
+        entry_price:      params.entryPrice,
+        base_investment:  params.baseInvestment,
+        quote_investment: params.quoteInvestment,
+        invest_mode:      params.investMode,
+        ts_percent:       params.tsPercent,
+        enable_trailing:  params.enableTrailing,
+        limit_up_price:   params.limitUpPrice,
       },
     })
   }
