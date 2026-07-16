@@ -1,0 +1,23 @@
+README.md
+  96762fd9974060d5 1,3,11,74,76,78,85,90,98,132,364,386,464,539,554
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.3.2-bit.10+672fbf0",
+  "base_commit_sha": "ec486a9e49b0e4a93b52c11a24d56732d66088fd",
+  "prompts": {
+    "96762fd9974060d5": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "41032857-724d-4b8a-9515-9ed219090f04",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "doris-xiao-bybit",
+      "messages": [],
+      "total_additions": 30,
+      "total_deletions": 30,
+      "accepted_lines": 973,
+      "overriden_lines": 0
+    }
+  }
+}
