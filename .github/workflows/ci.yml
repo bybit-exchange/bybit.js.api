@@ -56,7 +56,16 @@ jobs:
         # is the one rule we accept today: types are emitted by the CJS build and shared with
         # ESM consumers, so NodeNext callers of `.d.ts` see a CJS module shape. Fix by producing
         # dedicated .d.mts / .d.cts and drop this ignore.
-        run: npx -y @arethetypeswrong/cli@0.18.2 --pack . --ignore-rules=cjs-resolves-to-esm
+        #
+        # We build the tarball ourselves and hand it to attw. attw's own `--pack .` flow crashes
+        # against npm 10's tarball metadata format with 'Cannot read properties of undefined
+        # (reading filename)' — verifying against a pre-built .tgz sidesteps that bug entirely.
+        run: |
+          set -eu
+          npm pack --pack-destination /tmp
+          TARBALL=$(ls /tmp/bybit-exchange-api-*.tgz | head -1)
+          echo "attw checking $TARBALL"
+          npx -y @arethetypeswrong/cli@0.18.2 "$TARBALL" --ignore-rules=cjs-resolves-to-esm
 
   audit:
     name: npm audit (prod deps, high+)
