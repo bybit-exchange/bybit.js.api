@@ -41,6 +41,8 @@ jobs:
         run: npm run smoke
 
       - name: Publish
+        # --access public is a no-op for unscoped packages (public by default) but
+        # kept explicit so nothing changes if we later switch back to a scoped name.
         run: npm publish --provenance --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

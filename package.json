@@ -1,5 +1,5 @@
 {
-  "name": "@bybit-exchange/api",
+  "name": "bybit-official-ts-sdk",
   "version": "0.1.0",
   "description": "Official Bybit V5 REST API connector for Node.js (TypeScript-first, axios-based).",
   "keywords": [
