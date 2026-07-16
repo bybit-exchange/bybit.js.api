@@ -1,7 +1,8 @@
 import type { AxiosInstance } from 'axios'
-import { requestJson } from '../http/request'
-import type { ApiResponse } from '../types/common'
-import type { RestClientOptions } from '../config'
+import { requestJson } from '../http/request.js'
+import type { ApiResponse , Category, Side, OrderType, TimeInForce, OrderStatus, AccountType } from '../types/common.js'
+import type { CollateralItem } from '../types/nested.js'
+import type { RestClientOptions } from '../config.js'
 
 export class CryptoLoanService {
   constructor(
@@ -34,7 +35,7 @@ export class CryptoLoanService {
    */
   async calculateMaxBorrowableAmount(params: {
     currency:       string
-    collateralList: Array<Record<string, unknown>>
+    collateralList: CollateralItem[]
   }): Promise<ApiResponse<unknown>> {
     return requestJson(this.http, this.opts, {
       method: 'POST',
@@ -88,7 +89,7 @@ export class CryptoLoanService {
   /**
    * Get Crypto Loan Position.
    */
-  async getCryptoLoanPosition(): Promise<ApiResponse<unknown>> {
+  async getLoanPosition(): Promise<ApiResponse<unknown>> {
     return requestJson(this.http, this.opts, {
       method: 'GET',
       path:   '/v5/crypto-loan-common/position',
@@ -133,7 +134,7 @@ export class CryptoLoanService {
   /**
    * Get borrow contract info for fixed-term crypto loans.
    */
-  async getCryptoLoanFixedBorrowContractInfo(params: {
+  async getFixedBorrowContractInfo(params: {
     orderId?:       string
     loanId?:        string
     orderCurrency?: string
@@ -159,7 +160,7 @@ export class CryptoLoanService {
   /**
    * Get borrow order info for fixed-term crypto loans.
    */
-  async getCryptoLoanFixedBorrowOrderInfo(params: {
+  async getFixedBorrowOrderInfo(params: {
     orderId?:       string
     orderCurrency?: string
     state?:         string
@@ -185,7 +186,7 @@ export class CryptoLoanService {
   /**
    * Get borrow market quotes for fixed-term crypto loans.
    */
-  async getCryptoLoanFixedBorrowOrderQuote(params: {
+  async getFixedBorrowOrderQuote(params: {
     orderCurrency?: string
     term?:          string
     orderBy?:       string
@@ -209,7 +210,7 @@ export class CryptoLoanService {
   /**
    * Get renewal information for fixed-term crypto loans.
    */
-  async getCryptoLoanFixedRenewInfo(params: {
+  async getFixedRenewInfo(params: {
     orderId?:       string
     orderCurrency?: string
     limit?:         number
@@ -231,7 +232,7 @@ export class CryptoLoanService {
   /**
    * Get repayment history for fixed-term crypto loans.
    */
-  async getCryptoLoanFixedRepaymentHistory(params: {
+  async getFixedRepaymentHistory(params: {
     repayId?:      string
     loanCurrency?: string
     limit?:        number
@@ -253,7 +254,7 @@ export class CryptoLoanService {
   /**
    * Get supply contract info for fixed-term crypto loans.
    */
-  async getCryptoLoanFixedSupplyContractInfo(params: {
+  async getFixedSupplyContractInfo(params: {
     orderId?:        string
     supplyId?:       string
     supplyCurrency?: string
@@ -279,7 +280,7 @@ export class CryptoLoanService {
   /**
    * Get supply order info for fixed-term crypto loans.
    */
-  async getCryptoLoanFixedSupplyOrderInfo(params: {
+  async getFixedSupplyOrderInfo(params: {
     orderId?:       string
     orderCurrency?: string
     state?:         string
@@ -305,7 +306,7 @@ export class CryptoLoanService {
   /**
    * Get supply market quotes for fixed-term crypto loans.
    */
-  async getCryptoLoanFixedSupplyOrderQuote(params: {
+  async getFixedSupplyOrderQuote(params: {
     orderCurrency?: string
     term?:          string
     orderBy?:       string
@@ -329,12 +330,12 @@ export class CryptoLoanService {
   /**
    * Create a fixed-term crypto loan borrow order.
    */
-  async postCryptoLoanFixedBorrow(params: {
+  async borrowFixed(params: {
     orderCurrency:  string
     orderAmount:    string
     annualRate:     string
     term:           string
-    collateralList: Array<Record<string, unknown>>
+    collateralList: CollateralItem[]
     autoRepay?:     string
     repayType?:     string
   }): Promise<ApiResponse<unknown>> {
@@ -357,7 +358,7 @@ export class CryptoLoanService {
   /**
    * Cancel a fixed-term crypto loan borrow order.
    */
-  async postCryptoLoanFixedBorrowOrderCancel(params: {
+  async cancelFixedBorrowOrder(params: {
     orderId: string
   }): Promise<ApiResponse<unknown>> {
     return requestJson(this.http, this.opts, {
@@ -373,7 +374,7 @@ export class CryptoLoanService {
   /**
    * Fully repay a fixed-term crypto loan.
    */
-  async postCryptoLoanFixedFullyRepay(params: {
+  async repayFixedFull(params: {
     loanId:       string
     loanCurrency: string
   }): Promise<ApiResponse<unknown>> {
@@ -391,9 +392,9 @@ export class CryptoLoanService {
   /**
    * Renew a fixed-term crypto loan.
    */
-  async postCryptoLoanFixedRenew(params: {
+  async renewFixed(params: {
     loanId:         string
-    collateralList: Array<Record<string, unknown>>
+    collateralList: CollateralItem[]
   }): Promise<ApiResponse<unknown>> {
     return requestJson(this.http, this.opts, {
       method: 'POST',
@@ -409,7 +410,7 @@ export class CryptoLoanService {
   /**
    * Repay a fixed-term crypto loan with collateral.
    */
-  async postCryptoLoanFixedRepayCollateral(params: {
+  async repayFixedCollateral(params: {
     loanId:         number
     loanCurrency:   string
     collateralCoin: string
@@ -431,7 +432,7 @@ export class CryptoLoanService {
   /**
    * Create a fixed-term crypto loan supply order.
    */
-  async postCryptoLoanFixedSupply(params: {
+  async supplyFixed(params: {
     orderCurrency:    string
     orderAmount:      string
     annualRate:       string
@@ -455,7 +456,7 @@ export class CryptoLoanService {
   /**
    * Cancel a fixed-term crypto loan supply order.
    */
-  async postCryptoLoanFixedSupplyOrderCancel(params: {
+  async cancelFixedSupplyOrder(params: {
     orderId:          string
     refundedAccount?: number
   }): Promise<ApiResponse<unknown>> {
@@ -473,7 +474,7 @@ export class CryptoLoanService {
   /**
    * Get Flexible Borrow History
    */
-  async getCryptoLoanFlexibleBorrowHistory(params: {
+  async getFlexibleBorrowHistory(params: {
     orderId?:      string
     loanCurrency?: string
     limit?:        number
@@ -495,7 +496,7 @@ export class CryptoLoanService {
   /**
    * Get Ongoing Flexible Borrow Info
    */
-  async getCryptoLoanFlexibleOngoingCoin(params: {
+  async getFlexibleOngoingCoin(params: {
     loanCurrency?: string
   }): Promise<ApiResponse<unknown>> {
     return requestJson(this.http, this.opts, {
@@ -511,7 +512,7 @@ export class CryptoLoanService {
   /**
    * Get Flexible Repayment History
    */
-  async getCryptoLoanFlexibleRepaymentHistory(params: {
+  async getFlexibleRepaymentHistory(params: {
     repayId?:      string
     loanCurrency?: string
     limit?:        number
@@ -533,10 +534,10 @@ export class CryptoLoanService {
   /**
    * Create Flexible Borrow Order
    */
-  async postCryptoLoanFlexibleBorrow(params: {
+  async borrowFlexible(params: {
     loanCurrency:   string
     loanAmount:     string
-    collateralList: Array<Record<string, unknown>>
+    collateralList: CollateralItem[]
   }): Promise<ApiResponse<unknown>> {
     return requestJson(this.http, this.opts, {
       method: 'POST',
@@ -553,7 +554,7 @@ export class CryptoLoanService {
   /**
    * Repay Flexible Loan
    */
-  async postCryptoLoanFlexibleRepay(params: {
+  async repayFlexible(params: {
     loanCurrency: string
     amount:       string
   }): Promise<ApiResponse<unknown>> {
@@ -571,7 +572,7 @@ export class CryptoLoanService {
   /**
    * Repay with Collateral
    */
-  async postCryptoLoanFlexibleRepayCollateral(params: {
+  async repayFlexibleCollateral(params: {
     loanCurrency:   string
     collateralCoin: string
     amount:         string

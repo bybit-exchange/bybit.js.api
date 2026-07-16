@@ -1,7 +1,7 @@
 import type { AxiosInstance } from 'axios'
-import { requestJson } from '../http/request'
-import type { ApiResponse } from '../types/common'
-import type { RestClientOptions } from '../config'
+import { requestJson } from '../http/request.js'
+import type { ApiResponse , Category, Side, OrderType, TimeInForce, OrderStatus, AccountType } from '../types/common.js'
+import type { RestClientOptions } from '../config.js'
 
 export class SpotMarginService {
   constructor(

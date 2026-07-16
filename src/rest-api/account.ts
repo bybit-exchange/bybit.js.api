@@ -1,7 +1,9 @@
 import type { AxiosInstance } from 'axios'
-import { requestJson } from '../http/request'
-import type { ApiResponse } from '../types/common'
-import type { RestClientOptions } from '../config'
+import { requestJson } from '../http/request.js'
+import type { ApiResponse, Category, Side, OrderType, TimeInForce, OrderStatus, AccountType } from '../types/common.js'
+import type { WalletBalanceResult } from '../types/responses.js'
+import type { CollateralSwitchItem } from '../types/nested.js'
+import type { RestClientOptions } from '../config.js'
 
 export class AccountService {
   constructor(
@@ -14,7 +16,7 @@ export class AccountService {
    * @see https://bybit-exchange.github.io/docs/v5/account/batch-set-collateral
    */
   async batchSetCollateral(params: {
-    request: Array<Record<string, unknown>>
+    request: CollateralSwitchItem[]
   }): Promise<ApiResponse<unknown>> {
     return requestJson(this.http, this.opts, {
       method: 'POST',
@@ -42,7 +44,7 @@ export class AccountService {
    * Get Account Instruments - Query the instruments information for the account.
    */
   async getAccountInstruments(params: {
-    category: string
+    category: Category
     symbol?:  string
     limit?:   number
     cursor?:  string
@@ -119,7 +121,7 @@ export class AccountService {
    * @see https://bybit-exchange.github.io/docs/v5/account/fee-rate
    */
   async getFeeRate(params: {
-    category:  string
+    category:  Category
     symbol?:   string
     baseCoin?: string
   }): Promise<ApiResponse<unknown>> {
@@ -169,8 +171,8 @@ export class AccountService {
    * @see https://bybit-exchange.github.io/docs/v5/account/transaction-log
    */
   async getTransactionLog(params: {
-    accountType?:  string
-    category?:     string
+    accountType?:  AccountType
+    category?:     Category
     currency?:     string
     baseCoin?:     string
     type?:         string
@@ -220,10 +222,10 @@ export class AccountService {
    * @see https://bybit-exchange.github.io/docs/v5/account/wallet-balance
    */
   async getWalletBalance(params: {
-    accountType: string
+    accountType: AccountType
     coin?:       string
-  }): Promise<ApiResponse<unknown>> {
-    return requestJson(this.http, this.opts, {
+  }): Promise<ApiResponse<WalletBalanceResult>> {
+    return requestJson<WalletBalanceResult>(this.http, this.opts, {
       method: 'GET',
       path:   '/v5/account/wallet-balance',
       signed: true,
@@ -398,7 +400,7 @@ export class AccountService {
    * Set Price Limit to enable or disable order price modification action.
    */
   async setPriceLimit(params: {
-    category:     string
+    category:     Category
     modifyEnable: boolean
   }): Promise<ApiResponse<unknown>> {
     return requestJson(this.http, this.opts, {

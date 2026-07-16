@@ -1,7 +1,13 @@
 import type { AxiosInstance } from 'axios'
-import { requestJson } from '../http/request'
-import type { ApiResponse } from '../types/common'
-import type { RestClientOptions } from '../config'
+import { requestJson } from '../http/request.js'
+import type { ApiResponse, Category, Side, OrderType, TimeInForce, OrderStatus, AccountType } from '../types/common.js'
+import type { BotSymbolSetting } from '../types/nested.js'
+import type { RestClientOptions } from '../config.js'
+
+// TODO(v0.2): the grid / futures-grid / futures-combo / futures-martingale / dca / combo bot subsystems
+// use snake_case on the wire. Follow-up: accept camelCase params on these methods and translate to
+// snake_case on the request body (like the rest of the SDK). Until then, params exactly match the
+// Bybit docs for those subsystems.
 
 export class BotService {
   constructor(
@@ -216,7 +222,7 @@ export class BotService {
     leverage: string
     init_margin: string
     adjust_position_mode: number
-    symbol_settings: Array<Record<string, unknown>>
+    symbol_settings: BotSymbolSetting[]
     adjust_position_percent?: string
     adjust_position_time_interval?: number
     sl_percent?: string
@@ -276,7 +282,7 @@ export class BotService {
     leverage: string
     init_margin: string
     adjust_position_mode: number
-    symbol_settings: Array<Record<string, unknown>>
+    symbol_settings: BotSymbolSetting[]
     adjust_position_percent?: string
     adjust_position_time_interval?: number
     sl_percent?: string
@@ -500,7 +506,7 @@ export class BotService {
   /**
    * Query full details of a specific grid bot by grid_id.
    */
-  async queryGridDetail(params: {
+  async getGridDetail(params: {
     grid_id: number
   }): Promise<ApiResponse<unknown>> {
     return requestJson(this.http, this.opts, {

@@ -4,21 +4,22 @@ import axios, {
   type AxiosResponseHeaders,
   type RawAxiosResponseHeaders,
 } from 'axios'
-import { signV5 } from './sign'
+import { signV5 } from './sign.js'
 import {
-  BybitApiError,
   BybitRateLimitError,
+  classifyRetCode,
+  headerValue,
   translateAxiosError,
   type BybitErrorContext,
-} from './errors'
-import type { ApiResponse } from '../types/common'
+} from './errors.js'
+import type { ApiResponse } from '../types/common.js'
 import {
   type RestClientOptions,
   BASE_URL_MAINNET,
   BASE_URL_TESTNET,
   DEFAULT_RECV_WINDOW,
   DEFAULT_TIMEOUT_MS,
-} from '../config'
+} from '../config.js'
 
 export interface RequestSpec {
   method: 'GET' | 'POST' | 'PUT' | 'DELETE'
@@ -48,7 +49,6 @@ export function createHttp(options: RestClientOptions): AxiosInstance {
   return axios.create({
     baseURL,
     timeout: options.timeout ?? DEFAULT_TIMEOUT_MS,
-    headers: { 'Content-Type': 'application/json' },
   })
 }
 
@@ -75,7 +75,8 @@ function stripEmpty<T extends Record<string, unknown>>(o: T): T {
   return out as T
 }
 
-const RATE_LIMIT_KEY = Symbol.for('@bybit-exchange/api::rateLimit')
+// Instance-local symbol — avoids collisions across module realms without polluting the global registry.
+const RATE_LIMIT_KEY = Symbol('bybit.rateLimit')
 
 export function getRateLimit(response: unknown): RateLimitInfo | undefined {
   if (!response || typeof response !== 'object') return undefined
@@ -86,26 +87,21 @@ function readRateLimit(
   headers: AxiosResponseHeaders | RawAxiosResponseHeaders | undefined,
 ): RateLimitInfo | undefined {
   if (!headers) return undefined
-  const get = (name: string): string | undefined => {
-    const raw = (headers as Record<string, unknown>)[name] ?? (headers as Record<string, unknown>)[name.toLowerCase()]
-    if (raw === undefined || raw === null) return undefined
-    return Array.isArray(raw) ? raw[0] : String(raw)
-  }
   const info: RateLimitInfo = {
-    limit:     get('x-bapi-limit'),
-    remaining: get('x-bapi-limit-status'),
-    resetAt:   get('x-bapi-limit-reset-timestamp'),
+    limit:     headerValue(headers, 'x-bapi-limit'),
+    remaining: headerValue(headers, 'x-bapi-limit-status'),
+    resetAt:   headerValue(headers, 'x-bapi-limit-reset-timestamp'),
   }
   if (info.limit === undefined && info.remaining === undefined && info.resetAt === undefined) return undefined
   return info
 }
 
 export async function requestJson<T = unknown>(
-  http: AxiosInstance,
+  http:    AxiosInstance,
   options: RestClientOptions,
-  spec: RequestSpec,
+  spec:    RequestSpec,
 ): Promise<ApiResponse<T>> {
-  const timestamp = Date.now().toString()
+  const timestamp  = Date.now().toString()
   const recvWindow = options.recvWindow ?? DEFAULT_RECV_WINDOW
   const cleanQuery = spec.query ? stripEmpty(spec.query) : undefined
   const cleanBody  = spec.body  ? stripEmpty(spec.body)  : undefined
@@ -156,6 +152,7 @@ export async function requestJson<T = unknown>(
   const body = response.data
   const rateLimit = readRateLimit(response.headers)
 
+  // Defensive: a user-provided axios instance can be configured to accept non-2xx as success (validateStatus).
   if (response.status === 429) {
     throw new BybitRateLimitError('Rate limit exceeded', response.status, response.headers, context)
   }
@@ -168,11 +165,16 @@ export async function requestJson<T = unknown>(
   }
 
   if (body.retCode !== 0) {
-    throw new BybitApiError(body as ApiResponse<unknown>, context)
+    throw classifyRetCode(body as ApiResponse<unknown>, context, response.headers)
   }
 
   if (rateLimit) {
-    Object.defineProperty(body, RATE_LIMIT_KEY, { value: rateLimit, enumerable: false })
+    Object.defineProperty(body, RATE_LIMIT_KEY, {
+      value:        rateLimit,
+      enumerable:   false,
+      configurable: true,  // allow the same body object to be re-decorated on retry
+      writable:     true,
+    })
   }
   return body
 }

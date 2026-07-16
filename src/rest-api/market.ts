@@ -1,7 +1,8 @@
 import type { AxiosInstance } from 'axios'
-import { requestJson } from '../http/request'
-import type { ApiResponse } from '../types/common'
-import type { RestClientOptions } from '../config'
+import { requestJson } from '../http/request.js'
+import type { ApiResponse, Category, Side, OrderType, TimeInForce, OrderStatus, AccountType } from '../types/common.js'
+import type { KlineResult, OrderbookResult, ServerTimeResult, TickersResult } from '../types/responses.js'
+import type { RestClientOptions } from '../config.js'
 
 export class MarketService {
   constructor(
@@ -31,7 +32,7 @@ export class MarketService {
    * @see https://bybit-exchange.github.io/docs/v5/market/delivery-price
    */
   async getDeliveryPrice(params: {
-    category:     string
+    category:     Category
     symbol?:      string
     baseCoin?:    string
     settleCoin?:  string
@@ -77,7 +78,7 @@ export class MarketService {
    * @see https://bybit-exchange.github.io/docs/v5/market/history-fund-rate
    */
   async getFundingRateHistory(params: {
-    category:   string
+    category:   Category
     symbol:     string
     startTime?: number
     endTime?:   number
@@ -102,7 +103,7 @@ export class MarketService {
    * @see https://bybit-exchange.github.io/docs/v5/market/iv
    */
   async getHistoricalVolatility(params: {
-    category:    string
+    category:    Category
     baseCoin?:   string
     quoteCoin?:  string
     period?:     number
@@ -147,7 +148,7 @@ export class MarketService {
   async getIndexPriceKline(params: {
     symbol:    string
     interval:  string
-    category?: string
+    category?: Category
     start?:    number
     end?:      number
     limit?:    number
@@ -172,7 +173,7 @@ export class MarketService {
    * @see https://bybit-exchange.github.io/docs/v5/market/instrument
    */
   async getInstrumentsInfo(params: {
-    category:  string
+    category:  Category
     symbol?:   string
     status?:   string
     baseCoin?: string
@@ -216,7 +217,7 @@ export class MarketService {
    * @see https://bybit-exchange.github.io/docs/v5/market/long-short-ratio
    */
   async getLongShortRatio(params: {
-    category:   string
+    category:   Category
     symbol:     string
     period:     string
     startTime?: string
@@ -247,12 +248,12 @@ export class MarketService {
   async getMarketKline(params: {
     symbol:    string
     interval:  string
-    category?: string
+    category?: Category
     start?:    number
     end?:      number
     limit?:    number
-  }): Promise<ApiResponse<unknown>> {
-    return requestJson(this.http, this.opts, {
+  }): Promise<ApiResponse<KlineResult>> {
+    return requestJson<KlineResult>(this.http, this.opts, {
       method: 'GET',
       path:   '/v5/market/kline',
       signed: false,
@@ -274,7 +275,7 @@ export class MarketService {
   async getMarkPriceKline(params: {
     symbol:    string
     interval:  string
-    category?: string
+    category?: Category
     start?:    number
     end?:      number
     limit?:    number
@@ -299,7 +300,7 @@ export class MarketService {
    * @see https://bybit-exchange.github.io/docs/v5/market/new-delivery-price
    */
   async getNewDeliveryPrice(params: {
-    category:    string
+    category:    Category
     baseCoin:    string
     settleCoin?: string
   }): Promise<ApiResponse<unknown>> {
@@ -320,7 +321,7 @@ export class MarketService {
    * @see https://bybit-exchange.github.io/docs/v5/market/open-interest
    */
   async getOpenInterest(params: {
-    category:     string
+    category:     Category
     symbol:       string
     intervalTime: string
     startTime?:   number
@@ -349,11 +350,11 @@ export class MarketService {
    * @see https://bybit-exchange.github.io/docs/v5/market/orderbook
    */
   async getOrderbook(params: {
-    category: string
+    category: Category
     symbol:   string
     limit?:   number
-  }): Promise<ApiResponse<unknown>> {
-    return requestJson(this.http, this.opts, {
+  }): Promise<ApiResponse<OrderbookResult>> {
+    return requestJson<OrderbookResult>(this.http, this.opts, {
       method: 'GET',
       path:   '/v5/market/orderbook',
       signed: false,
@@ -370,7 +371,7 @@ export class MarketService {
    */
   async getOrderPriceLimit(params: {
     symbol:    string
-    category?: string
+    category?: Category
   }): Promise<ApiResponse<unknown>> {
     return requestJson(this.http, this.opts, {
       method: 'GET',
@@ -390,7 +391,7 @@ export class MarketService {
   async getPremiumIndexPriceKline(params: {
     symbol:    string
     interval:  string
-    category?: string
+    category?: Category
     start?:    number
     end?:      number
     limit?:    number
@@ -415,7 +416,7 @@ export class MarketService {
    * @see https://bybit-exchange.github.io/docs/v5/market/recent-trade
    */
   async getRecentPublicTrades(params: {
-    category:    string
+    category:    Category
     symbol?:     string
     baseCoin?:   string
     optionType?: string
@@ -440,7 +441,7 @@ export class MarketService {
    * @see https://bybit-exchange.github.io/docs/v5/market/risk-limit
    */
   async getRiskLimit(params: {
-    category: string
+    category: Category
     symbol?:  string
     cursor?:  string
   }): Promise<ApiResponse<unknown>> {
@@ -463,7 +464,7 @@ export class MarketService {
   async getRpiOrderbook(params: {
     symbol:    string
     limit:     number
-    category?: string
+    category?: Category
   }): Promise<ApiResponse<unknown>> {
     return requestJson(this.http, this.opts, {
       method: 'GET',
@@ -481,7 +482,7 @@ export class MarketService {
    * Get Server Time
    * @see https://bybit-exchange.github.io/docs/v5/market/time
    */
-  async getServerTime(): Promise<ApiResponse<unknown>> {
+  async getServerTime(): Promise<ApiResponse<ServerTimeResult>> {
     return requestJson(this.http, this.opts, {
       method: 'GET',
       path:   '/v5/market/time',
@@ -494,12 +495,12 @@ export class MarketService {
    * @see https://bybit-exchange.github.io/docs/v5/market/tickers
    */
   async getTickers(params: {
-    category:  string
+    category:  Category
     symbol?:   string
     baseCoin?: string
     expDate?:  string
-  }): Promise<ApiResponse<unknown>> {
-    return requestJson(this.http, this.opts, {
+  }): Promise<ApiResponse<TickersResult>> {
+    return requestJson<TickersResult>(this.http, this.opts, {
       method: 'GET',
       path:   '/v5/market/tickers',
       signed: false,

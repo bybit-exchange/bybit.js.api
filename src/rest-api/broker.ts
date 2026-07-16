@@ -1,7 +1,8 @@
 import type { AxiosInstance } from 'axios'
-import { requestJson } from '../http/request'
-import type { ApiResponse } from '../types/common'
-import type { RestClientOptions } from '../config'
+import { requestJson } from '../http/request.js'
+import type { ApiResponse , Category, Side, OrderType, TimeInForce, OrderStatus, AccountType } from '../types/common.js'
+import type { BrokerLimitItem } from '../types/nested.js'
+import type { RestClientOptions } from '../config.js'
 
 export class BrokerService {
   constructor(
@@ -74,7 +75,7 @@ export class BrokerService {
   /**
    * Get Broker Account Info
    */
-  async queryBrokerAccountInfo(): Promise<ApiResponse<unknown>> {
+  async getAccountInfo(): Promise<ApiResponse<unknown>> {
     return requestJson(this.http, this.opts, {
       method: 'GET',
       path:   '/v5/broker/account-info',
@@ -85,7 +86,7 @@ export class BrokerService {
   /**
    * Query Broker All UID Rate Limits
    */
-  async queryBrokerAllUidDetails(params: {
+  async listAllUidDetails(params: {
     uids?:   string
     limit?:  number
     cursor?: string
@@ -105,7 +106,7 @@ export class BrokerService {
   /**
    * Query Broker Rate Limit Cap
    */
-  async queryBrokerCap(): Promise<ApiResponse<unknown>> {
+  async getCap(): Promise<ApiResponse<unknown>> {
     return requestJson(this.http, this.opts, {
       method: 'GET',
       path:   '/v5/broker/apilimit/query-cap',
@@ -116,7 +117,7 @@ export class BrokerService {
   /**
    * Get Broker Earnings Info
    */
-  async queryBrokerEarning(params: {
+  async getEarning(params: {
     bizType?: string
     begin?:   string
     end?:     string
@@ -143,7 +144,7 @@ export class BrokerService {
    * Set Broker API Rate Limit
    */
   async setBrokerApiLimit(params: {
-    list?: Array<Record<string, unknown>>
+    list?: BrokerLimitItem[]
   }): Promise<ApiResponse<unknown>> {
     return requestJson(this.http, this.opts, {
       method: 'POST',

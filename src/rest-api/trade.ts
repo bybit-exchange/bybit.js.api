@@ -1,13 +1,27 @@
 import type { AxiosInstance } from 'axios'
-import { requestJson } from '../http/request'
-import type { ApiResponse } from '../types/common'
-import type { RestClientOptions } from '../config'
+import { requestJson } from '../http/request.js'
+import type { ApiResponse, Category, OrderStatus, OrderType, Side, TimeInForce } from '../types/common.js'
+import type {
+  AmendOrderResult,
+  BatchAmendOrdersResult,
+  BatchCancelOrdersResult,
+  BatchCreateOrdersResult,
+  CancelAllOrdersResult,
+  CancelOrderResult,
+  CreateOrderResult,
+  OpenOrdersResult,
+  OrderHistoryResult,
+  PreCheckOrderResult,
+  SpotBorrowQuotaResult,
+  TradeHistoryResult,
+} from '../types/responses.js'
+import type { RestClientOptions } from '../config.js'
 
 export interface CreateOrderRequest {
-  category:               string
+  category:               Category
   symbol:                 string
-  side:                   string
-  orderType:              string
+  side:                   Side
+  orderType:              OrderType
   qty:                    string
   isLeverage?:            number
   marketUnit?:            string
@@ -19,7 +33,7 @@ export interface CreateOrderRequest {
   triggerPrice?:          string
   triggerBy?:             string
   orderIv?:               string
-  timeInForce?:           string
+  timeInForce?:           TimeInForce
   positionIdx?:           string
   orderLinkId?:           string
   takeProfit?:            string
@@ -33,15 +47,15 @@ export interface CreateOrderRequest {
   tpslMode?:              string
   tpLimitPrice?:          string
   slLimitPrice?:          string
-  tpOrderType?:           string
-  slOrderType?:           string
+  tpOrderType?:           OrderType
+  slOrderType?:           OrderType
   bboSideType?:           string
   bboLevel?:              string
   rpiTakerAccess?:        boolean
 }
 
 export interface AmendOrderRequest {
-  category:      string
+  category:      Category
   symbol:        string
   orderId?:      string
   orderLinkId?:  string
@@ -60,7 +74,7 @@ export interface AmendOrderRequest {
 }
 
 export interface CancelOrderRequest {
-  category:     string
+  category:     Category
   symbol:       string
   orderId?:     string
   orderLinkId?: string
@@ -78,11 +92,11 @@ export class TradeService {
   ) {}
 
   /**
-   * Get Trade History
+   * Get Trade History — trailing 7-day window (real-time executions).
    * @see https://bybit-exchange.github.io/docs/v5/order/execution
    */
   async getTradeHistory(params: {
-    category:     string
+    category:     Category
     symbol?:      string
     orderId?:     string
     orderLinkId?: string
@@ -93,10 +107,47 @@ export class TradeService {
     execType?:    string
     limit?:       number
     cursor?:      string
-  }): Promise<ApiResponse<unknown>> {
-    return requestJson(this.http, this.opts, {
+  }): Promise<ApiResponse<TradeHistoryResult>> {
+    return requestJson<TradeHistoryResult>(this.http, this.opts, {
       method: 'GET',
       path:   '/v5/execution/list',
+      signed: true,
+      query: {
+        category:    params.category,
+        symbol:      params.symbol,
+        orderId:     params.orderId,
+        orderLinkId: params.orderLinkId,
+        baseCoin:    params.baseCoin,
+        settleCoin:  params.settleCoin,
+        startTime:   params.startTime,
+        endTime:     params.endTime,
+        execType:    params.execType,
+        limit:       params.limit,
+        cursor:      params.cursor,
+      },
+    })
+  }
+
+  /**
+   * Get Trade History (all-time) — up to 2 years of execution records; different rate-limit budget than the 7-day variant.
+   * @see https://bybit-exchange.github.io/docs/v5/order/execution
+   */
+  async getTradeHistoryAllTime(params: {
+    category:     Category
+    symbol?:      string
+    orderId?:     string
+    orderLinkId?: string
+    baseCoin?:    string
+    settleCoin?:  string
+    startTime?:   number
+    endTime?:     number
+    execType?:    string
+    limit?:       number
+    cursor?:      string
+  }): Promise<ApiResponse<TradeHistoryResult>> {
+    return requestJson<TradeHistoryResult>(this.http, this.opts, {
+      method: 'GET',
+      path:   '/v5/execution/list-all-time',
       signed: true,
       query: {
         category:    params.category,
@@ -118,8 +169,8 @@ export class TradeService {
    * Amend an existing open order (unfilled or partially filled) — modify price, quantity, trigger price, TP/SL, and related parameters.
    * @see https://bybit-exchange.github.io/docs/v5/order/amend-order
    */
-  async amendOrder(params: AmendOrderRequest): Promise<ApiResponse<unknown>> {
-    return requestJson(this.http, this.opts, {
+  async amendOrder(params: AmendOrderRequest): Promise<ApiResponse<AmendOrderResult>> {
+    return requestJson<AmendOrderResult>(this.http, this.opts, {
       method: 'POST',
       path:   '/v5/order/amend',
       signed: true,
@@ -149,10 +200,10 @@ export class TradeService {
    * @see https://bybit-exchange.github.io/docs/v5/order/batch-amend
    */
   async batchAmendOrders(params: {
-    category: string
+    category: Category
     request:  BatchAmendOrderRequest[]
-  }): Promise<ApiResponse<unknown>> {
-    return requestJson(this.http, this.opts, {
+  }): Promise<ApiResponse<BatchAmendOrdersResult>> {
+    return requestJson<BatchAmendOrdersResult>(this.http, this.opts, {
       method: 'POST',
       path:   '/v5/order/amend-batch',
       signed: true,
@@ -168,10 +219,10 @@ export class TradeService {
    * @see https://bybit-exchange.github.io/docs/v5/order/batch-cancel
    */
   async batchCancelOrders(params: {
-    category: string
+    category: Category
     request:  BatchCancelOrderRequest[]
-  }): Promise<ApiResponse<unknown>> {
-    return requestJson(this.http, this.opts, {
+  }): Promise<ApiResponse<BatchCancelOrdersResult>> {
+    return requestJson<BatchCancelOrdersResult>(this.http, this.opts, {
       method: 'POST',
       path:   '/v5/order/cancel-batch',
       signed: true,
@@ -187,10 +238,10 @@ export class TradeService {
    * @see https://bybit-exchange.github.io/docs/v5/order/batch-place
    */
   async batchCreateOrders(params: {
-    category: string
+    category: Category
     request:  BatchCreateOrderRequest[]
-  }): Promise<ApiResponse<unknown>> {
-    return requestJson(this.http, this.opts, {
+  }): Promise<ApiResponse<BatchCreateOrdersResult>> {
+    return requestJson<BatchCreateOrdersResult>(this.http, this.opts, {
       method: 'POST',
       path:   '/v5/order/create-batch',
       signed: true,
@@ -206,14 +257,14 @@ export class TradeService {
    * @see https://bybit-exchange.github.io/docs/v5/order/cancel-all
    */
   async cancelAllOrders(params: {
-    category:       string
+    category:       Category
     symbol?:        string
     baseCoin?:      string
     settleCoin?:    string
     orderFilter?:   string
     stopOrderType?: string
-  }): Promise<ApiResponse<unknown>> {
-    return requestJson(this.http, this.opts, {
+  }): Promise<ApiResponse<CancelAllOrdersResult>> {
+    return requestJson<CancelAllOrdersResult>(this.http, this.opts, {
       method: 'POST',
       path:   '/v5/order/cancel-all',
       signed: true,
@@ -232,8 +283,8 @@ export class TradeService {
    * Cancel a single unfilled or partially filled order.
    * @see https://bybit-exchange.github.io/docs/v5/order/cancel-order
    */
-  async cancelOrder(params: CancelOrderRequest): Promise<ApiResponse<unknown>> {
-    return requestJson(this.http, this.opts, {
+  async cancelOrder(params: CancelOrderRequest): Promise<ApiResponse<CancelOrderResult>> {
+    return requestJson<CancelOrderResult>(this.http, this.opts, {
       method: 'POST',
       path:   '/v5/order/cancel',
       signed: true,
@@ -251,8 +302,8 @@ export class TradeService {
    * Place a new order (spot, linear, inverse, or option).
    * @see https://bybit-exchange.github.io/docs/v5/order/create-order
    */
-  async createOrder(params: CreateOrderRequest): Promise<ApiResponse<unknown>> {
-    return requestJson(this.http, this.opts, {
+  async createOrder(params: CreateOrderRequest): Promise<ApiResponse<CreateOrderResult>> {
+    return requestJson<CreateOrderResult>(this.http, this.opts, {
       method: 'POST',
       path:   '/v5/order/create',
       signed: true,
@@ -296,10 +347,10 @@ export class TradeService {
   }
 
   /**
-   * Set the DCP (Disconnected Cancel All) time window — alternate operation on the same endpoint as setDcp.
+   * Set the DCP (Disconnected Cancel All) time window.
    * @see https://bybit-exchange.github.io/docs/v5/order/dcp
    */
-  async dcpSetTimewindow(params: {
+  async setDcpTimeWindow(params: {
     timeWindow: number
     product?:   string
   }): Promise<ApiResponse<unknown>> {
@@ -319,7 +370,7 @@ export class TradeService {
    * @see https://bybit-exchange.github.io/docs/v5/order/open-order
    */
   async getOpenOrders(params: {
-    category:     string
+    category:     Category
     symbol?:      string
     baseCoin?:    string
     settleCoin?:  string
@@ -329,8 +380,8 @@ export class TradeService {
     orderFilter?: string
     limit?:       number
     cursor?:      string
-  }): Promise<ApiResponse<unknown>> {
-    return requestJson(this.http, this.opts, {
+  }): Promise<ApiResponse<OpenOrdersResult>> {
+    return requestJson<OpenOrdersResult>(this.http, this.opts, {
       method: 'GET',
       path:   '/v5/order/realtime',
       signed: true,
@@ -354,20 +405,20 @@ export class TradeService {
    * @see https://bybit-exchange.github.io/docs/v5/order/order-list
    */
   async getOrderHistory(params: {
-    category:     string
+    category:     Category
     symbol?:      string
     baseCoin?:    string
     settleCoin?:  string
     orderId?:     string
     orderLinkId?: string
     orderFilter?: string
-    orderStatus?: string
+    orderStatus?: OrderStatus
     startTime?:   number
     endTime?:     number
     limit?:       number
     cursor?:      string
-  }): Promise<ApiResponse<unknown>> {
-    return requestJson(this.http, this.opts, {
+  }): Promise<ApiResponse<OrderHistoryResult>> {
+    return requestJson<OrderHistoryResult>(this.http, this.opts, {
       method: 'GET',
       path:   '/v5/order/history',
       signed: true,
@@ -393,11 +444,11 @@ export class TradeService {
    * @see https://bybit-exchange.github.io/docs/v5/order/spot-borrow-quota
    */
   async getSpotBorrowQuota(params: {
-    category: string
+    category: Category
     symbol:   string
-    side:     string
-  }): Promise<ApiResponse<unknown>> {
-    return requestJson(this.http, this.opts, {
+    side:     Side
+  }): Promise<ApiResponse<SpotBorrowQuotaResult>> {
+    return requestJson<SpotBorrowQuotaResult>(this.http, this.opts, {
       method: 'GET',
       path:   '/v5/order/spot-borrow-check',
       signed: true,
@@ -414,14 +465,14 @@ export class TradeService {
    * @see https://bybit-exchange.github.io/docs/v5/order/pre-check-order
    */
   async preCheckOrder(params: {
-    category:      string
+    category:      Category
     symbol:        string
-    side:          string
-    orderType:     string
+    side:          Side
+    orderType:     OrderType
     qty:           string
     price?:        string
     isLeverage?:   number
-    timeInForce?:  string
+    timeInForce?:  TimeInForce
     positionIdx?:  string
     orderLinkId?:  string
     takeProfit?:   string
@@ -435,8 +486,8 @@ export class TradeService {
     tpOrderType?:  string
     slOrderType?:  string
     orderIv?:      string
-  }): Promise<ApiResponse<unknown>> {
-    return requestJson(this.http, this.opts, {
+  }): Promise<ApiResponse<PreCheckOrderResult>> {
+    return requestJson<PreCheckOrderResult>(this.http, this.opts, {
       method: 'POST',
       path:   '/v5/order/pre-check',
       signed: true,

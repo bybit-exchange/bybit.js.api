@@ -1,7 +1,19 @@
 import type { AxiosInstance } from 'axios'
-import { requestJson } from '../http/request'
-import type { ApiResponse } from '../types/common'
-import type { RestClientOptions } from '../config'
+import { requestJson } from '../http/request.js'
+import type { ApiResponse, Category, Side, OrderType, TimeInForce, OrderStatus, AccountType } from '../types/common.js'
+import type {
+  CustomPlanProduct,
+  DiscountBuyExtra,
+  DoubleWinRedeemExtra,
+  DoubleWinStakeExtra,
+  DualAssetsExtra,
+  InterestCardExtra,
+  InvestmentDistributionItem,
+  SmartLeverageRedeemExtra,
+  SmartLeverageStakeExtra,
+  UpdateFundItem,
+} from '../types/nested.js'
+import type { RestClientOptions } from '../config.js'
 
 export class EarnService {
   constructor(
@@ -81,7 +93,7 @@ export class EarnService {
    * Get advanced earn orders.
    */
   async getAdvanceEarnOrder(params: {
-    category:      string
+    category:      Category
     productId?:    number
     orderId?:      string
     orderLinkId?:  string
@@ -111,7 +123,7 @@ export class EarnService {
    * Get advanced earn positions.
    */
   async getAdvanceEarnPosition(params: {
-    category:    string
+    category:    Category
     productId?:  number
     coin?:       string
     limit?:      number
@@ -135,7 +147,7 @@ export class EarnService {
    * Get advanced earn product info.
    */
   async getAdvanceEarnProduct(params: {
-    category:   string
+    category:   Category
     coin?:      string
     duration?:  string
   }): Promise<ApiResponse<unknown>> {
@@ -155,7 +167,7 @@ export class EarnService {
    * Get extra info for an advanced earn product.
    */
   async getAdvanceEarnProductExtraInfo(params: {
-    category:    string
+    category:    Category
     productId?:  number
   }): Promise<ApiResponse<unknown>> {
     return requestJson(this.http, this.opts, {
@@ -195,7 +207,7 @@ export class EarnService {
    * Get APR history for an earn product.
    */
   async getEarnAprHistory(params: {
-    category:   string
+    category:   Category
     productId:  string
     startTime:  number
     endTime:    number
@@ -217,7 +229,7 @@ export class EarnService {
    * Get hourly earn yield history.
    */
   async getEarnHourlyYieldHistory(params: {
-    category:    string
+    category:    Category
     productId?:  string
     startTime?:  number
     endTime?:    number
@@ -243,7 +255,7 @@ export class EarnService {
    * Get stake or redeem order history.
    */
   async getEarnOrderHistory(params: {
-    category:      string
+    category:      Category
     orderId?:      string
     orderLinkId?:  string
     productId?:    string
@@ -273,7 +285,7 @@ export class EarnService {
    * Get staked earn positions.
    */
   async getEarnPosition(params: {
-    category:    string
+    category:    Category
     productId?:  string
     coin?:       string
   }): Promise<ApiResponse<unknown>> {
@@ -293,7 +305,7 @@ export class EarnService {
    * Get earn product info.
    */
   async getEarnProduct(params: {
-    category:  string
+    category:  Category
     coin?:     string
   }): Promise<ApiResponse<unknown>> {
     return requestJson(this.http, this.opts, {
@@ -311,7 +323,7 @@ export class EarnService {
    * Get earn yield history.
    */
   async getEarnYieldHistory(params: {
-    category:    string
+    category:    Category
     productId?:  number
     startTime?:  number
     endTime?:    number
@@ -337,9 +349,9 @@ export class EarnService {
    * Get Fixed Term Order History
    */
   async getFixedTermOrder(params?: {
-    orderType?:  string
+    orderType?:  OrderType
     productId?:  string
-    category?:   string
+    category?:   Category
     orderId?:    string
     startTime?:  number
     endTime?:    number
@@ -368,7 +380,7 @@ export class EarnService {
    */
   async getFixedTermPosition(params?: {
     productId?:  string
-    category?:   string
+    category?:   Category
     coin?:       string
   }): Promise<ApiResponse<unknown>> {
     return requestJson(this.http, this.opts, {
@@ -465,7 +477,7 @@ export class EarnService {
     orderId?:      string
     orderLinkId?:  string
     productId?:    string
-    orderType?:    string
+    orderType?:    OrderType
     status?:       string
     startTime?:    number
     endTime?:      number
@@ -578,7 +590,7 @@ export class EarnService {
   async getRwaOrderList(params?: {
     orderId?:      string
     orderLinkId?:  string
-    orderType?:    string
+    orderType?:    OrderType
     productId?:    number
     startTime?:    number
     endTime?:      number
@@ -633,7 +645,7 @@ export class EarnService {
    * Get smart leverage redeem estimation list.
    */
   async getSmartLeverageRedeemEstAmountList(params: {
-    category:     string
+    category:     Category
     positionIds:  string
   }): Promise<ApiResponse<unknown>> {
     return requestJson(this.http, this.opts, {
@@ -720,7 +732,7 @@ export class EarnService {
     coin:          string
     orderLinkId?:  string
     orderId?:      string
-    orderType?:    string
+    orderType?:    OrderType
     startTime?:    number
     endTime?:      number
     cursor?:       string
@@ -779,7 +791,7 @@ export class EarnService {
    * List Coupons
    */
   async listEarnCoupons(params: {
-    category: string
+    category: Category
   }): Promise<ApiResponse<unknown>> {
     return requestJson(this.http, this.opts, {
       method: 'GET',
@@ -795,7 +807,7 @@ export class EarnService {
    * Modify an earn position (e.g. auto-reinvest).
    */
   async modifyEarnPosition(params: {
-    category:      string
+    category:      Category
     productId:     number
     positionId:    number
     autoReinvest:  number
@@ -817,20 +829,20 @@ export class EarnService {
    * Place an advanced earn order.
    */
   async placeAdvanceEarnOrder(params: {
-    category:                   string
+    category:                   Category
     productId:                  number
-    orderType:                  string
+    orderType:                  OrderType
     amount:                     string
-    accountType:                string
+    accountType:                AccountType
     coin:                       string
     orderLinkId:                string
-    dualAssetsExtra?:           Record<string, unknown>
-    interestCard?:              Record<string, unknown>
-    smartLeverageStakeExtra?:   Record<string, unknown>
-    smartLeverageRedeemExtra?:  Record<string, unknown>
-    doubleWinStakeExtra?:       Record<string, unknown>
-    doubleWinRedeemExtra?:      Record<string, unknown>
-    discountBuyExtra?:          Record<string, unknown>
+    dualAssetsExtra?:           DualAssetsExtra
+    interestCard?:              InterestCardExtra
+    smartLeverageStakeExtra?:   SmartLeverageStakeExtra
+    smartLeverageRedeemExtra?:  SmartLeverageRedeemExtra
+    doubleWinStakeExtra?:       DoubleWinStakeExtra
+    doubleWinRedeemExtra?:      DoubleWinRedeemExtra
+    discountBuyExtra?:          DiscountBuyExtra
   }): Promise<ApiResponse<unknown>> {
     return requestJson(this.http, this.opts, {
       method: 'POST',
@@ -859,16 +871,16 @@ export class EarnService {
    * Stake or redeem an earn product.
    */
   async placeEarnOrder(params: {
-    category:           string
-    orderType:          string
-    accountType:        string
+    category:           Category
+    orderType:          OrderType
+    accountType:        AccountType
     amount:             string
     coin:               string
     productId:          string
     orderLinkId:        string
     redeemPositionId?:  string
     toAccountType?:     string
-    interestCard?:      Record<string, unknown>
+    interestCard?:      InterestCardExtra
   }): Promise<ApiResponse<unknown>> {
     return requestJson(this.http, this.opts, {
       method: 'POST',
@@ -894,10 +906,10 @@ export class EarnService {
    */
   async placeFixedTermOrder(params: {
     productId:    string
-    category:     string
+    category:     Category
     coin:         string
     amount:       string
-    accountType:  string
+    accountType:  AccountType
     orderLinkId:  string
     autoInvest?:  boolean
   }): Promise<ApiResponse<unknown>> {
@@ -922,12 +934,12 @@ export class EarnService {
    */
   async placeRwaOrder(params: {
     productId:      number
-    orderType:      string
+    orderType:      OrderType
     coin:           string
     orderLinkId:    string
     stakeAmount?:   string
     redeemShares?:  string
-    accountType?:   string
+    accountType?:   AccountType
   }): Promise<ApiResponse<unknown>> {
     return requestJson(this.http, this.opts, {
       method: 'POST',
@@ -951,9 +963,9 @@ export class EarnService {
   async placeTokenOrder(params: {
     coin:         string
     orderLinkId:  string
-    orderType:    string
+    orderType:    OrderType
     amount:       string
-    accountType:  string
+    accountType:  AccountType
   }): Promise<ApiResponse<unknown>> {
     return requestJson(this.http, this.opts, {
       method: 'POST',
@@ -1013,9 +1025,9 @@ export class EarnService {
    * Create Custom Investment Plan (Direct Mode)
    */
   async pwmCreateCustomPlan(params: {
-    products:      Array<Record<string, unknown>>
+    products:      CustomPlanProduct[]
     orderLinkId:   string
-    accountType?:  string
+    accountType?:  AccountType
   }): Promise<ApiResponse<unknown>> {
     return requestJson(this.http, this.opts, {
       method: 'POST',
@@ -1138,7 +1150,7 @@ export class EarnService {
     accountUid:              string
     planName:                string
     planType:                string
-    investmentDistribution:  Array<Record<string, unknown>>
+    investmentDistribution:  InvestmentDistributionItem[]
     reqLinkId:               string
   }): Promise<ApiResponse<unknown>> {
     return requestJson(this.http, this.opts, {
@@ -1226,7 +1238,7 @@ export class EarnService {
    */
   async pwmInstListOrders(params?: {
     fundId?:     string
-    orderType?:  string
+    orderType?:  OrderType
     status?:     string
     startTime?:  number
     endTime?:    number
@@ -1256,7 +1268,7 @@ export class EarnService {
     planId:         string
     reqLinkId:      string
     updateStatus?:  string
-    updateFunds?:   Array<Record<string, unknown>>
+    updateFunds?:   UpdateFundItem[]
   }): Promise<ApiResponse<unknown>> {
     return requestJson(this.http, this.opts, {
       method: 'POST',
@@ -1314,11 +1326,11 @@ export class EarnService {
    */
   async pwmInvestMore(params: {
     planId:        string
-    category:      string
+    category:      Category
     productId:     string
     amount:        string
     orderLinkId:   string
-    accountType?:  string
+    accountType?:  AccountType
   }): Promise<ApiResponse<unknown>> {
     return requestJson(this.http, this.opts, {
       method: 'POST',
@@ -1362,7 +1374,7 @@ export class EarnService {
    */
   async pwmListOrder(params?: {
     planId?:       string
-    category?:     string
+    category?:     Category
     type?:         string
     status?:       string
     startTime?:    number
@@ -1423,7 +1435,7 @@ export class EarnService {
    */
   async pwmRedeem(params: {
     planId:       string
-    category:     string
+    category:     Category
     productId:    string
     orderLinkId:  string
     shares?:      string
@@ -1452,7 +1464,7 @@ export class EarnService {
   async pwmSubscribe(params: {
     planId:        string
     orderLinkId:   string
-    accountType?:  string
+    accountType?:  AccountType
   }): Promise<ApiResponse<unknown>> {
     return requestJson(this.http, this.opts, {
       method: 'POST',
@@ -1471,7 +1483,7 @@ export class EarnService {
    */
   async redeemFixedTerm(params: {
     productId:   string
-    category:    string
+    category:    Category
     positionId:  string
   }): Promise<ApiResponse<unknown>> {
     return requestJson(this.http, this.opts, {
@@ -1535,7 +1547,7 @@ export class EarnService {
    */
   async setFixedTermAutoInvest(params: {
     productId:   string
-    category:    string
+    category:    Category
     positionId:  string
     status:      string
   }): Promise<ApiResponse<unknown>> {

@@ -1,7 +1,8 @@
 import type { AxiosInstance } from 'axios'
-import { requestJson } from '../http/request'
-import type { ApiResponse } from '../types/common'
-import type { RestClientOptions } from '../config'
+import { requestJson } from '../http/request.js'
+import type { ApiResponse, Category, Side, OrderType, TimeInForce, OrderStatus, AccountType } from '../types/common.js'
+import type { RfqCounterpartyItem, RfqLegItem } from '../types/nested.js'
+import type { RestClientOptions } from '../config.js'
 
 export class RfqService {
   constructor(
@@ -93,8 +94,8 @@ export class RfqService {
     quoteLinkId?:   string
     anonymous?:     boolean
     expireIn?:      number
-    quoteBuyList?:  Array<Record<string, unknown>>
-    quoteSellList?: Array<Record<string, unknown>>
+    quoteBuyList?:  RfqLegItem[]
+    quoteSellList?: RfqLegItem[]
   }): Promise<ApiResponse<unknown>> {
     return requestJson(this.http, this.opts, {
       method: 'POST',
@@ -115,8 +116,8 @@ export class RfqService {
    * Create RFQ
    */
   async createRfq(params: {
-    counterparties: Array<Record<string, unknown>>
-    list:           Array<Record<string, unknown>>
+    counterparties: RfqCounterpartyItem[]
+    list:           RfqLegItem[]
     rfqLinkId?:     string
     anonymous?:     boolean
     strategyType?:  string
@@ -287,7 +288,7 @@ export class RfqService {
   /**
    * Get Trade History
    */
-  async getTradeHistoryGet(params: {
+  async getTradeHistory(params: {
     rfqId?:       string
     rfqLinkId?:   string
     quoteId?:     string

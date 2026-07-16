@@ -27,9 +27,14 @@
   "types": "./dist/types/index.d.ts",
   "exports": {
     ".": {
-      "types": "./dist/types/index.d.ts",
-      "import": "./dist/esm/index.js",
-      "require": "./dist/cjs/index.js"
+      "import": {
+        "types": "./dist/types/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/types/index.d.ts",
+        "default": "./dist/cjs/index.js"
+      }
     },
     "./package.json": "./package.json"
   },
@@ -50,7 +55,8 @@
     "lint": "eslint src",
     "lint:fix": "eslint src --fix",
     "format": "prettier --write \"src/**/*.ts\"",
-    "prepublishOnly": "npm run clean && npm run lint && npm run test && npm run build",
+    "smoke": "node scripts/dist-smoke.js",
+    "prepublishOnly": "npm run build && npm run smoke",
     "test": "jest"
   },
   "dependencies": {

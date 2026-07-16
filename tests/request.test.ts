@@ -5,6 +5,7 @@ import {
   BybitApiError,
   BybitAuthError,
   BybitNetworkError,
+  BybitParseError,
   BybitRateLimitError,
   BybitTimeoutError,
 } from '../src/http/errors'
@@ -220,5 +221,129 @@ describe('requestJson — response translation', () => {
       expect(err.context?.method).toBe('POST')
       expect(err.context?.path).toBe('/v5/order/create')
     }
+  })
+})
+
+describe('requestJson — tripwires (regression fences)', () => {
+  it('signed:false + creds present → no X-BAPI-* headers on the wire', async () => {
+    let captured: AxiosRequestConfig | undefined
+    const http = fakeHttp((cfg) => {
+      captured = cfg
+      return { status: 200, data: goodBody }
+    })
+    await requestJson(http, { apiKey: 'K', apiSecret: 'S' }, {
+      method: 'GET', path: '/v5/market/tickers', signed: false,
+    })
+    const headers = captured!.headers as Record<string, string>
+    for (const h of ['X-BAPI-API-KEY', 'X-BAPI-SIGN', 'X-BAPI-TIMESTAMP', 'X-BAPI-RECV-WINDOW', 'X-BAPI-SIGN-TYPE']) {
+      expect(headers[h]).toBeUndefined()
+    }
+  })
+
+  it('rate-limit info stays hidden from Object.keys and JSON.stringify', async () => {
+    const http = fakeHttp(() => ({
+      status:  200,
+      data:    goodBody,
+      headers: { 'x-bapi-limit': '600', 'x-bapi-limit-status': '599' },
+    }))
+    const body = await requestJson(http, {}, { method: 'GET', path: '/x', signed: false })
+    expect(Object.keys(body)).toEqual(['retCode', 'retMsg', 'result', 'retExtInfo', 'time'])
+    expect(JSON.stringify(body)).not.toContain('600')
+    // But accessible via helper:
+    expect(getRateLimit(body)?.limit).toBe('600')
+  })
+
+  it('accepts HTTP-date Retry-After', async () => {
+    // Retry-After can be either seconds or an HTTP-date. Test the date path.
+    const target = Date.now() + 3000
+    const err = Object.assign(new Error('rate'), {
+      isAxiosError: true,
+      response: {
+        status: 429,
+        data:   '',
+        headers: { 'retry-after': new Date(target).toUTCString() },
+        statusText: '',
+        config: {},
+      },
+    })
+    const http = failingHttp(err)
+    try {
+      await requestJson(http, {}, { method: 'GET', path: '/x', signed: false })
+      throw new Error('should have thrown')
+    } catch (e) {
+      expect(e).toBeInstanceOf(BybitRateLimitError)
+      const ms = (e as BybitRateLimitError).retryAfterMs
+      // Wide tolerance since Date.parse rounds to whole seconds.
+      expect(ms).toBeGreaterThanOrEqual(0)
+      expect(ms).toBeLessThanOrEqual(5000)
+    }
+  })
+
+  it('non-CF 403 without retCode → BybitAuthError, not BybitRateLimitError', async () => {
+    const err = Object.assign(new Error('forbidden'), {
+      isAxiosError: true,
+      response: {
+        status: 403,
+        data:   'permission denied',
+        headers: { server: 'nginx' },
+        statusText: '',
+        config: {},
+      },
+    })
+    const http = failingHttp(err)
+    await expect(
+      requestJson(http, { apiKey: 'K', apiSecret: 'S' }, { method: 'GET', path: '/x', signed: true }),
+    ).rejects.toBeInstanceOf(BybitAuthError)
+  })
+
+  it('HTTP 200 with unexpected shape → BybitParseError with the raw body', async () => {
+    const http = fakeHttp(() => ({ status: 200, data: { unexpected: true } }))
+    try {
+      await requestJson(http, {}, { method: 'GET', path: '/x', signed: false })
+      throw new Error('should have thrown')
+    } catch (e) {
+      expect(e).toBeInstanceOf(BybitParseError)
+      expect((e as BybitParseError).rawBody).toEqual({ unexpected: true })
+    }
+  })
+
+  it('auth retCode on HTTP 200 → BybitAuthError (not generic BybitApiError)', async () => {
+    const http = fakeHttp(() => ({
+      status: 200,
+      data:   { retCode: 10004, retMsg: 'sign error', result: {}, retExtInfo: {}, time: 1 },
+    }))
+    try {
+      await requestJson(http, {}, { method: 'GET', path: '/x', signed: false })
+      throw new Error('should have thrown')
+    } catch (e) {
+      expect(e).toBeInstanceOf(BybitAuthError)
+      expect((e as BybitAuthError).retCode).toBe(10004)
+    }
+  })
+
+  it('rate-limit retCode on HTTP 200 → BybitRateLimitError', async () => {
+    const http = fakeHttp(() => ({
+      status: 200,
+      data:   { retCode: 10006, retMsg: 'too many visits', result: {}, retExtInfo: {}, time: 1 },
+      headers: { 'x-bapi-limit-status': '0' },
+    }))
+    try {
+      await requestJson(http, {}, { method: 'GET', path: '/x', signed: false })
+      throw new Error('should have thrown')
+    } catch (e) {
+      expect(e).toBeInstanceOf(BybitRateLimitError)
+      expect((e as BybitRateLimitError).remaining).toBe('0')
+      expect((e as BybitRateLimitError).retCode).toBe(10006)
+    }
+  })
+
+  it('non-auth / non-rate-limit retCode ≠ 0 → BybitApiError', async () => {
+    const http = fakeHttp(() => ({
+      status: 200,
+      data:   { retCode: 110007, retMsg: 'balance not enough', result: {}, retExtInfo: {}, time: 1 },
+    }))
+    await expect(
+      requestJson(http, {}, { method: 'GET', path: '/x', signed: false }),
+    ).rejects.toBeInstanceOf(BybitApiError)
   })
 })

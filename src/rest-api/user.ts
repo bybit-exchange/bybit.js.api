@@ -1,7 +1,7 @@
 import type { AxiosInstance } from 'axios'
-import { requestJson } from '../http/request'
-import type { ApiResponse } from '../types/common'
-import type { RestClientOptions } from '../config'
+import { requestJson } from '../http/request.js'
+import type { ApiResponse , Category, Side, OrderType, TimeInForce, OrderStatus, AccountType } from '../types/common.js'
+import type { RestClientOptions } from '../config.js'
 
 export class UserService {
   constructor(
@@ -117,7 +117,7 @@ export class UserService {
    * Freeze or Unfreeze a Sub UID.
    * @see https://bybit-exchange.github.io/docs/v5/user/froze-subuid
    */
-  async frozenSubMember(params: {
+  async freezeSubMember(params: {
     subuid: number
     frozen: number
   }): Promise<ApiResponse<unknown>> {
@@ -193,7 +193,7 @@ export class UserService {
    * Get API Key Information for the current key.
    * @see https://bybit-exchange.github.io/docs/v5/user/apikey-info
    */
-  async queryApiKey(): Promise<ApiResponse<unknown>> {
+  async getApiKey(): Promise<ApiResponse<unknown>> {
     return requestJson(this.http, this.opts, {
       method: 'GET',
       path:   '/v5/user/query-api',
@@ -204,7 +204,7 @@ export class UserService {
   /**
    * Query Escrow Sub-accounts under Fund Management.
    */
-  async queryEscrowSubMembers(params: {
+  async listEscrowSubMembers(params: {
     nextCursor?: number
     pageSize?:   number
   }): Promise<ApiResponse<unknown>> {
@@ -222,7 +222,7 @@ export class UserService {
   /**
    * Query Referrals invited by the current account.
    */
-  async queryReferrals(params: {
+  async listReferrals(params: {
     cursor?: string
     size?:   number
     status?: string
@@ -243,7 +243,7 @@ export class UserService {
    * Query Sub UID List for the master account.
    * @see https://bybit-exchange.github.io/docs/v5/user/subuid-list
    */
-  async querySubMembers(): Promise<ApiResponse<unknown>> {
+  async listSubMembers(): Promise<ApiResponse<unknown>> {
     return requestJson(this.http, this.opts, {
       method: 'GET',
       path:   '/v5/user/query-sub-members',
@@ -254,7 +254,7 @@ export class UserService {
   /**
    * Query the Sub-accounts List with pagination.
    */
-  async querySubMembersPaginated(params: {
+  async listSubMembersPaginated(params: {
     pageSize?:   number
     nextCursor?: number
   }): Promise<ApiResponse<unknown>> {

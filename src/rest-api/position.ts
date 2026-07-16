@@ -1,7 +1,9 @@
 import type { AxiosInstance } from 'axios'
-import { requestJson } from '../http/request'
-import type { ApiResponse } from '../types/common'
-import type { RestClientOptions } from '../config'
+import { requestJson } from '../http/request.js'
+import type { ApiResponse, Category, Side, OrderType, TimeInForce, OrderStatus, AccountType } from '../types/common.js'
+import type { MovePositionItem } from '../types/nested.js'
+import type { PositionInfoResult } from '../types/responses.js'
+import type { RestClientOptions } from '../config.js'
 
 export class PositionService {
   constructor(
@@ -13,7 +15,7 @@ export class PositionService {
    * Manually add or reduce margin for an isolated margin position.
    */
   async addReduceMargin(params: {
-    category:     string
+    category:     Category
     symbol:       string
     margin:       string
     positionIdx?: string
@@ -35,7 +37,7 @@ export class PositionService {
    * Confirm new risk limit to remove reduce-only restriction.
    */
   async confirmNewRiskLimit(params: {
-    category: string
+    category: Category
     symbol:   string
   }): Promise<ApiResponse<unknown>> {
     return requestJson(this.http, this.opts, {
@@ -54,7 +56,7 @@ export class PositionService {
    * @see https://bybit-exchange.github.io/docs/v5/position/close-pnl
    */
   async getClosedPnl(params: {
-    category:   string
+    category:   Category
     symbol?:    string
     startTime?: number
     endTime?:   number
@@ -80,7 +82,7 @@ export class PositionService {
    * Get closed option position records.
    */
   async getClosePosition(params: {
-    category:   string
+    category:   Category
     symbol?:    string
     startTime?: number
     endTime?:   number
@@ -107,7 +109,7 @@ export class PositionService {
    * @see https://bybit-exchange.github.io/docs/v5/position/move-position-history
    */
   async getMovePositionHistory(params?: {
-    category?:     string
+    category?:     Category
     symbol?:       string
     startTime?:    number
     endTime?:      number
@@ -138,14 +140,14 @@ export class PositionService {
    * @see https://bybit-exchange.github.io/docs/v5/position
    */
   async getPositionInfo(params: {
-    category:    string
+    category:    Category
     symbol?:     string
     baseCoin?:   string
     settleCoin?: string
     limit?:      number
     cursor?:     string
-  }): Promise<ApiResponse<unknown>> {
-    return requestJson(this.http, this.opts, {
+  }): Promise<ApiResponse<PositionInfoResult>> {
+    return requestJson<PositionInfoResult>(this.http, this.opts, {
       method: 'GET',
       path:   '/v5/position/list',
       signed: true,
@@ -167,7 +169,7 @@ export class PositionService {
   async movePosition(params: {
     fromUid: string
     toUid:   string
-    list:    Array<Record<string, unknown>>
+    list:    MovePositionItem[]
   }): Promise<ApiResponse<unknown>> {
     return requestJson(this.http, this.opts, {
       method: 'POST',
@@ -186,7 +188,7 @@ export class PositionService {
    * @see https://bybit-exchange.github.io/docs/v5/position/auto-add-margin
    */
   async setAutoAddMargin(params: {
-    category:      string
+    category:      Category
     symbol:        string
     autoAddMargin: number
     positionIdx?:  string
@@ -209,7 +211,7 @@ export class PositionService {
    * @see https://bybit-exchange.github.io/docs/v5/position/leverage
    */
   async setLeverage(params: {
-    category:     string
+    category:     Category
     symbol:       string
     buyLeverage:  string
     sellLeverage: string
@@ -232,7 +234,7 @@ export class PositionService {
    * @see https://bybit-exchange.github.io/docs/v5/position/trading-stop
    */
   async setTradingStop(params: {
-    category:      string
+    category:      Category
     symbol:        string
     tpslMode:      string
     positionIdx:   string
@@ -279,7 +281,7 @@ export class PositionService {
    * @see https://bybit-exchange.github.io/docs/v5/position/position-mode
    */
   async switchPositionMode(params: {
-    category: string
+    category: Category
     mode:     number
     symbol?:  string
     coin?:    string

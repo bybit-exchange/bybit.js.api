@@ -1,7 +1,8 @@
 import type { AxiosInstance } from 'axios'
-import { requestJson } from '../http/request'
-import type { ApiResponse } from '../types/common'
-import type { RestClientOptions } from '../config'
+import { requestJson } from '../http/request.js'
+import type { ApiResponse , Category, Side, OrderType, TimeInForce, OrderStatus, AccountType } from '../types/common.js'
+import type { P2pPaymentIdItem } from '../types/nested.js'
+import type { RestClientOptions } from '../config.js'
 
 export class P2pService {
   constructor(
@@ -26,7 +27,7 @@ export class P2pService {
   async getAds(params: {
     tokenId:    string
     currencyId: string
-    side:       string
+    side:       Side
     page?:      string
     size?:      string
   }): Promise<ApiResponse<unknown>> {
@@ -132,7 +133,7 @@ export class P2pService {
   async getMyAds(params: {
     itemId?:     string
     status?:     string
-    side?:       string
+    side?:       Side
     tokenId?:    string
     page?:       string
     size?:       string
@@ -235,7 +236,7 @@ export class P2pService {
   async postAd(params: {
     tokenId:              string
     currencyId:           string
-    side:                 string
+    side:                 Side
     priceType:            string
     premium:              string
     price:                string
@@ -243,7 +244,7 @@ export class P2pService {
     maxAmount:            string
     remark:               string
     tradingPreferenceSet: Record<string, unknown>
-    paymentIds:           Array<Record<string, unknown>>
+    paymentIds:           P2pPaymentIdItem[]
     quantity:             string
     paymentPeriod:        string
     itemType:             string
@@ -339,7 +340,7 @@ export class P2pService {
     maxAmount:            string
     remark:               string
     tradingPreferenceSet: Record<string, unknown>
-    paymentIds:           Array<Record<string, unknown>>
+    paymentIds:           P2pPaymentIdItem[]
     actionType:           string
     quantity:             string
     paymentPeriod:        string

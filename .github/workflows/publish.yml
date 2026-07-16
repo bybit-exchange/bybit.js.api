@@ -4,6 +4,9 @@ on:
   release:
     types: [published]
 
+# For Trusted Publishing via OIDC (recommended long-term): configure the npm
+# publisher on npmjs.com and remove the NODE_AUTH_TOKEN env below. Until that is
+# in place, `--provenance` still ties the release to this workflow run.
 permissions:
   contents: read
   id-token: write
@@ -33,6 +36,9 @@ jobs:
 
       - name: Build
         run: npm run build
+
+      - name: Dist smoke (require + dynamic import)
+        run: npm run smoke
 
       - name: Publish
         run: npm publish --provenance --access public
