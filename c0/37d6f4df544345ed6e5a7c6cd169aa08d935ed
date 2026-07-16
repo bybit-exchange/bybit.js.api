@@ -1,0 +1,23 @@
+jest.config.js
+  96762fd9974060d5 1-2,14
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.3.2-bit.10+672fbf0",
+  "base_commit_sha": "c037d6f4df544345ed6e5a7c6cd169aa08d935ed",
+  "prompts": {
+    "96762fd9974060d5": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "41032857-724d-4b8a-9515-9ed219090f04",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "doris-xiao-bybit",
+      "messages": [],
+      "total_additions": 38,
+      "total_deletions": 6,
+      "accepted_lines": 345,
+      "overriden_lines": 0
+    }
+  }
+}
