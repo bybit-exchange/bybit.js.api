@@ -5,7 +5,6 @@
     "moduleResolution": "nodenext",
     "outDir": "./dist/cjs",
     "declaration": true,
-    "declarationDir": "./dist/types",
     "declarationMap": false,
     "sourceMap": false
   }

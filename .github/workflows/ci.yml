@@ -137,7 +137,7 @@ jobs:
           node -e '
             const p = require("./pack.json");
             const files = p[0].files.map(f => f.path);
-            for (const need of ["LICENSE","README.md","package.json","dist/cjs/index.js","dist/esm/index.js","dist/types/index.d.ts"]) {
+            for (const need of ["LICENSE","README.md","package.json","dist/cjs/index.js","dist/cjs/index.d.ts","dist/esm/index.js","dist/esm/index.d.ts"]) {
               if (!files.includes(need)) { console.error("missing from tarball:", need); process.exit(1); }
             }
             for (const bad of files) {
