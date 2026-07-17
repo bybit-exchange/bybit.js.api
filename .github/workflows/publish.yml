@@ -10,7 +10,6 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      id-token: write        # required for `npm publish --provenance` OIDC attestation
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd  # v6.0.2
 
@@ -46,9 +45,6 @@ jobs:
         run: npm run build
 
       - name: Publish to npm
-        # --provenance signs the tarball via GitHub OIDC → npm shows a "Built and
-        # signed on GitHub Actions" badge on the package page, proving the artifact
-        # came from this workflow (not a random laptop). Requires id-token: write.
-        run: npm publish --provenance
+        run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH }}
