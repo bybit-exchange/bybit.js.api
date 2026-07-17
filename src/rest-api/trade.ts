@@ -129,43 +129,6 @@ export class TradeService {
   }
 
   /**
-   * Get Trade History (all-time) — up to 2 years of execution records; different rate-limit budget than the 7-day variant.
-   * @see https://bybit-exchange.github.io/docs/v5/order/execution
-   */
-  async getTradeHistoryAllTime(params: {
-    category:     Category
-    symbol?:      string
-    orderId?:     string
-    orderLinkId?: string
-    baseCoin?:    string
-    settleCoin?:  string
-    startTime?:   number
-    endTime?:     number
-    execType?:    string
-    limit?:       number
-    cursor?:      string
-  }): Promise<ApiResponse<TradeHistoryResult>> {
-    return requestJson<TradeHistoryResult>(this.http, this.opts, {
-      method: 'GET',
-      path:   '/v5/execution/list-all-time',
-      signed: true,
-      query: {
-        category:    params.category,
-        symbol:      params.symbol,
-        orderId:     params.orderId,
-        orderLinkId: params.orderLinkId,
-        baseCoin:    params.baseCoin,
-        settleCoin:  params.settleCoin,
-        startTime:   params.startTime,
-        endTime:     params.endTime,
-        execType:    params.execType,
-        limit:       params.limit,
-        cursor:      params.cursor,
-      },
-    })
-  }
-
-  /**
    * Amend an existing open order (unfilled or partially filled) — modify price, quantity, trigger price, TP/SL, and related parameters.
    * @see https://bybit-exchange.github.io/docs/v5/order/amend-order
    */

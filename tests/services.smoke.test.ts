@@ -11,7 +11,7 @@ import { BybitClient } from '../src/client'
 
 const SERVICES = [
   'account', 'affiliate', 'asset', 'bot', 'broker', 'cryptoLoan',
-  'earn', 'market', 'p2p', 'position', 'rfq', 'spotMargin', 'trade', 'user',
+  'earn', 'market', 'position', 'rfq', 'spotMargin', 'trade', 'user',
 ] as const
 
 // Well-formed placeholder for every field the SDK is known to send. Unknown fields

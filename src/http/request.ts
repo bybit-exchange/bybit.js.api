@@ -75,6 +75,28 @@ function stripEmpty<T extends Record<string, unknown>>(o: T): T {
   return out as T
 }
 
+// Bybit's P2P endpoints (and a handful of other legacy routes) return the pre-V5
+// envelope shape: { ret_code, ret_msg, ext_code, ext_info, time_now, result }.
+// Normalize to the V5 shape so downstream code sees a uniform ApiResponse.
+function normalizeEnvelope<T>(body: unknown): unknown {
+  if (!body || typeof body !== 'object') return body
+  const b = body as Record<string, unknown>
+  if ('retCode' in b) return body
+  if ('ret_code' in b) {
+    return {
+      retCode:    b.ret_code as number,
+      retMsg:     (b.ret_msg  as string) ?? '',
+      result:     (b.result   as T)      ?? {},
+      retExtInfo: {
+        ...(typeof b.ext_info === 'object' && b.ext_info !== null ? (b.ext_info as Record<string, unknown>) : {}),
+        ...(b.ext_code !== undefined ? { extCode: b.ext_code } : {}),
+      },
+      time:       typeof b.time_now === 'string' ? Math.round(parseFloat(b.time_now) * 1000) : Date.now(),
+    }
+  }
+  return body
+}
+
 // Instance-local symbol — avoids collisions across module realms without polluting the global registry.
 const RATE_LIMIT_KEY = Symbol('bybit.rateLimit')
 
@@ -149,7 +171,7 @@ export async function requestJson<T = unknown>(
     throw translateAxiosError(err, context)
   }
 
-  const body = response.data
+  const body = normalizeEnvelope(response.data)
   const rateLimit = readRateLimit(response.headers)
 
   // Defensive: a user-provided axios instance can be configured to accept non-2xx as success (validateStatus).
@@ -176,5 +198,5 @@ export async function requestJson<T = unknown>(
       writable:     true,
     })
   }
-  return body
+  return body as ApiResponse<T>
 }

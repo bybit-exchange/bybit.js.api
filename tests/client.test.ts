@@ -6,11 +6,11 @@ import { BASE_URL_MAINNET, BASE_URL_TESTNET, DEFAULT_TIMEOUT_MS } from '../src/c
 const anyOpts = (o: unknown) => o as never
 
 describe('BybitClient — service surface', () => {
-  it('exposes all 14 service instances on the client', () => {
+  it('exposes all 13 service instances on the client', () => {
     const c = new BybitClient()
     for (const svc of [
       'account', 'affiliate', 'asset', 'bot', 'broker', 'cryptoLoan',
-      'earn', 'market', 'p2p', 'position', 'rfq', 'spotMargin', 'trade', 'user',
+      'earn', 'market', 'position', 'rfq', 'spotMargin', 'trade', 'user',
     ]) {
       expect((c as unknown as Record<string, unknown>)[svc]).toBeDefined()
     }

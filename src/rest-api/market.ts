@@ -99,11 +99,12 @@ export class MarketService {
   }
 
   /**
-   * Get historical volatility data for options.
+   * Get historical volatility data for options. Only accepts `category: 'option'` —
+   * Bybit returns HTTP 404 (not a retCode error) for other categories.
    * @see https://bybit-exchange.github.io/docs/v5/market/iv
    */
   async getHistoricalVolatility(params: {
-    category:    Category
+    category:    'option'
     baseCoin?:   string
     quoteCoin?:  string
     period?:     number
@@ -291,27 +292,6 @@ export class MarketService {
         start:    params.start,
         end:      params.end,
         limit:    params.limit,
-      },
-    })
-  }
-
-  /**
-   * Get the new delivery price for delivery contracts.
-   * @see https://bybit-exchange.github.io/docs/v5/market/new-delivery-price
-   */
-  async getNewDeliveryPrice(params: {
-    category:    Category
-    baseCoin:    string
-    settleCoin?: string
-  }): Promise<ApiResponse<unknown>> {
-    return requestJson(this.http, this.opts, {
-      method: 'GET',
-      path:   '/v5/market/new-delivery-price',
-      signed: false,
-      query: {
-        category:   params.category,
-        baseCoin:   params.baseCoin,
-        settleCoin: params.settleCoin,
       },
     })
   }
