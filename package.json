@@ -1,0 +1,76 @@
+{
+  "name": "bybit-official-ts-sdk",
+  "version": "0.1.0",
+  "description": "Official Bybit V5 REST API connector for Node.js (TypeScript-first, axios-based).",
+  "keywords": [
+    "bybit",
+    "bybit-v5",
+    "crypto",
+    "trading",
+    "exchange",
+    "connector",
+    "typescript"
+  ],
+  "homepage": "https://github.com/bybit-exchange/bybit.js.api#readme",
+  "bugs": {
+    "url": "https://github.com/bybit-exchange/bybit.js.api/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bybit-exchange/bybit.js.api.git"
+  },
+  "license": "MIT",
+  "author": "Bybit",
+  "sideEffects": false,
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/cjs/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/cjs/index.d.ts",
+        "default": "./dist/cjs/index.js"
+      }
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "build": "npm run clean && npm run build:cjs && npm run build:esm && node scripts/write-dist-package-json.js",
+    "build:cjs": "tsc -p tsconfig.json",
+    "build:esm": "tsc -p tsconfig.esm.json",
+    "clean": "rm -rf dist",
+    "lint": "eslint src",
+    "lint:fix": "eslint src --fix",
+    "format": "prettier --write \"src/**/*.ts\"",
+    "smoke": "node scripts/dist-smoke.js",
+    "prepublishOnly": "npm run build && npm run smoke",
+    "test": "jest"
+  },
+  "dependencies": {
+    "axios": "^1.7.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0",
+    "@types/node": "^20.0.0",
+    "jest": "^29.0.0",
+    "ts-jest": "^29.0.0",
+    "@types/jest": "^29.0.0",
+    "eslint": "^9.0.0",
+    "@typescript-eslint/parser": "^8.0.0",
+    "@typescript-eslint/eslint-plugin": "^8.0.0",
+    "prettier": "^3.0.0"
+  }
+}

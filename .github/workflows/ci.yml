@@ -1,0 +1,141 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Node ${{ matrix.node }} — build + lint + test + smoke
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node: ['18', '20', '22']
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js ${{ matrix.node }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          cache: npm
+
+      - name: Lockfile must resolve to public npm registry only
+        run: |
+          bad=$(grep '"resolved":' package-lock.json | grep -v 'https://registry.npmjs.org/' || true)
+          if [ -n "$bad" ]; then
+            echo "::error::package-lock.json contains non-public 'resolved' URLs. Re-generate with 'npm install --package-lock-only --registry=https://registry.npmjs.org/'"
+            echo "$bad" | head -3
+            exit 1
+          fi
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Typecheck / build
+        run: npm run build
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Test (with coverage gate on src/http)
+        run: npm test -- --ci --coverage
+
+      - name: Dist smoke (require + dynamic import)
+        run: npm run smoke
+
+      # @arethetypeswrong/cli@0.15..0.18 all crash with
+      #   `Cannot read properties of undefined (reading 'filename')`
+      # on this dual-package layout, whether attw does its own `npm pack` or we hand it
+      # a pre-built tarball. Confirmed against a valid layout: dist/{cjs,esm}/*.d.ts
+      # co-located with *.js, exports map splits `import.types` / `require.types`, tarball
+      # contains everything expected. Runtime is what matters and `npm run smoke` above
+      # loads both entry points and constructs BybitClient — that's our real gate.
+      # Re-enable attw once upstream ships a fix, tracked as v0.2 follow-up.
+
+  audit:
+    name: npm audit (prod deps, high+)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Audit
+        run: npm audit --omit=dev --audit-level=high
+
+  secret-scan:
+    name: gitleaks (CLI)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # Run the gitleaks binary directly. The `gitleaks/gitleaks-action@v2`
+      # wrapper requires a paid license for organizations and pins a deprecated
+      # node20 runtime — the underlying MIT-licensed CLI has neither restriction.
+      - name: Install gitleaks
+        env:
+          GITLEAKS_VERSION: '8.21.2'
+        run: |
+          set -eu
+          curl -sSL "https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_VERSION}/gitleaks_${GITLEAKS_VERSION}_linux_x64.tar.gz" \
+            | tar -xz -C /usr/local/bin gitleaks
+          gitleaks version
+
+      - name: Scan for secrets
+        run: gitleaks detect --source . --redact --verbose --exit-code 1 --no-banner
+
+  pack-check:
+    name: npm pack --dry-run (LICENSE present, no source)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Pack tarball
+        run: npm pack --dry-run --json > pack.json
+
+      - name: Verify LICENSE + README + dist present
+        run: |
+          node -e '
+            const p = require("./pack.json");
+            const files = p[0].files.map(f => f.path);
+            for (const need of ["LICENSE","README.md","package.json","dist/cjs/index.js","dist/cjs/index.d.ts","dist/esm/index.js","dist/esm/index.d.ts"]) {
+              if (!files.includes(need)) { console.error("missing from tarball:", need); process.exit(1); }
+            }
+            for (const bad of files) {
+              if (bad.startsWith("src/") || bad.startsWith("tests/") || bad === "node_modules") {
+                console.error("must not ship:", bad); process.exit(1);
+              }
+            }
+            console.log("pack check OK");
+          '
