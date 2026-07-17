@@ -1,0 +1,29 @@
+tests/client.test.ts
+  96762fd9974060d5 9,13
+src/rest-api/market.ts
+  96762fd9974060d5 102-103,107
+src/http/request.ts
+  96762fd9974060d5 78-99,174,201
+tests/services.smoke.test.ts
+  96762fd9974060d5 14
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.3.2-bit.10+672fbf0",
+  "base_commit_sha": "afe05d2b25f19a899ff930b6c9b7b625d2fb274b",
+  "prompts": {
+    "96762fd9974060d5": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "41032857-724d-4b8a-9515-9ed219090f04",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "doris-xiao-bybit",
+      "messages": [],
+      "total_additions": 36,
+      "total_deletions": 73,
+      "accepted_lines": 993,
+      "overriden_lines": 0
+    }
+  }
+}
