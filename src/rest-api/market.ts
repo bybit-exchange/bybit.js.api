@@ -458,7 +458,8 @@ export class MarketService {
   }
 
   /**
-   * Get RPI Orderbook
+   * Get RPI Orderbook. Bybit ships this endpoint with a snake_case path even
+   * though the docs URL uses a kebab-case slug — verified against mainnet.
    * @see https://bybit-exchange.github.io/docs/v5/market/rpi-orderbook
    */
   async getRpiOrderbook(params: {
@@ -468,7 +469,7 @@ export class MarketService {
   }): Promise<ApiResponse<unknown>> {
     return requestJson(this.http, this.opts, {
       method: 'GET',
-      path:   '/v5/market/rpi-orderbook',
+      path:   '/v5/market/rpi_orderbook',
       signed: false,
       query: {
         symbol:   params.symbol,
