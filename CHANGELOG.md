@@ -91,6 +91,10 @@
 - `SpotMarginService.spotMarginSwitchMode(...)`
 - `UserService.queryReferralCode(...)`
 
+### Fixed
+- Align Alpha prediction request fields and TypeScript types with the documented API contracts.
+- Correct API documentation links for newly added service methods.
+
 ## [0.1.0] — 2026-07-17
 
 ### Added

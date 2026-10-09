@@ -445,7 +445,7 @@ export class AccountService {
 
   /**
    * Apply demo funds
-   * @see https://bybit-exchange.github.io/docs/v5/account/demo-apply-money
+   * @see https://bybit-exchange.github.io/docs/v5/demo
    */
   async demoApplyMoney(params: {
     adjustType?: number

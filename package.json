@@ -57,6 +57,8 @@
     "format": "prettier --write \"src/**/*.ts\"",
     "smoke": "node scripts/dist-smoke.js",
     "prepublishOnly": "npm run build && npm run smoke",
+    "typecheck:test": "tsc -p tsconfig.test.json",
+    "pretest": "npm run typecheck:test",
     "test": "jest"
   },
   "dependencies": {

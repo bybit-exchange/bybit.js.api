@@ -1566,7 +1566,7 @@ export class EarnService {
 
   /**
    * Get Auto Savings Settings
-   * @see https://bybit-exchange.github.io/docs/v5/earn/flexible-saving/auto-savings
+   * @see https://bybit-exchange.github.io/docs/v5/finance/earn/flexible-saving/auto-savings
    */
   async listAutoSavings(params: {
     coins?: string
@@ -1581,7 +1581,7 @@ export class EarnService {
 
   /**
    * Edit Auto Savings Settings
-   * @see https://bybit-exchange.github.io/docs/v5/earn/flexible-saving/auto-savings
+   * @see https://bybit-exchange.github.io/docs/v5/finance/earn/flexible-saving/auto-savings
    */
   async editEarnAutoSavings(params: {
     coin?: string

@@ -301,7 +301,7 @@ export class PositionService {
 
   /**
    * Get Futures Leverage
-   * @see https://bybit-exchange.github.io/docs/v5/position/symbol-info
+   * @see https://bybit-exchange.github.io/docs/v5/position/batch-lvg
    */
   async getSymbolInfo(params: {
     category: string

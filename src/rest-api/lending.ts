@@ -20,7 +20,7 @@ export class LendingService {
 
   /**
    * Bind/Unbind UID
-   * @see https://bybit-exchange.github.io/docs/v5/ins-loan/association-uid
+   * @see https://bybit-exchange.github.io/docs/v5/otc/bind-uid
    */
   async insLoanAssociationUid(params: {
     uid: string
@@ -36,7 +36,7 @@ export class LendingService {
 
   /**
    * Get Coin Delta Amount
-   * @see https://bybit-exchange.github.io/docs/v5/ins-loan/coin-delta-amount
+   * @see https://bybit-exchange.github.io/docs/v5/otc/coin-delta-amount
    */
   async insLoanCoinDeltaAmount(params: {
     coin?: string
@@ -51,6 +51,7 @@ export class LendingService {
 
   /**
    * Get Delay Liquidation Status
+   * API key must belong to an institutional lending account.
    * @see https://bybit-exchange.github.io/docs/v5/otc/delay-liq-status
    */
   async insLoanDelayLiqStatus(): Promise<ApiResponse<unknown>> {
@@ -63,7 +64,7 @@ export class LendingService {
 
   /**
    * Get Margin Tokens
-   * @see https://bybit-exchange.github.io/docs/v5/ins-loan/ensure-tokens
+   * @see https://bybit-exchange.github.io/docs/v5/abandon/margin-coin-info
    */
   async insLoanEnsureTokens(params: {
     productId?: string
@@ -78,7 +79,7 @@ export class LendingService {
 
   /**
    * Get Margin Token Conversion Details
-   * @see https://bybit-exchange.github.io/docs/v5/ins-loan/ensure-tokens-convert
+   * @see https://bybit-exchange.github.io/docs/v5/otc/margin-coin-convert-info
    */
   async insLoanEnsureTokensConvert(params: {
     productId?: string
@@ -93,7 +94,7 @@ export class LendingService {
 
   /**
    * Get Loan Orders
-   * @see https://bybit-exchange.github.io/docs/v5/ins-loan/loan-order
+   * @see https://bybit-exchange.github.io/docs/v5/otc/loan-info
    */
   async insLoanGetLoanOrder(params: {
     orderId?: string
@@ -111,7 +112,7 @@ export class LendingService {
 
   /**
    * Get LTV with Conversion Details
-   * @see https://bybit-exchange.github.io/docs/v5/ins-loan/ltv-convert
+   * @see https://bybit-exchange.github.io/docs/v5/otc/ltv-convert
    */
   async insLoanLtvConvert(): Promise<ApiResponse<unknown>> {
     return requestJson(this.http, this.opts, {
@@ -123,7 +124,7 @@ export class LendingService {
 
   /**
    * Get Product Infos
-   * @see https://bybit-exchange.github.io/docs/v5/ins-loan/product-infos
+   * @see https://bybit-exchange.github.io/docs/v5/otc/margin-product-info
    */
   async insLoanProductInfos(params: {
     productId?: string
@@ -138,7 +139,7 @@ export class LendingService {
 
   /**
    * Get Repaid History
-   * @see https://bybit-exchange.github.io/docs/v5/ins-loan/repaid-history
+   * @see https://bybit-exchange.github.io/docs/v5/otc/repay-info
    */
   async insLoanRepaidHistory(params: {
     startTime?: number
@@ -155,7 +156,7 @@ export class LendingService {
 
   /**
    * Repay Loan
-   * @see https://bybit-exchange.github.io/docs/v5/ins-loan/repay-loan
+   * @see https://bybit-exchange.github.io/docs/v5/otc/repay
    */
   async insLoanRepayLoan(params: {
     token: string

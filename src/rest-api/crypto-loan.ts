@@ -591,7 +591,7 @@ export class CryptoLoanService {
 
   /**
    * Get Available Inventory
-   * @see https://bybit-exchange.github.io/docs/v5/crypto-loan-fixed/available-inventory
+   * @see https://bybit-exchange.github.io/docs/v5/new-crypto-loan/fixed/available-inventory
    */
   async getFixedAvailableInventory(params: {
     currency: string
@@ -608,7 +608,7 @@ export class CryptoLoanService {
 
   /**
    * Get Available Inventory
-   * @see https://bybit-exchange.github.io/docs/v5/crypto-loan-flexible/available-inventory
+   * @see https://bybit-exchange.github.io/docs/v5/new-crypto-loan/flexible/available-inventory
    */
   async getFlexibleAvailableInventory(params: {
     currency: string

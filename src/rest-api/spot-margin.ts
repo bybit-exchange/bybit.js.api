@@ -87,7 +87,7 @@ export class SpotMarginService {
 
   /**
    * Get Spot Margin Coin State
-   * @see https://bybit-exchange.github.io/docs/v5/spot-margin-trade/coinstate
+   * @see https://bybit-exchange.github.io/docs/v5/spot-margin-uta/coinstate
    */
   async getTradeCoinState(params: {
     currency?: string
@@ -102,7 +102,7 @@ export class SpotMarginService {
 
   /**
    * Query Fixed-Rate Available Inventory
-   * @see https://bybit-exchange.github.io/docs/v5/spot-margin-trade/fixed-available-inventory
+   * @see https://bybit-exchange.github.io/docs/v5/spot-margin-uta/fixed-available-inventory
    */
   async queryFixedAvailableInventory(params: {
     currency: string
@@ -119,7 +119,7 @@ export class SpotMarginService {
 
   /**
    * Fixed-Rate Borrow
-   * @see https://bybit-exchange.github.io/docs/v5/spot-margin-trade/fixedborrow
+   * @see https://bybit-exchange.github.io/docs/v5/spot-margin-uta/fixedborrow
    */
   async accountFixedBorrow(params: {
     orderCurrency: string
@@ -139,7 +139,7 @@ export class SpotMarginService {
 
   /**
    * Query Fixed-Rate Borrow Contracts
-   * @see https://bybit-exchange.github.io/docs/v5/spot-margin-trade/fixedborrow-contract-info
+   * @see https://bybit-exchange.github.io/docs/v5/spot-margin-uta/fixedborrow-contract-info
    */
   async queryFixedBorrowContracts(params: {
     orderId?: string
@@ -158,7 +158,7 @@ export class SpotMarginService {
 
   /**
    * Query Fixed-Rate Borrow Orders
-   * @see https://bybit-exchange.github.io/docs/v5/spot-margin-trade/fixedborrow-order-info
+   * @see https://bybit-exchange.github.io/docs/v5/spot-margin-uta/fixedborrow-order-info
    */
   async queryFixedBorrowOrders(params: {
     orderId?: string
@@ -178,7 +178,7 @@ export class SpotMarginService {
 
   /**
    * Query Fixed-Rate Borrow Market
-   * @see https://bybit-exchange.github.io/docs/v5/spot-margin-trade/fixedborrow-order-quote
+   * @see https://bybit-exchange.github.io/docs/v5/spot-margin-uta/fixedborrow-order-quote
    */
   async queryFixedBorrowMarket(params: {
     orderCurrency: string
@@ -197,7 +197,7 @@ export class SpotMarginService {
 
   /**
    * Renew Fixed-Rate Borrow
-   * @see https://bybit-exchange.github.io/docs/v5/spot-margin-trade/fixedborrow-renew
+   * @see https://bybit-exchange.github.io/docs/v5/spot-margin-uta/fixedborrow-renew
    */
   async renewFixedBorrow(params: {
     loanId: string
@@ -213,7 +213,7 @@ export class SpotMarginService {
 
   /**
    * Get Flexible Available Inventory
-   * @see https://bybit-exchange.github.io/docs/v5/spot-margin-trade/flexible-available-inventory
+   * @see https://bybit-exchange.github.io/docs/v5/spot-margin-uta/flexible-available-inventory
    */
   async getTradeFlexibleAvailableInventory(params: {
     currency: string
@@ -228,7 +228,7 @@ export class SpotMarginService {
 
   /**
    * Get Auto Repay Mode
-   * @see https://bybit-exchange.github.io/docs/v5/spot-margin-trade/get-auto-repay-mode
+   * @see https://bybit-exchange.github.io/docs/v5/spot-margin-uta/get-auto-repay-mode
    */
   async getTradeAutoRepayMode(params: {
     currency?: string
@@ -243,7 +243,7 @@ export class SpotMarginService {
 
   /**
    * Query Borrow Liability
-   * @see https://bybit-exchange.github.io/docs/v5/spot-margin-trade/liability
+   * @see https://bybit-exchange.github.io/docs/v5/spot-margin-uta/liability
    */
   async queryBorrowLiability(params: {
     currency: string
@@ -258,7 +258,7 @@ export class SpotMarginService {
 
   /**
    * Get Max Borrowable Amount
-   * @see https://bybit-exchange.github.io/docs/v5/spot-margin-trade/max-borrowable
+   * @see https://bybit-exchange.github.io/docs/v5/spot-margin-uta/max-borrowable
    */
   async getTradeMaxBorrowable(params: {
     currency: string
@@ -273,7 +273,7 @@ export class SpotMarginService {
 
   /**
    * Get Repayment Available Amount
-   * @see https://bybit-exchange.github.io/docs/v5/spot-margin-trade/repayment-available-amount
+   * @see https://bybit-exchange.github.io/docs/v5/spot-margin-uta/repayment-available-amount
    */
   async getTradeRepaymentAvailableAmount(params: {
     currency: string
@@ -288,7 +288,7 @@ export class SpotMarginService {
 
   /**
    * Set Auto Repay Mode
-   * @see https://bybit-exchange.github.io/docs/v5/spot-margin-trade/set-auto-repay-mode
+   * @see https://bybit-exchange.github.io/docs/v5/spot-margin-uta/set-auto-repay-mode
    */
   async setAutoRepayMode(params: {
     currency?: string
@@ -304,7 +304,7 @@ export class SpotMarginService {
 
   /**
    * Set spot cross margin leverage
-   * @see https://bybit-exchange.github.io/docs/v5/spot-margin-trade/set-leverage
+   * @see https://bybit-exchange.github.io/docs/v5/spot-margin-uta/set-leverage
    */
   async spotMarginSetLeverage(params: {
     leverage: string
@@ -320,7 +320,7 @@ export class SpotMarginService {
 
   /**
    * Get Spot Margin Trade Status
-   * @see https://bybit-exchange.github.io/docs/v5/spot-margin-trade/state
+   * @see https://bybit-exchange.github.io/docs/v5/spot-margin-uta/status
    */
   async getTradeState(): Promise<ApiResponse<unknown>> {
     return requestJson(this.http, this.opts, {
@@ -332,7 +332,7 @@ export class SpotMarginService {
 
   /**
    * Toggle spot cross margin mode
-   * @see https://bybit-exchange.github.io/docs/v5/spot-margin-trade/switch-mode
+   * @see https://bybit-exchange.github.io/docs/v5/spot-margin-uta/switch-mode
    */
   async spotMarginSwitchMode(params: {
     spotMarginMode: string

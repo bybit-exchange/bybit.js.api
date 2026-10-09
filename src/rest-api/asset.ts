@@ -562,7 +562,7 @@ export class AssetService {
 
   /**
    * Get Asset Overview
-   * @see https://bybit-exchange.github.io/docs/v5/asset/asset-overview
+   * @see https://bybit-exchange.github.io/docs/v5/asset/balance/asset-overview
    */
   async getOverview(params: {
     accountType?: string
@@ -579,7 +579,7 @@ export class AssetService {
 
   /**
    * Small asset get quote
-   * @see https://bybit-exchange.github.io/docs/v5/asset/covert/get-quote
+   * @see https://bybit-exchange.github.io/docs/v5/asset/convert-small-balance/request-quote
    */
   async smallAssetQuote(params: {
     accountType: string
@@ -596,7 +596,7 @@ export class AssetService {
 
   /**
    * Small asset confirm conversion
-   * @see https://bybit-exchange.github.io/docs/v5/asset/covert/small-balance-execute
+   * @see https://bybit-exchange.github.io/docs/v5/asset/convert-small-balance/confirm-quote
    */
   async smallAssetConvert(params: {
     quoteId: string
@@ -611,7 +611,7 @@ export class AssetService {
 
   /**
    * Small asset conversion history query
-   * @see https://bybit-exchange.github.io/docs/v5/asset/covert/small-balance-history
+   * @see https://bybit-exchange.github.io/docs/v5/asset/convert-small-balance/exchange-history
    */
   async getSmallAssetConvertOrder(params: {
     accountType?: string
@@ -631,7 +631,7 @@ export class AssetService {
 
   /**
    * Small asset conversion list query
-   * @see https://bybit-exchange.github.io/docs/v5/asset/covert/small-balance-list
+   * @see https://bybit-exchange.github.io/docs/v5/asset/convert-small-balance/small-balanc-coins
    */
   async getSmallAssetList(params: {
     accountType: string
@@ -647,7 +647,7 @@ export class AssetService {
 
   /**
    * Set Deposit Account
-   * @see https://bybit-exchange.github.io/docs/v5/asset/deposit/deposit-to-account
+   * @see https://bybit-exchange.github.io/docs/v5/asset/deposit/set-deposit-acct
    */
   async setDefaultDepositToAccount(params: {
     accountType: string
@@ -662,7 +662,6 @@ export class AssetService {
 
   /**
    * Limit order callback notification
-   * @see https://bybit-exchange.github.io/docs/v5/asset/exchange/limit-order/callback
    */
   async limitOrderCallback(params: {
     exchangeTxId: string
@@ -682,7 +681,6 @@ export class AssetService {
 
   /**
    * Query coin conversion limit
-   * @see https://bybit-exchange.github.io/docs/v5/asset/exchange/query-convert-limit
    */
   async coinConvertLimitQuery(params: {
     fromCoin: string
@@ -701,7 +699,6 @@ export class AssetService {
 
   /**
    * Query conversion order list
-   * @see https://bybit-exchange.github.io/docs/v5/asset/exchange/query-order-list
    */
   async getOrderFromOpen(params: {
     accountType?: number
@@ -755,7 +752,7 @@ export class AssetService {
 
   /**
    * Save Transferable Sub Member List
-   * @see https://bybit-exchange.github.io/docs/v5/asset/transfer/save-transfer-sub-member
+   * @see https://bybit-exchange.github.io/docs/v5/abandon/enable-unitransfer-subuid
    */
   async transferSubMemberSave(params: {
     subMemberIds: string
@@ -770,7 +767,7 @@ export class AssetService {
 
   /**
    * Get Withdrawal Address List
-   * @see https://bybit-exchange.github.io/docs/v5/asset/withdraw/query-address
+   * @see https://bybit-exchange.github.io/docs/v5/asset/withdraw/withdraw-address
    */
   async getWithdrawAddresses(params: {
     coin?: string
@@ -789,7 +786,7 @@ export class AssetService {
 
   /**
    * Get Available VASPs
-   * @see https://bybit-exchange.github.io/docs/v5/asset/withdraw/vasp/list
+   * @see https://bybit-exchange.github.io/docs/v5/asset/withdraw/vasp-list
    */
   async getVaspList(): Promise<ApiResponse<unknown>> {
     return requestJson(this.http, this.opts, {

@@ -60,7 +60,7 @@ export class AlphaService {
    * @see https://bybit-exchange.github.io/docs/v5/alpha/lp/pay-token-price
    */
   async getLpPayTokenPrice(params: {
-    tokenCode: Array<Record<string, unknown>>
+    tokenCode: string[]
     chainCode?: string
   }): Promise<ApiResponse<unknown>> {
     return requestJson(this.http, this.opts, {
@@ -161,7 +161,7 @@ export class AlphaService {
     tokenId: string
     amount: string
     payTokenCode: string
-    orderType: string
+    orderType: number
     slippage: string
     eventId: string
   }): Promise<ApiResponse<unknown>> {
@@ -207,7 +207,7 @@ export class AlphaService {
    * @see https://bybit-exchange.github.io/docs/v5/alpha/prediction/order-book
    */
   async getPredictionOrderBook(params: {
-    tokenIds: Array<Record<string, unknown>>
+    tokenIds: string[]
   }): Promise<ApiResponse<unknown>> {
     return requestJson(this.http, this.opts, {
       method: 'POST',
@@ -223,10 +223,10 @@ export class AlphaService {
    */
   async getPredictionOrderEstimate(params: {
     tokenId: string
-    side: string
+    side: number
     eventId: string
     amount: string
-    orderType: string
+    orderType: number
     payTokenCode?: string
   }): Promise<ApiResponse<unknown>> {
     return requestJson(this.http, this.opts, {
@@ -274,11 +274,14 @@ export class AlphaService {
    * Get user's prediction market portfolio overview
    * @see https://bybit-exchange.github.io/docs/v5/alpha/prediction/portfolio-summary
    */
-  async getPredictionPortfolioSummary(): Promise<ApiResponse<unknown>> {
+  async getPredictionPortfolioSummary(params?: {
+    eventType?: number
+  }): Promise<ApiResponse<unknown>> {
     return requestJson(this.http, this.opts, {
       method: 'POST',
       path: '/v5/alpha/prediction/portfolio-summary',
       signed: true,
+      body: params,
     })
   }
 
@@ -287,9 +290,12 @@ export class AlphaService {
    * @see https://bybit-exchange.github.io/docs/v5/alpha/prediction/position-history
    */
   async getPredictionPositionHistory(params: {
+    tokenId?: string
+    eventId?: string
+    result?: number
+    days?: number
     limit?: number
     pageIndex?: number
-    direction?: string
   }): Promise<ApiResponse<unknown>> {
     return requestJson(this.http, this.opts, {
       method: 'POST',
@@ -304,9 +310,10 @@ export class AlphaService {
    * @see https://bybit-exchange.github.io/docs/v5/alpha/prediction/position-list
    */
   async getPredictionPositionList(params: {
+    tokenId?: string
+    eventId?: string
     limit?: number
     pageIndex?: number
-    direction?: string
   }): Promise<ApiResponse<unknown>> {
     return requestJson(this.http, this.opts, {
       method: 'POST',
@@ -321,10 +328,8 @@ export class AlphaService {
    * @see https://bybit-exchange.github.io/docs/v5/alpha/prediction/price-history
    */
   async getPredictionPriceHistory(params: {
-    tokenIds?: Array<Record<string, unknown>>
-    eventId?: string
+    tokenId: string
     interval: string
-    fidelity?: number
   }): Promise<ApiResponse<unknown>> {
     return requestJson(this.http, this.opts, {
       method: 'POST',
@@ -341,7 +346,7 @@ export class AlphaService {
   async executePredictionSell(params: {
     tokenId: string
     size: string
-    orderType: string
+    orderType: number
     slippage: string
     eventId: string
     toTokenCode?: string
@@ -359,7 +364,11 @@ export class AlphaService {
    * @see https://bybit-exchange.github.io/docs/v5/alpha/prediction/side-market-list
    */
   async getPredictionSideMarketList(params: {
-    eventType: string
+    eventId: string
+    sortBy?: string
+    marketType?: number
+    limit?: number
+    pageIndex?: number
   }): Promise<ApiResponse<unknown>> {
     return requestJson(this.http, this.opts, {
       method: 'POST',
@@ -371,7 +380,7 @@ export class AlphaService {
 
   /**
    * Get group standings and results for a tournament stage
-   * @see https://bybit-exchange.github.io/docs/v5/alpha/prediction/sports/group-stage-detail
+   * @see https://bybit-exchange.github.io/docs/v5/alpha/prediction/sports-group-stage-detail
    */
   async getPredictionGroupStageDetail(params: {
     eventType: string
@@ -387,7 +396,7 @@ export class AlphaService {
 
   /**
    * Get match list for a sports prediction event
-   * @see https://bybit-exchange.github.io/docs/v5/alpha/prediction/sports/match-list
+   * @see https://bybit-exchange.github.io/docs/v5/alpha/prediction/sports-match-list
    */
   async getPredictionMatchList(params: {
     eventType: string
@@ -402,7 +411,7 @@ export class AlphaService {
 
   /**
    * Get tournament timeline stages for a sports event
-   * @see https://bybit-exchange.github.io/docs/v5/alpha/prediction/sports/timeline-stages
+   * @see https://bybit-exchange.github.io/docs/v5/alpha/prediction/sports-timeline-stages
    */
   async getPredictionTimelineStages(params: {
     eventType?: string
@@ -420,7 +429,7 @@ export class AlphaService {
    * @see https://bybit-exchange.github.io/docs/v5/alpha/prediction/token-price
    */
   async getPredictionTokenPrice(params: {
-    tokenIds: Array<Record<string, unknown>>
+    tokenIds: string[]
   }): Promise<ApiResponse<unknown>> {
     return requestJson(this.http, this.opts, {
       method: 'POST',
@@ -543,7 +552,7 @@ export class AlphaService {
 
   /**
    * Execute a buy order to purchase on-chain tokens with USDT/USDC, returns order number
-   * @see https://bybit-exchange.github.io/docs/v5/alpha/trade/purchase
+   * @see https://bybit-exchange.github.io/docs/v5/alpha/trade/trade-purchase
    */
   async executePurchase(params: {
     fromTokenCode: string
@@ -566,7 +575,7 @@ export class AlphaService {
 
   /**
    * Get estimated price, fees, slippage, and gas for an on-chain token trade
-   * @see https://bybit-exchange.github.io/docs/v5/alpha/trade/quote
+   * @see https://bybit-exchange.github.io/docs/v5/alpha/trade/trade-quote
    */
   async getTradeQuote(params: {
     tradeType: number
@@ -585,7 +594,7 @@ export class AlphaService {
 
   /**
    * Execute a sell order to redeem on-chain tokens for USDT/USDC, returns order number
-   * @see https://bybit-exchange.github.io/docs/v5/alpha/trade/redeem
+   * @see https://bybit-exchange.github.io/docs/v5/alpha/trade/trade-redeem
    */
   async executeRedeem(params: {
     fromTokenCode: string
