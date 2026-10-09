@@ -1,0 +1,21 @@
+package.json
+  s_2baaddf4fb324a::t_ddca1051e7663f 63
+package-lock.json
+  s_2baaddf4fb324a::t_294cc2207849e4 3,9,12,1671-1674,1677
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.2-bit.2+419f699",
+  "base_commit_sha": "e1d1bac4132f85238425fe00286248d46e6a3172",
+  "prompts": {},
+  "sessions": {
+    "s_2baaddf4fb324a": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a11f78-cfb1-7e82-8472-dbc4f93661a2",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "doris-xiao-bybit <doris.xiao@bybit.com>"
+    }
+  }
+}
