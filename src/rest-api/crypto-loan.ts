@@ -588,4 +588,37 @@ export class CryptoLoanService {
       },
     })
   }
+
+  /**
+   * Get Available Inventory
+   * @see https://bybit-exchange.github.io/docs/v5/crypto-loan-fixed/available-inventory
+   */
+  async getFixedAvailableInventory(params: {
+    currency: string
+    term: string
+    annualRate: string
+  }): Promise<ApiResponse<unknown>> {
+    return requestJson(this.http, this.opts, {
+      method: 'GET',
+      path: '/v5/crypto-loan-fixed/available-inventory',
+      signed: true,
+      query: params,
+    })
+  }
+
+  /**
+   * Get Available Inventory
+   * @see https://bybit-exchange.github.io/docs/v5/crypto-loan-flexible/available-inventory
+   */
+  async getFlexibleAvailableInventory(params: {
+    currency: string
+  }): Promise<ApiResponse<unknown>> {
+    return requestJson(this.http, this.opts, {
+      method: 'GET',
+      path: '/v5/crypto-loan-flexible/available-inventory',
+      signed: true,
+      query: params,
+    })
+  }
+
 }

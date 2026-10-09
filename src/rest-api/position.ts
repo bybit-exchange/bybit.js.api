@@ -298,4 +298,21 @@ export class PositionService {
       },
     })
   }
+
+  /**
+   * Get Futures Leverage
+   * @see https://bybit-exchange.github.io/docs/v5/position/symbol-info
+   */
+  async getSymbolInfo(params: {
+    category: string
+    symbol?: string
+  }): Promise<ApiResponse<unknown>> {
+    return requestJson(this.http, this.opts, {
+      method: 'GET',
+      path: '/v5/position/symbol-info',
+      signed: true,
+      query: params,
+    })
+  }
+
 }

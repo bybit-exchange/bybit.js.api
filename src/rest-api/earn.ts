@@ -1563,4 +1563,37 @@ export class EarnService {
       },
     })
   }
+
+  /**
+   * Get Auto Savings Settings
+   * @see https://bybit-exchange.github.io/docs/v5/earn/flexible-saving/auto-savings
+   */
+  async listAutoSavings(params: {
+    coins?: string
+  }): Promise<ApiResponse<unknown>> {
+    return requestJson(this.http, this.opts, {
+      method: 'GET',
+      path: '/v5/earn/flexible-saving/auto-savings',
+      signed: true,
+      query: params,
+    })
+  }
+
+  /**
+   * Edit Auto Savings Settings
+   * @see https://bybit-exchange.github.io/docs/v5/earn/flexible-saving/auto-savings
+   */
+  async editEarnAutoSavings(params: {
+    coin?: string
+    isSelected: boolean
+    purchaseImmediately?: boolean
+  }): Promise<ApiResponse<unknown>> {
+    return requestJson(this.http, this.opts, {
+      method: 'POST',
+      path: '/v5/earn/flexible-saving/auto-savings',
+      signed: true,
+      body: params,
+    })
+  }
+
 }

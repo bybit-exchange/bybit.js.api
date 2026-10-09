@@ -6,11 +6,13 @@ import { type RestClientOptions } from './config.js'
 // gen-sdk-js:client-imports:start
 import { AccountService } from './rest-api/account.js'
 import { AffiliateService } from './rest-api/affiliate.js'
+import { AlphaService } from './rest-api/alpha.js'
 import { AssetService } from './rest-api/asset.js'
 import { BotService } from './rest-api/bot.js'
 import { BrokerService } from './rest-api/broker.js'
 import { CryptoLoanService } from './rest-api/crypto-loan.js'
 import { EarnService } from './rest-api/earn.js'
+import { LendingService } from './rest-api/lending.js'
 import { MarketService } from './rest-api/market.js'
 import { P2pService } from './rest-api/p2p.js'
 import { PositionService } from './rest-api/position.js'
@@ -37,11 +39,13 @@ export class BybitClient {
   // gen-sdk-js:client-fields:start
   public readonly account: AccountService
   public readonly affiliate: AffiliateService
+  public readonly alpha: AlphaService
   public readonly asset: AssetService
   public readonly bot: BotService
   public readonly broker: BrokerService
   public readonly cryptoLoan: CryptoLoanService
   public readonly earn: EarnService
+  public readonly lending: LendingService
   public readonly market: MarketService
   public readonly p2p: P2pService
   public readonly position: PositionService
@@ -62,11 +66,13 @@ export class BybitClient {
     // gen-sdk-js:client-inits:start
     this.account = new AccountService(this.http, this.options)
     this.affiliate = new AffiliateService(this.http, this.options)
+    this.alpha = new AlphaService(this.http, this.options)
     this.asset = new AssetService(this.http, this.options)
     this.bot = new BotService(this.http, this.options)
     this.broker = new BrokerService(this.http, this.options)
     this.cryptoLoan = new CryptoLoanService(this.http, this.options)
     this.earn = new EarnService(this.http, this.options)
+    this.lending = new LendingService(this.http, this.options)
     this.market = new MarketService(this.http, this.options)
     this.p2p = new P2pService(this.http, this.options)
     this.position = new PositionService(this.http, this.options)

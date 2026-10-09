@@ -493,4 +493,37 @@ export class MarketService {
       },
     })
   }
+
+  /**
+   * Get New Delivery Price
+   * @see https://bybit-exchange.github.io/docs/v5/market/new-delivery-price
+   */
+  async getNewDeliveryPrice(params: {
+    category: string
+    baseCoin: string
+    settleCoin?: string
+  }): Promise<ApiResponse<unknown>> {
+    return requestJson(this.http, this.opts, {
+      method: 'GET',
+      path: '/v5/market/new-delivery-price',
+      signed: false,
+      query: params,
+    })
+  }
+
+  /**
+   * Get Option Base Coins
+   * @see https://bybit-exchange.github.io/docs/v5/market/option-base-coins
+   */
+  async getOptionBaseCoins(params: {
+    underlyingType?: number
+  }): Promise<ApiResponse<unknown>> {
+    return requestJson(this.http, this.opts, {
+      method: 'GET',
+      path: '/v5/market/option-base-coins',
+      signed: false,
+      query: params,
+    })
+  }
+
 }
