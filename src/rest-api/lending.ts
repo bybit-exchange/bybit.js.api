@@ -51,7 +51,7 @@ export class LendingService {
 
   /**
    * Get Delay Liquidation Status
-   * @see https://bybit-exchange.github.io/docs/v5/ins-loan/delay-liq-status
+   * @see https://bybit-exchange.github.io/docs/v5/otc/delay-liq-status
    */
   async insLoanDelayLiqStatus(): Promise<ApiResponse<unknown>> {
     return requestJson(this.http, this.opts, {

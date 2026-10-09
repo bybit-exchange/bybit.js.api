@@ -8,9 +8,9 @@
 
 Official lightweight TypeScript / JavaScript connector for the [Bybit V5 REST API](https://bybit-exchange.github.io/docs/v5/intro).
 
-`bybit-official-ts-sdk` is a thin, typed wrapper around the Bybit V5 HTTP endpoints. It ships as a single npm package with one service class per API group (`market`, `trade`, `account`, `position`, `asset`, `user`, `affiliate`, `broker`, `crypto-loan`, `rfq`, `spot-margin`, `earn`, `p2p`, `bot`). Its goal is the same as [`pybit`](https://github.com/bybit-exchange/pybit) on the Python side: an easy-to-use, high-performance connector with a small dependency footprint.
+`bybit-official-ts-sdk` is a thin, typed wrapper around the Bybit V5 HTTP endpoints. It ships as a single npm package with one service class per API group (`market`, `trade`, `account`, `position`, `asset`, `user`, `affiliate`, `broker`, `crypto-loan`, `institutional-loan`, `alpha`, `rfq`, `spot-margin`, `earn`, `p2p`, `bot`). Its goal is the same as [`pybit`](https://github.com/bybit-exchange/pybit) on the Python side: an easy-to-use, high-performance connector with a small dependency footprint.
 
-The client currently exposes REST endpoints across **14 service modules**, all reachable from a single `BybitClient`.
+The client currently exposes REST endpoints across **16 service modules**, all reachable from a single `BybitClient`.
 
 Capabilities in this release:
 
@@ -20,7 +20,7 @@ Capabilities in this release:
 - Account: wallet balance, margin mode, collateral, fee rate, transaction log
 - Assets: deposit / withdraw / internal-transfer / universal-transfer / convert
 - Users & sub-accounts, API-key management
-- Crypto Loan (flexible + fixed), Earn (Advance / RWA / PWM / Liquidity Mining), Spot Margin
+- Crypto Loan (flexible + fixed), Institutional Loan, Alpha, Earn (Advance / RWA / PWM / Liquidity Mining), Spot Margin
 - RFQ (block trades), Affiliate, Broker, P2P, Bot (grid / futures-grid / futures-combo / futures-martingale / DCA)
 - Typed error hierarchy — network / timeout / rate-limit / auth / parse / API errors
 - Rate-limit budget headers surfaced per response
@@ -286,11 +286,13 @@ client.market        // MarketService        — public market data (kline, tick
 client.trade         // TradeService         — orders (create / amend / cancel / batch / history)
 client.position      // PositionService      — positions, leverage, TP/SL, move-position
 client.account       // AccountService       — wallet, margin, collateral, fee-rate, transfer log
+client.alpha         // AlphaService         — Alpha trading, prediction markets, liquidity pools
 client.asset         // AssetService         — deposit / withdraw / transfer / convert / coin info
 client.user          // UserService          — sub-accounts, API-key management
 client.affiliate     // AffiliateService     — sub-affiliate lists
 client.broker        // BrokerService        — broker earnings, distributions
 client.cryptoLoan    // CryptoLoanService    — flexible / fixed crypto loans
+client.lending       // LendingService       — institutional lending
 client.rfq           // RfqService           — request-for-quote (block trades)
 client.spotMargin    // SpotMarginService    — UTA spot margin
 client.earn          // EarnService          — earn, liquidity mining, RWA, PWM, hold-to-earn
