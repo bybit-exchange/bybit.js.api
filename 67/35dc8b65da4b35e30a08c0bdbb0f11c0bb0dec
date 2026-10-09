@@ -1,0 +1,47 @@
+tests/alpha.test.ts
+  s_2baaddf4fb324a::t_1e228db2c4cc5b 1-8,12-20,26-56,63-64,71-73,80-81,88-90,97-98,105-117,123-124,130-136,143-144,151-153,158-159,164-169
+  s_2baaddf4fb324a::t_1290eb7e2a8509 9-11,21-25,57-62,65-70,74-79,82-87,91-96,99-104,118-122,125-129,137-142,145-150,154-157,160-163
+src/rest-api/user.ts
+  s_2baaddf4fb324a::t_8cbcba9966e5bc 340
+src/rest-api/account.ts
+  s_2baaddf4fb324a::t_8cbcba9966e5bc 448
+src/rest-api/position.ts
+  s_2baaddf4fb324a::t_8cbcba9966e5bc 304
+src/rest-api/lending.ts
+  s_2baaddf4fb324a::t_8cbcba9966e5bc 23,39,67,82,97,115,127,142,159
+  s_2baaddf4fb324a::t_3380c559196fd9 54
+src/rest-api/earn.ts
+  s_2baaddf4fb324a::t_8cbcba9966e5bc 1569,1584
+tsconfig.test.json
+  s_2baaddf4fb324a::t_1290eb7e2a8509 9-10
+  s_2baaddf4fb324a::t_382860cc136a2c 1-8,11
+src/rest-api/alpha.ts
+  s_2baaddf4fb324a::t_b5591edbf64f2b 63,164,210,226,229,277-279,284,293-296,313-314,331,349,367-371,432
+  s_2baaddf4fb324a::t_8cbcba9966e5bc 383,399,414,555,578,597
+src/rest-api/crypto-loan.ts
+  s_2baaddf4fb324a::t_8cbcba9966e5bc 594,611
+CHANGELOG.md
+  s_2baaddf4fb324a::t_3380c559196fd9 94-97
+src/rest-api/spot-margin.ts
+  s_2baaddf4fb324a::t_8cbcba9966e5bc 90,105,122,142,161,181,200,216,231,246,261,276,291,307,323,335
+package.json
+  s_2baaddf4fb324a::t_382860cc136a2c 60-61
+src/rest-api/asset.ts
+  s_2baaddf4fb324a::t_8cbcba9966e5bc 565,582,599,614,634,650,755,770,789
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.2-bit.2+419f699",
+  "base_commit_sha": "6735dc8b65da4b35e30a08c0bdbb0f11c0bb0dec",
+  "prompts": {},
+  "sessions": {
+    "s_2baaddf4fb324a": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a11f78-cfb1-7e82-8472-dbc4f93661a2",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "doris-xiao-bybit <doris.xiao@bybit.com>"
+    }
+  }
+}
