@@ -1,0 +1,45 @@
+CHANGELOG.md
+  s_14731aa45014cc::t_67d5f4f1789bc5 1-91
+package.json
+  s_14731aa45014cc::t_f15f12868a5a65 3
+src/client.ts
+  s_14731aa45014cc::t_ba7876f9315265 9,15,42,48,69,75
+src/rest-api/account.ts
+  s_14731aa45014cc::t_dae34dba66cd96 445-505
+src/rest-api/alpha.ts
+  s_14731aa45014cc::t_171fa5bf8cefa6 1-609
+src/rest-api/asset.ts
+  s_14731aa45014cc::t_085704ed299643 562-801
+src/rest-api/crypto-loan.ts
+  s_14731aa45014cc::t_6970e4cf7dcf67 591-623
+src/rest-api/earn.ts
+  s_14731aa45014cc::t_c5a2b974c2df8c 1566-1598
+src/rest-api/index.ts
+  s_14731aa45014cc::t_efe49d2ec4a4a7 6,12
+src/rest-api/lending.ts
+  s_14731aa45014cc::t_81cf9b0b5f2e2d 1-172
+src/rest-api/market.ts
+  s_14731aa45014cc::t_1865b70b9968d9 496-528
+src/rest-api/position.ts
+  s_14731aa45014cc::t_5829cace8d2ca4 301-317
+src/rest-api/spot-margin.ts
+  s_14731aa45014cc::t_506750186ec533 87-347
+src/rest-api/user.ts
+  s_14731aa45014cc::t_8ad8d0ea7c111f 337-349
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.2-bit.2+419f699",
+  "base_commit_sha": "cd0f5f63838b6375383a119524084b5a5468bd5d",
+  "prompts": {},
+  "sessions": {
+    "s_14731aa45014cc": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a11a25-078f-7d13-b8c5-a1f8f61777b2",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "doris-xiao-bybit <doris.xiao@bybit.com>"
+    }
+  }
+}
