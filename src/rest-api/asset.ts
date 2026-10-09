@@ -559,4 +559,241 @@ export class AssetService {
       query:  params,
     })
   }
+
+  /**
+   * Get Asset Overview
+   * @see https://bybit-exchange.github.io/docs/v5/asset/balance/asset-overview
+   */
+  async getOverview(params: {
+    accountType?: string
+    memberId?: string
+    valuationCurrency?: string
+  }): Promise<ApiResponse<unknown>> {
+    return requestJson(this.http, this.opts, {
+      method: 'GET',
+      path: '/v5/asset/asset-overview',
+      signed: true,
+      query: params,
+    })
+  }
+
+  /**
+   * Small asset get quote
+   * @see https://bybit-exchange.github.io/docs/v5/asset/convert-small-balance/request-quote
+   */
+  async smallAssetQuote(params: {
+    accountType: string
+    toCoin: string
+    fromCoinList: Array<Record<string, unknown>>
+  }): Promise<ApiResponse<unknown>> {
+    return requestJson(this.http, this.opts, {
+      method: 'POST',
+      path: '/v5/asset/covert/get-quote',
+      signed: true,
+      body: params,
+    })
+  }
+
+  /**
+   * Small asset confirm conversion
+   * @see https://bybit-exchange.github.io/docs/v5/asset/convert-small-balance/confirm-quote
+   */
+  async smallAssetConvert(params: {
+    quoteId: string
+  }): Promise<ApiResponse<unknown>> {
+    return requestJson(this.http, this.opts, {
+      method: 'POST',
+      path: '/v5/asset/covert/small-balance-execute',
+      signed: true,
+      body: params,
+    })
+  }
+
+  /**
+   * Small asset conversion history query
+   * @see https://bybit-exchange.github.io/docs/v5/asset/convert-small-balance/exchange-history
+   */
+  async getSmallAssetConvertOrder(params: {
+    accountType?: string
+    quoteId?: string
+    cursor?: string
+    size?: string
+    startTime?: string
+    endTime?: string
+  }): Promise<ApiResponse<unknown>> {
+    return requestJson(this.http, this.opts, {
+      method: 'GET',
+      path: '/v5/asset/covert/small-balance-history',
+      signed: true,
+      query: params,
+    })
+  }
+
+  /**
+   * Small asset conversion list query
+   * @see https://bybit-exchange.github.io/docs/v5/asset/convert-small-balance/small-balanc-coins
+   */
+  async getSmallAssetList(params: {
+    accountType: string
+    fromCoin?: string
+  }): Promise<ApiResponse<unknown>> {
+    return requestJson(this.http, this.opts, {
+      method: 'GET',
+      path: '/v5/asset/covert/small-balance-list',
+      signed: true,
+      query: params,
+    })
+  }
+
+  /**
+   * Set Deposit Account
+   * @see https://bybit-exchange.github.io/docs/v5/asset/deposit/set-deposit-acct
+   */
+  async setDefaultDepositToAccount(params: {
+    accountType: string
+  }): Promise<ApiResponse<unknown>> {
+    return requestJson(this.http, this.opts, {
+      method: 'POST',
+      path: '/v5/asset/deposit/deposit-to-account',
+      signed: true,
+      body: params,
+    })
+  }
+
+  /**
+   * Limit order callback notification
+   */
+  async limitOrderCallback(params: {
+    exchangeTxId: string
+    optionType: number
+    errorCode?: string
+    timeStamp: number
+    sign: string
+    appId: string
+  }): Promise<ApiResponse<unknown>> {
+    return requestJson(this.http, this.opts, {
+      method: 'POST',
+      path: '/v5/asset/exchange/limit-order/callback',
+      signed: true,
+      body: params,
+    })
+  }
+
+  /**
+   * Query coin conversion limit
+   */
+  async coinConvertLimitQuery(params: {
+    fromCoin: string
+    fromCoinType?: number
+    toCoin: string
+    toCoinType?: number
+    accountType: string
+  }): Promise<ApiResponse<unknown>> {
+    return requestJson(this.http, this.opts, {
+      method: 'GET',
+      path: '/v5/asset/exchange/query-convert-limit',
+      signed: true,
+      query: params,
+    })
+  }
+
+  /**
+   * Query conversion order list
+   */
+  async getOrderFromOpen(params: {
+    accountType?: number
+    cursor?: string
+    limit?: number
+    toCoin?: string
+    fromCoin?: string
+    startTime?: number
+    endTime?: number
+    type?: number
+    exchangeStatus?: number
+    direction?: string
+  }): Promise<ApiResponse<unknown>> {
+    return requestJson(this.http, this.opts, {
+      method: 'GET',
+      path: '/v5/asset/exchange/query-order-list',
+      signed: true,
+      query: params,
+    })
+  }
+
+  /**
+   * Get Portfolio Margin Info
+   * @see https://bybit-exchange.github.io/docs/v5/asset/portfolio-margin
+   */
+  async getPortfolioMargin(params: {
+    baseCoin?: string
+  }): Promise<ApiResponse<unknown>> {
+    return requestJson(this.http, this.opts, {
+      method: 'GET',
+      path: '/v5/asset/portfolio-margin',
+      signed: true,
+      query: params,
+    })
+  }
+
+  /**
+   * Get Total Members Assets
+   * @see https://bybit-exchange.github.io/docs/v5/asset/total-members-assets
+   */
+  async getTotalMembersAssets(params: {
+    coin?: string
+  }): Promise<ApiResponse<unknown>> {
+    return requestJson(this.http, this.opts, {
+      method: 'GET',
+      path: '/v5/asset/total-members-assets',
+      signed: true,
+      query: params,
+    })
+  }
+
+  /**
+   * Save Transferable Sub Member List
+   * @see https://bybit-exchange.github.io/docs/v5/abandon/enable-unitransfer-subuid
+   */
+  async transferSubMemberSave(params: {
+    subMemberIds: string
+  }): Promise<ApiResponse<unknown>> {
+    return requestJson(this.http, this.opts, {
+      method: 'POST',
+      path: '/v5/asset/transfer/save-transfer-sub-member',
+      signed: true,
+      body: params,
+    })
+  }
+
+  /**
+   * Get Withdrawal Address List
+   * @see https://bybit-exchange.github.io/docs/v5/asset/withdraw/withdraw-address
+   */
+  async getWithdrawAddresses(params: {
+    coin?: string
+    chain?: string
+    addressType?: number
+    limit?: number
+    cursor?: string
+  }): Promise<ApiResponse<unknown>> {
+    return requestJson(this.http, this.opts, {
+      method: 'GET',
+      path: '/v5/asset/withdraw/query-address',
+      signed: true,
+      query: params,
+    })
+  }
+
+  /**
+   * Get Available VASPs
+   * @see https://bybit-exchange.github.io/docs/v5/asset/withdraw/vasp-list
+   */
+  async getVaspList(): Promise<ApiResponse<unknown>> {
+    return requestJson(this.http, this.opts, {
+      method: 'GET',
+      path: '/v5/asset/withdraw/vasp/list',
+      signed: true,
+    })
+  }
+
 }

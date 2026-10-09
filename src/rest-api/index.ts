@@ -3,11 +3,13 @@
 // gen-sdk-js:service-exports:start
 export { AccountService } from './account.js'
 export { AffiliateService } from './affiliate.js'
+export { AlphaService } from './alpha.js'
 export { AssetService } from './asset.js'
 export { BotService } from './bot.js'
 export { BrokerService } from './broker.js'
 export { CryptoLoanService } from './crypto-loan.js'
 export { EarnService } from './earn.js'
+export { LendingService } from './lending.js'
 export { MarketService } from './market.js'
 export { P2pService } from './p2p.js'
 export { PositionService } from './position.js'

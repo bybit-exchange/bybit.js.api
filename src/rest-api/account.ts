@@ -442,4 +442,65 @@ export class AccountService {
       signed: true,
     })
   }
+
+  /**
+   * Apply demo funds
+   * @see https://bybit-exchange.github.io/docs/v5/demo
+   */
+  async demoApplyMoney(params: {
+    adjustType?: number
+    utaDemoApplyMoney?: Array<Record<string, unknown>>
+  }): Promise<ApiResponse<unknown>> {
+    return requestJson(this.http, this.opts, {
+      method: 'POST',
+      path: '/v5/account/demo-apply-money',
+      signed: true,
+      body: params,
+    })
+  }
+
+  /**
+   * Get Option Asset Info
+   * @see https://bybit-exchange.github.io/docs/v5/account/option-asset-info
+   */
+  async getOptionAssetInfo(): Promise<ApiResponse<unknown>> {
+    return requestJson(this.http, this.opts, {
+      method: 'GET',
+      path: '/v5/account/option-asset-info',
+      signed: true,
+    })
+  }
+
+  /**
+   * Get Pay Info
+   * @see https://bybit-exchange.github.io/docs/v5/account/pay-info
+   */
+  async getPayInfo(params: {
+    coin?: string
+  }): Promise<ApiResponse<unknown>> {
+    return requestJson(this.http, this.opts, {
+      method: 'GET',
+      path: '/v5/account/pay-info',
+      signed: true,
+      query: params,
+    })
+  }
+
+  /**
+   * Get Trade Info For Analysis
+   * @see https://bybit-exchange.github.io/docs/v5/account/trade-info-for-analysis
+   */
+  async getTradeInfoForAnalysis(params: {
+    symbol?: string
+    startTime?: number
+    endTime?: number
+  }): Promise<ApiResponse<unknown>> {
+    return requestJson(this.http, this.opts, {
+      method: 'GET',
+      path: '/v5/account/trade-info-for-analysis',
+      signed: true,
+      query: params,
+    })
+  }
+
 }

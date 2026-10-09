@@ -1,6 +1,6 @@
 {
   "name": "bybit-official-ts-sdk",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Official Bybit V5 REST API connector for Node.js (TypeScript-first, axios-based).",
   "keywords": [
     "bybit",
@@ -57,10 +57,12 @@
     "format": "prettier --write \"src/**/*.ts\"",
     "smoke": "node scripts/dist-smoke.js",
     "prepublishOnly": "npm run build && npm run smoke",
+    "typecheck:test": "tsc -p tsconfig.test.json",
+    "pretest": "npm run typecheck:test",
     "test": "jest"
   },
   "dependencies": {
-    "axios": "^1.7.0"
+    "axios": "^1.20.0"
   },
   "devDependencies": {
     "typescript": "^5.4.0",

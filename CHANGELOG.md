@@ -1,11 +1,101 @@
 # Changelog
 
-All notable changes to this project will be documented in this file.
+## [0.1.1] — 2026-10-09
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+### Added
+- `AccountService.demoApplyMoney(...)`
+- `AccountService.getOptionAssetInfo(...)`
+- `AccountService.getPayInfo(...)`
+- `AccountService.getTradeInfoForAnalysis(...)`
+- `AlphaService.getLpOrderList(...)`
+- `AlphaService.getLpPayTokenList(...)`
+- `AlphaService.getLpPayTokenPrice(...)`
+- `AlphaService.getLpPoolInfo(...)`
+- `AlphaService.getLpPoolList(...)`
+- `AlphaService.getLpPositionList(...)`
+- `AlphaService.executeLpRedeem(...)`
+- `AlphaService.executeLpStake(...)`
+- `AlphaService.executePredictionBuy(...)`
+- `AlphaService.getPredictionEngineStatus(...)`
+- `AlphaService.getPredictionEventDetail(...)`
+- `AlphaService.getPredictionOrderBook(...)`
+- `AlphaService.getPredictionOrderEstimate(...)`
+- `AlphaService.getPredictionOrderList(...)`
+- `AlphaService.getPredictionPayTokenList(...)`
+- `AlphaService.getPredictionPortfolioSummary(...)`
+- `AlphaService.getPredictionPositionHistory(...)`
+- `AlphaService.getPredictionPositionList(...)`
+- `AlphaService.getPredictionPriceHistory(...)`
+- `AlphaService.executePredictionSell(...)`
+- `AlphaService.getPredictionSideMarketList(...)`
+- `AlphaService.getPredictionGroupStageDetail(...)`
+- `AlphaService.getPredictionMatchList(...)`
+- `AlphaService.getPredictionTimelineStages(...)`
+- `AlphaService.getPredictionTokenPrice(...)`
+- `AlphaService.getAssetDetail(...)`
+- `AlphaService.getAssetList(...)`
+- `AlphaService.getBizTokenDetails(...)`
+- `AlphaService.getBizTokenList(...)`
+- `AlphaService.getBizTokenPriceList(...)`
+- `AlphaService.getOrderList(...)`
+- `AlphaService.getPayTokenList(...)`
+- `AlphaService.executePurchase(...)`
+- `AlphaService.getTradeQuote(...)`
+- `AlphaService.executeRedeem(...)`
+- `AssetService.getOverview(...)`
+- `AssetService.smallAssetQuote(...)`
+- `AssetService.smallAssetConvert(...)`
+- `AssetService.getSmallAssetConvertOrder(...)`
+- `AssetService.getSmallAssetList(...)`
+- `AssetService.setDefaultDepositToAccount(...)`
+- `AssetService.limitOrderCallback(...)`
+- `AssetService.coinConvertLimitQuery(...)`
+- `AssetService.getOrderFromOpen(...)`
+- `AssetService.getPortfolioMargin(...)`
+- `AssetService.getTotalMembersAssets(...)`
+- `AssetService.transferSubMemberSave(...)`
+- `AssetService.getWithdrawAddresses(...)`
+- `AssetService.getVaspList(...)`
+- `CryptoLoanService.getFixedAvailableInventory(...)`
+- `CryptoLoanService.getFlexibleAvailableInventory(...)`
+- `EarnService.listAutoSavings(...)`
+- `EarnService.editEarnAutoSavings(...)`
+- `LendingService.insLoanAssociationUid(...)`
+- `LendingService.insLoanCoinDeltaAmount(...)`
+- `LendingService.insLoanDelayLiqStatus(...)`
+- `LendingService.insLoanEnsureTokens(...)`
+- `LendingService.insLoanEnsureTokensConvert(...)`
+- `LendingService.insLoanGetLoanOrder(...)`
+- `LendingService.insLoanLtvConvert(...)`
+- `LendingService.insLoanProductInfos(...)`
+- `LendingService.insLoanRepaidHistory(...)`
+- `LendingService.insLoanRepayLoan(...)`
+- `MarketService.getNewDeliveryPrice(...)`
+- `MarketService.getOptionBaseCoins(...)`
+- `PositionService.getSymbolInfo(...)`
+- `SpotMarginService.getTradeCoinState(...)`
+- `SpotMarginService.queryFixedAvailableInventory(...)`
+- `SpotMarginService.accountFixedBorrow(...)`
+- `SpotMarginService.queryFixedBorrowContracts(...)`
+- `SpotMarginService.queryFixedBorrowOrders(...)`
+- `SpotMarginService.queryFixedBorrowMarket(...)`
+- `SpotMarginService.renewFixedBorrow(...)`
+- `SpotMarginService.getTradeFlexibleAvailableInventory(...)`
+- `SpotMarginService.getTradeAutoRepayMode(...)`
+- `SpotMarginService.queryBorrowLiability(...)`
+- `SpotMarginService.getTradeMaxBorrowable(...)`
+- `SpotMarginService.getTradeRepaymentAvailableAmount(...)`
+- `SpotMarginService.setAutoRepayMode(...)`
+- `SpotMarginService.spotMarginSetLeverage(...)`
+- `SpotMarginService.getTradeState(...)`
+- `SpotMarginService.spotMarginSwitchMode(...)`
+- `UserService.queryReferralCode(...)`
 
-## [Unreleased] — targeting 0.1.0
+### Fixed
+- Align Alpha prediction request fields and TypeScript types with the documented API contracts.
+- Correct API documentation links for newly added service methods.
+
+## [0.1.0] — 2026-07-17
 
 ### Added
 - `AccountService.batchSetCollateral(...)`

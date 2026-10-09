@@ -334,4 +334,17 @@ export class UserService {
       },
     })
   }
+
+  /**
+   * Query Referral Code
+   * @see https://bybit-exchange.github.io/docs/v5/user/referral-code
+   */
+  async queryReferralCode(): Promise<ApiResponse<unknown>> {
+    return requestJson(this.http, this.opts, {
+      method: 'GET',
+      path: '/v5/user/invitation/code',
+      signed: true,
+    })
+  }
+
 }
