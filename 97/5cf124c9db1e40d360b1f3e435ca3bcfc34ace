@@ -1,0 +1,32 @@
+CHANGELOG.md
+  s_60459e0bde4853::t_d7d3ebbfd1739f 95-96
+src/http/request.ts
+  s_60459e0bde4853::t_d7d3ebbfd1739f 64-68
+tests/earn.test.ts
+  s_60459e0bde4853::t_ae1b898138ad03 1-23
+tests/request.test.ts
+  s_60459e0bde4853::t_6a47b96eb03fbb 63-86
+tests/alpha.test.ts
+  s_60459e0bde4853::t_ae1b898138ad03 169-231,235-258
+  s_60459e0bde4853::t_fd3211a1eb0104 232-234
+src/rest-api/alpha.ts
+  s_60459e0bde4853::t_d7d3ebbfd1739f 28,245,250,386-387,402-408,423,529,531-532
+src/rest-api/earn.ts
+  s_60459e0bde4853::t_d7d3ebbfd1739f 1572
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.2-bit.2+419f699",
+  "base_commit_sha": "975cf124c9db1e40d360b1f3e435ca3bcfc34ace",
+  "prompts": {},
+  "sessions": {
+    "s_60459e0bde4853": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a13437-1a4e-7500-aa55-f196ecf9f8f5",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "doris-xiao-bybit <doris.xiao@bybit.com>"
+    }
+  }
+}
