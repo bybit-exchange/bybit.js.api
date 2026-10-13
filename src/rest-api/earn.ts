@@ -1569,7 +1569,7 @@ export class EarnService {
    * @see https://bybit-exchange.github.io/docs/v5/finance/earn/flexible-saving/auto-savings
    */
   async listAutoSavings(params: {
-    coins?: string
+    coins?: string[]
   }): Promise<ApiResponse<unknown>> {
     return requestJson(this.http, this.opts, {
       method: 'GET',

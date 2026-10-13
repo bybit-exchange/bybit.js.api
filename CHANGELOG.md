@@ -92,7 +92,8 @@
 - `UserService.queryReferralCode(...)`
 
 ### Fixed
-- Align Alpha prediction request fields and TypeScript types with the documented API contracts.
+- Align Alpha prediction, LP, and trade request fields and TypeScript types with the documented API contracts.
+- Serialize GET array parameters as repeated query keys so Auto Savings sends and signs `coins=BTC&coins=ETH`.
 - Correct API documentation links for newly added service methods.
 
 ## [0.1.0] — 2026-07-17

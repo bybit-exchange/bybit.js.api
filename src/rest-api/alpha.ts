@@ -25,7 +25,7 @@ export class AlphaService {
   async getLpOrderList(params: {
     orderType?: number
     tokenCode?: string
-    orderStatus?: Array<Record<string, unknown>>
+    orderStatus?: number[]
     days?: number
     limit?: number
     pageIndex?: number
@@ -242,12 +242,12 @@ export class AlphaService {
    * @see https://bybit-exchange.github.io/docs/v5/alpha/prediction/order-list
    */
   async getPredictionOrderList(params: {
-    status?: string
+    status?: number
     tokenId?: string
     limit?: number
     pageIndex?: number
     eventId?: string
-    side?: string
+    side?: number
     days?: number
   }): Promise<ApiResponse<unknown>> {
     return requestJson(this.http, this.opts, {
@@ -383,8 +383,8 @@ export class AlphaService {
    * @see https://bybit-exchange.github.io/docs/v5/alpha/prediction/sports-group-stage-detail
    */
   async getPredictionGroupStageDetail(params: {
-    eventType: string
-    stageCode: string
+    eventType: number
+    groupName?: string
   }): Promise<ApiResponse<unknown>> {
     return requestJson(this.http, this.opts, {
       method: 'POST',
@@ -399,7 +399,13 @@ export class AlphaService {
    * @see https://bybit-exchange.github.io/docs/v5/alpha/prediction/sports-match-list
    */
   async getPredictionMatchList(params: {
-    eventType: string
+    eventType: number
+    status?: number
+    startTime?: number
+    endTime?: number
+    stageCode?: string
+    limit?: number
+    pageIndex?: number
   }): Promise<ApiResponse<unknown>> {
     return requestJson(this.http, this.opts, {
       method: 'POST',
@@ -414,7 +420,7 @@ export class AlphaService {
    * @see https://bybit-exchange.github.io/docs/v5/alpha/prediction/sports-timeline-stages
    */
   async getPredictionTimelineStages(params: {
-    eventType?: string
+    eventType: number
   }): Promise<ApiResponse<unknown>> {
     return requestJson(this.http, this.opts, {
       method: 'GET',
@@ -520,10 +526,10 @@ export class AlphaService {
   async getOrderList(params: {
     tradeType?: number
     tokenCode?: string
-    orderStatus?: Array<Record<string, unknown>>
+    orderStatus?: number[]
     days?: number
-    limit?: number
-    pageIndex?: number
+    limit: number
+    pageIndex: number
     direction?: string
   }): Promise<ApiResponse<unknown>> {
     return requestJson(this.http, this.opts, {

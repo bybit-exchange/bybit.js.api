@@ -166,4 +166,94 @@ describe('AlphaService — official request contracts', () => {
     await client.alpha.getPredictionPortfolioSummary({ eventType: 1 })
     expectPost(calls, '/v5/alpha/prediction/portfolio-summary', { eventType: 1 })
   })
+
+  it('uses numeric prediction order filters', async () => {
+    const { client, calls } = capturingClient()
+
+    await client.alpha.getPredictionOrderList({
+      status: 2,
+      tokenId: 'token_yes_123',
+      eventId: 'event_123',
+      side: 1,
+      days: 30,
+      limit: 20,
+      pageIndex: 1,
+    })
+    expectPost(calls, '/v5/alpha/prediction/order-list', {
+      status: 2,
+      tokenId: 'token_yes_123',
+      eventId: 'event_123',
+      side: 1,
+      days: 30,
+      limit: 20,
+      pageIndex: 1,
+    })
+  })
+
+  it('sends the documented sports prediction fields', async () => {
+    const { client, calls } = capturingClient()
+
+    await client.alpha.getPredictionGroupStageDetail({ eventType: 1, groupName: 'A' })
+    expectPost(calls, '/v5/alpha/prediction/sports/group-stage-detail', {
+      eventType: 1,
+      groupName: 'A',
+    })
+
+    await client.alpha.getPredictionMatchList({
+      eventType: 1,
+      status: 2,
+      startTime: 1_780_000_000_000,
+      endTime: 1_790_000_000_000,
+      stageCode: 'GROUP_STAGE',
+      limit: 20,
+      pageIndex: 1,
+    })
+    expectPost(calls, '/v5/alpha/prediction/sports/match-list', {
+      eventType: 1,
+      status: 2,
+      startTime: 1_780_000_000_000,
+      endTime: 1_790_000_000_000,
+      stageCode: 'GROUP_STAGE',
+      limit: 20,
+      pageIndex: 1,
+    })
+
+    await client.alpha.getPredictionTimelineStages({ eventType: 1 })
+    const timelineCall = calls.at(-1)
+    expect(timelineCall?.method).toBe('GET')
+    expect(timelineCall?.url).toBe(
+      '/v5/alpha/prediction/sports/timeline-stages?eventType=1',
+    )
+  })
+
+  it('sends numeric trade order statuses with required pagination', async () => {
+    const { client, calls } = capturingClient()
+
+    await client.alpha.getLpOrderList({ orderStatus: [1, 2] })
+    expectPost(calls, '/v5/alpha/lp/order-list', { orderStatus: [1, 2] })
+
+    await client.alpha.getOrderList({
+      tradeType: 1,
+      tokenCode: 'DEX_123',
+      orderStatus: [1, 2],
+      days: 30,
+      limit: 20,
+      pageIndex: 1,
+      direction: 'next',
+    })
+    expectPost(calls, '/v5/alpha/trade/order-list', {
+      tradeType: 1,
+      tokenCode: 'DEX_123',
+      orderStatus: [1, 2],
+      days: 30,
+      limit: 20,
+      pageIndex: 1,
+      direction: 'next',
+    })
+
+    if (false) {
+      // @ts-expect-error limit and pageIndex are required by the API contract
+      await client.alpha.getOrderList({ tradeType: 1 })
+    }
+  })
 })

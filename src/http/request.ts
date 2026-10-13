@@ -61,7 +61,11 @@ function serializeQuery(params: Record<string, unknown> | undefined): string {
   const entries: [string, string][] = []
   for (const [k, v] of Object.entries(params)) {
     if (!isNotNull(v)) continue
-    entries.push([k, typeof v === 'object' ? JSON.stringify(v) : String(v)])
+    const values = Array.isArray(v) ? v : [v]
+    for (const value of values) {
+      if (!isNotNull(value)) continue
+      entries.push([k, typeof value === 'object' ? JSON.stringify(value) : String(value)])
+    }
   }
   entries.sort(([a], [b]) => (a < b ? -1 : a > b ? 1 : 0))
   return new URLSearchParams(entries).toString()
