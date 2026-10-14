@@ -10,8 +10,8 @@ import axios from 'axios'
 import { BybitClient } from '../src/client'
 
 const SERVICES = [
-  'account', 'affiliate', 'asset', 'bot', 'broker', 'cryptoLoan',
-  'earn', 'market', 'p2p', 'position', 'rfq', 'spotMargin', 'trade', 'user',
+  'account', 'affiliate', 'alpha', 'asset', 'bot', 'broker', 'cryptoLoan',
+  'earn', 'lending', 'market', 'p2p', 'position', 'rfq', 'spotMargin', 'trade', 'user',
 ] as const
 
 // Well-formed placeholder for every field the SDK is known to send. Unknown fields
@@ -161,6 +161,11 @@ describe('every service method → one HTTP request', () => {
     const c = collectingHttp()
     calls = c.calls
     client = new BybitClient({ apiKey: 'K', apiSecret: 'S', axiosInstance: c.instance })
+  })
+
+  it('tracks every service exposed by BybitClient', () => {
+    const exposedServices = Object.keys(client).filter((name) => name !== 'http').sort()
+    expect([...SERVICES].sort()).toEqual(exposedServices)
   })
 
   for (const svcName of SERVICES) {

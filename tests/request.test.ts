@@ -60,6 +60,30 @@ describe('requestJson — signing', () => {
     expect(headers['X-BAPI-SIGN']).toBe(expected)
   })
 
+  it('repeats array query parameters in both the URL and signature payload', async () => {
+    let captured: AxiosRequestConfig | undefined
+    const http = fakeHttp((cfg) => {
+      captured = cfg
+      return { status: 200, data: goodBody }
+    })
+    await requestJson(http, { apiKey: 'K', apiSecret: 'S', recvWindow: '5000' }, {
+      method: 'GET',
+      path:   '/v5/earn/flexible-saving/auto-savings',
+      signed: true,
+      query:  { coins: ['BTC', 'ETH'] },
+    })
+
+    const headers = captured!.headers as Record<string, string>
+    const query = 'coins=BTC&coins=ETH'
+    expect(captured!.url).toBe('/v5/earn/flexible-saving/auto-savings?' + query)
+    const ts = headers['X-BAPI-TIMESTAMP']
+    const expected = crypto
+      .createHmac('sha256', 'S')
+      .update(ts + 'K' + '5000' + query)
+      .digest('hex')
+    expect(headers['X-BAPI-SIGN']).toBe(expected)
+  })
+
   it('signs POST requests over the exact bytes it puts on the wire', async () => {
     let captured: AxiosRequestConfig | undefined
     const http = fakeHttp((cfg) => {
