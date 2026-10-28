@@ -18,6 +18,7 @@ const AUTH_RET_CODES: ReadonlySet<number> = new Set([
   10009, // IP not whitelisted
   10010, // Unmatched IP
   10029, // Timestamp for request too old / recv_window mismatch
+  33004, // API key expired
 ])
 
 // Bybit V5 retCodes that indicate rate limiting.
