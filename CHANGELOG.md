@@ -54,6 +54,7 @@
 ### Fixed
 
 - Classify expired API key responses (`retCode` `33004`) as `BybitAuthError`.
+- Update `follow-redirects` to `1.16.2` to resolve high-severity credential-header vulnerabilities.
 
 ### Compatibility
 
