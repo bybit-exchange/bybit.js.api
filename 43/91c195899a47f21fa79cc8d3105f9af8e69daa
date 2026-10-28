@@ -1,0 +1,74 @@
+src/rest-api/fiat.ts
+  s_1e4c4def41be2c::t_a124dbec868bdc 1-137
+src/rest-api/referral.ts
+  s_1e4c4def41be2c::t_a124dbec868bdc 1-86
+src/rest-api/spot-x.ts
+  s_1e4c4def41be2c::t_a124dbec868bdc 1-146
+src/rest-api/pre-upgrade.ts
+  s_1e4c4def41be2c::t_227702b303c30c 1-25,27,126-150,152-176,178-194,196-221,223-228,240-255,257-260,262-282
+  s_1e4c4def41be2c::t_a124dbec868bdc 26,28-125,151,177,195,222,229-239,256,261
+src/client.ts
+  s_1e4c4def41be2c::t_a124dbec868bdc 15-16,21-22,25-28,56-57,62-63,66-69,91-92,97-98,101-104
+src/rest-api/event.ts
+  s_1e4c4def41be2c::t_a124dbec868bdc 1-120
+src/rest-api/strategy.ts
+  s_1e4c4def41be2c::t_b176147951f22a 1-24,26,35-63,75-76,78-120,122-136,138,148-164,166-173
+  s_1e4c4def41be2c::t_a124dbec868bdc 25,27-34,64-74,77,121,137,139-147,165
+CHANGELOG.md
+  s_1e4c4def41be2c::t_5bd998911c1a57 54-57
+  s_1e4c4def41be2c::t_0b9c299087286c 3-53,58-61
+tests/types/strategy-contracts.ts
+  s_1e4c4def41be2c::t_a124dbec868bdc 1
+  s_1e4c4def41be2c::t_cfe98be4734380 2-36
+tests/errors.test.ts
+  s_1e4c4def41be2c::t_26fd68beeef08f 10,121-136
+  s_1e4c4def41be2c::t_d4bd85c3278c4a 137-138
+src/http/errors.ts
+  s_1e4c4def41be2c::t_557113b3d12352 21
+src/rest-api/tax.ts
+  s_1e4c4def41be2c::t_a124dbec868bdc 1-52
+src/rest-api/index.ts
+  s_1e4c4def41be2c::t_b176147951f22a 12-13,18-19,22-25
+  s_1e4c4def41be2c::t_a124dbec868bdc 38
+docs/superpowers/specs/2026-10-28-sdk-review-fixes-design.md
+  s_1e4c4def41be2c::t_84f032f5e52a0b 11-12,14,45
+src/rest-api/spread-trade.ts
+  s_1e4c4def41be2c::t_a124dbec868bdc 75,141-142,146,232
+  s_1e4c4def41be2c::t_227702b303c30c 1-74,76-140,143-145,147-231,233-242
+tests/services.smoke.test.ts
+  s_1e4c4def41be2c::t_7c5ad55190dfff 13-38,281-292
+  s_1e4c4def41be2c::t_a124dbec868bdc 204-207,296-302,306-308
+  s_1e4c4def41be2c::t_2906738c740fb7 293,295,303-305,309-319
+  s_1e4c4def41be2c::t_43f22f1a9b8ed9 150-203,208-234
+  s_1e4c4def41be2c::t_799a76e2b8892e 148,244
+  s_1e4c4def41be2c::t_d411326c11aee2 149
+  s_1e4c4def41be2c::t_8a588ecf4879ab 294
+package-lock.json
+  s_1e4c4def41be2c::t_988ca5e542e529 3,9
+package.json
+  s_6af3615319c4cd::t_84fee12bf95a49 3
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.2-bit.2+419f699",
+  "base_commit_sha": "4391c195899a47f21fa79cc8d3105f9af8e69daa",
+  "prompts": {},
+  "sessions": {
+    "s_1e4c4def41be2c": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a17c7e-2d1a-7721-b7f8-21abb28afd38",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "doris-xiao-bybit <doris.xiao@bybit.com>"
+    },
+    "s_6af3615319c4cd": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a17b58-1fcd-78f2-af28-625b66470487",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "doris-xiao-bybit <doris.xiao@bybit.com>"
+    }
+  }
+}
