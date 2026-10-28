@@ -1,0 +1,21 @@
+CHANGELOG.md
+  s_1e4c4def41be2c::t_1e88018fda7d98 57
+package-lock.json
+  s_1e4c4def41be2c::t_cd6fcafa875ba3 2642-2644,2651
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.2-bit.2+419f699",
+  "base_commit_sha": "df8de9a147c3013556ade7baa33594412f8a7d24",
+  "prompts": {},
+  "sessions": {
+    "s_1e4c4def41be2c": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a17c7e-2d1a-7721-b7f8-21abb28afd38",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "doris-xiao-bybit <doris.xiao@bybit.com>"
+    }
+  }
+}
