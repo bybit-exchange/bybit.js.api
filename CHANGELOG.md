@@ -1,5 +1,64 @@
 # Changelog
 
+## [0.1.2] — 2026-10-27
+
+### Added
+- `SpreadTradeService.getSpreadInstrumentsInfo(...)`
+- `SpreadTradeService.getSpreadOrderbook(...)`
+- `SpreadTradeService.getSpreadRecentTrades(...)`
+- `SpreadTradeService.getSpreadTickers(...)`
+- `SpreadTradeService.amendSpreadOrder(...)`
+- `SpreadTradeService.cancelAllSpreadOrders(...)`
+- `SpreadTradeService.cancelSpreadOrder(...)`
+- `SpreadTradeService.createSpreadOrder(...)`
+- `SpreadTradeService.getSpreadOpenOrders(...)`
+- `SpreadTradeService.getSpreadOrderHistory(...)`
+- `SpreadTradeService.getSpreadTradeHistory(...)`
+- `SpreadTradeService.getSpreadMaxQty(...)`
+- `StrategyService.createStrategy(...)`
+- `StrategyService.queryOrderList(...)`
+- `StrategyService.queryList(...)`
+- `StrategyService.stopStrategy(...)`
+- `FiatService.queryBalance(...)`
+- `FiatService.queryCoinList(...)`
+- `FiatService.queryTradeHistory(...)`
+- `FiatService.applyQuote(...)`
+- `FiatService.getReferencePrice(...)`
+- `FiatService.confirmQuote(...)`
+- `FiatService.queryTrade(...)`
+- `SpotXService.getLaunchpoolProjectList(...)`
+- `SpotXService.getLaunchpoolUserActivityLog(...)`
+- `SpotXService.getLaunchpoolUserCurrentStaking(...)`
+- `SpotXService.getLaunchpoolUserHistory(...)`
+- `SpotXService.getPuzzleProjectList(...)`
+- `SpotXService.getTokenSplashProjectList(...)`
+- `SpotXService.getTokenSplashUserActivityParams(...)`
+- `EventService.getEcOrderHistory(...)`
+- `EventService.getEcActiveOrders(...)`
+- `EventService.getEcPositionInfo(...)`
+- `EventService.getEcSettlements(...)`
+- `EventService.getEcTradeHistory(...)`
+- `PreUpgradeService.getTransactionLog(...)`
+- `PreUpgradeService.getDeliveryRecord(...)`
+- `PreUpgradeService.getSettlementRecord(...)`
+- `PreUpgradeService.getClosedPnl(...)`
+- `PreUpgradeService.getExecutionList(...)`
+- `PreUpgradeService.getOrderHistory(...)`
+- `ReferralService.getCampaignRewards(...)`
+- `ReferralService.getCommissionRecords(...)`
+- `ReferralService.getUserIdentityProfile(...)`
+- `ReferralService.getUserInvitations(...)`
+- `TaxService.batchCreateTaxReports(...)`
+- `TaxService.batchQueryTaxReports(...)`
+
+### Fixed
+
+- Classify expired API key responses (`retCode` `33004`) as `BybitAuthError`.
+
+### Compatibility
+
+- Retained the generated method names as deprecated aliases.
+
 ## [0.1.1] — 2026-10-09
 
 ### Added

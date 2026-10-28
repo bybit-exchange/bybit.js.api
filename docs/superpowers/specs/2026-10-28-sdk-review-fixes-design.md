@@ -8,10 +8,10 @@ Correct the user-facing TypeScript contracts found during review, preserve compa
 
 - Make Strategy TWAP and Chase requests accept exactly one of `size` or `positionValue`.
 - Update strategy order-status filters from the obsolete `1`–`5` set to the documented `2`–`7` set.
-- Introduce clean method names for generated `Get`/`Post` suffixes and for the generic spread-history name. Keep every old name as a delegating alias marked `@deprecated`.
-- Strengthen the new-service smoke coverage to assert each method's exact path, HTTP method, and authentication requirement.
+- Introduce clean method names for generated `Get` suffixes and for the generic spread-history name. Keep every old name as a delegating alias marked `@deprecated`.
+- Strengthen the remaining new-service smoke coverage to assert each method's exact path, HTTP method, and authentication requirement.
 - Add compile-only type fixtures for the Strategy request and status contracts.
-- Synchronize `package-lock.json`, restore the Changelog heading hierarchy, and remove the unpublished stock-order documentation link that currently returns 404.
+- Synchronize `package-lock.json` and restore the Changelog heading hierarchy.
 
 ## Public API design
 
@@ -29,8 +29,6 @@ The canonical method aliases will be:
 
 | Service | Canonical method | Deprecated alias |
 |---|---|---|
-| `StocksService` | `cancelOrder` | `cancelOrderPost` |
-| `StocksService` | `getOrderDetail` | `getOrderDetailGet` |
 | `PreUpgradeService` | `getTransactionLog` | `getTransactionLogGet` |
 | `PreUpgradeService` | `getDeliveryRecord` | `getDeliveryRecordGet` |
 | `PreUpgradeService` | `getClosedPnl` | `getClosedPnlGet` |
@@ -44,7 +42,7 @@ Aliases delegate to canonical methods and therefore issue exactly one identical 
 Work follows red-green-refactor:
 
 1. Add compile-only fixtures that demonstrate documented `positionValue` calls and status `"7"`; also reject status `"1"` and requests containing both quantity fields.
-2. Add a contract table for all methods in the nine new services. Verify exact URL pathname, HTTP verb, and presence or absence of signed-request headers.
+2. Add a contract table for all methods in the eight remaining new services. Verify exact URL pathname, HTTP verb, and presence or absence of signed-request headers.
 3. Run the focused tests and typecheck before implementation and confirm they fail for the intended reasons.
 4. Implement the smallest source changes, rerun focused checks, then run the complete test, lint, build, smoke, and package-dry-run suite.
 

@@ -7,6 +7,7 @@ import {
   BybitParseError,
   BybitRateLimitError,
   BybitTimeoutError,
+  classifyRetCode,
   translateAxiosError,
 } from '../src/http/errors'
 
@@ -115,5 +116,23 @@ describe('translateAxiosError', () => {
   it('returns BybitError instances unchanged', () => {
     const original = new BybitApiError({ retCode: 1, retMsg: 'x', result: {}, retExtInfo: {}, time: 0 })
     expect(translateAxiosError(original, ctx)).toBe(original)
+  })
+})
+
+describe('classifyRetCode', () => {
+  it('classifies an expired API key as BybitAuthError', () => {
+    const err = classifyRetCode(
+      {
+        retCode: 33004,
+        retMsg: 'Your api key has expired.',
+        result: {},
+        retExtInfo: {},
+        time: 1,
+      },
+      ctx,
+    )
+
+    expect(err).toBeInstanceOf(BybitAuthError)
+    expect((err as BybitAuthError).retCode).toBe(33004)
   })
 })
