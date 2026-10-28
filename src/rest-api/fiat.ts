@@ -3,6 +3,9 @@ import { requestJson } from '../http/request.js'
 import type { ApiResponse } from '../types/common.js'
 import type { RestClientOptions } from '../config.js'
 
+type FiatTradeIdentity =
+  { tradeNo: string; merchantRequestId?: string } | { tradeNo?: string; merchantRequestId: string }
+
 export class FiatService {
   protected readonly opts!: RestClientOptions
 
@@ -22,10 +25,7 @@ export class FiatService {
    * Query Account Balance
    * @see https://bybit-exchange.github.io/docs/v5/asset/fiat-convert/balance-query
    */
-  async queryBalance(params: {
-    accountCategory?: 'fiat' | 'crypto'
-    currency?: string
-  }): Promise<ApiResponse<unknown>> {
+  async queryBalance(params: { currency?: string }): Promise<ApiResponse<unknown>> {
     return requestJson(this.http, this.opts, {
       method: 'GET',
       path: '/v5/fiat/balance-query',
@@ -89,10 +89,7 @@ export class FiatService {
    * Get Reference Price
    * @see https://bybit-exchange.github.io/docs/v5/asset/fiat-convert/reference-price
    */
-  async getReferencePrice(params: {
-    symbol: string
-    paymentMethod?: string
-  }): Promise<ApiResponse<unknown>> {
+  async getReferencePrice(params: { symbol: string }): Promise<ApiResponse<unknown>> {
     return requestJson(this.http, this.opts, {
       method: 'GET',
       path: '/v5/fiat/reference-price',
@@ -123,10 +120,7 @@ export class FiatService {
    * Query Trade Status
    * @see https://bybit-exchange.github.io/docs/v5/asset/fiat-convert/query-trade
    */
-  async queryTrade(params: {
-    tradeNo?: string
-    merchantRequestId?: string
-  }): Promise<ApiResponse<unknown>> {
+  async queryTrade(params: FiatTradeIdentity): Promise<ApiResponse<unknown>> {
     return requestJson(this.http, this.opts, {
       method: 'GET',
       path: '/v5/fiat/trade-query',

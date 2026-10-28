@@ -3,6 +3,11 @@ import { requestJson } from '../http/request.js'
 import type { ApiResponse } from '../types/common.js'
 import type { RestClientOptions } from '../config.js'
 
+type SpreadOrderIdentity =
+  { orderId: string; orderLinkId?: string } | { orderId?: string; orderLinkId: string }
+
+type SpreadOrderAmendment = { qty: string; price?: string } | { qty?: string; price: string }
+
 export class SpreadTradeService {
   protected readonly opts!: RestClientOptions
 
@@ -85,13 +90,9 @@ export class SpreadTradeService {
    * Amend Order
    * @see https://bybit-exchange.github.io/docs/v5/spread/trade/amend-order
    */
-  async amendSpreadOrder(params: {
-    symbol: string
-    orderId?: string
-    orderLinkId?: string
-    qty?: string
-    price?: string
-  }): Promise<ApiResponse<unknown>> {
+  async amendSpreadOrder(
+    params: { symbol: string } & SpreadOrderIdentity & SpreadOrderAmendment,
+  ): Promise<ApiResponse<unknown>> {
     return requestJson(this.http, this.opts, {
       method: 'POST',
       path: '/v5/spread/order/amend',
@@ -120,10 +121,7 @@ export class SpreadTradeService {
    * Cancel Order
    * @see https://bybit-exchange.github.io/docs/v5/spread/trade/cancel-order
    */
-  async cancelSpreadOrder(params: {
-    orderId?: string
-    orderLinkId?: string
-  }): Promise<ApiResponse<unknown>> {
+  async cancelSpreadOrder(params: SpreadOrderIdentity): Promise<ApiResponse<unknown>> {
     return requestJson(this.http, this.opts, {
       method: 'POST',
       path: '/v5/spread/order/cancel',

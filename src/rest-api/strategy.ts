@@ -24,6 +24,10 @@ type StrategyBase = {
 type SizeOrPositionValue =
   { size: string; positionValue?: never } | { size?: never; positionValue: string }
 
+type PovStopCondition =
+  | (SizeOrPositionValue & { duration?: number })
+  | { size?: never; positionValue?: never; duration: number }
+
 type ChaseStrategyRequest = StrategyBase &
   SizeOrPositionValue & {
     strategyType: 'chaseOrder'
@@ -33,33 +37,30 @@ type ChaseStrategyRequest = StrategyBase &
     triggerPrice?: string
   }
 
-type IcebergStrategyRequest = StrategyBase & {
-  size?: string
-  positionValue?: string
-  strategyType: 'iceberg'
-  subSize?: string
-  subPositionValue?: string
-  orderCount?: number
-  limitPrice?: string
-  chaseDistance?: string
-  chasePercentE4?: number
-  maxChasePrice?: string
-  postOnly?: 0 | 1
-}
-
-type PovStrategyRequest = StrategyBase & {
-  size?: string
-  positionValue?: string
-  strategyType: 'pov'
-  duration?: number
-  interval?: number
-  povParams: {
-    mode: 'TradedVolume' | 'OppositeSideLiquidity' | 'SameSideLiquidity'
-    participationRate: string
-    referenceWindow?: string
-    depthReference?: number
+type IcebergStrategyRequest = StrategyBase &
+  SizeOrPositionValue & {
+    strategyType: 'iceberg'
+    subSize?: string
+    subPositionValue?: string
+    orderCount?: number
+    limitPrice?: string
+    chaseDistance?: string
+    chasePercentE4?: number
+    maxChasePrice?: string
+    postOnly?: 0 | 1
   }
-}
+
+type PovStrategyRequest = StrategyBase &
+  PovStopCondition & {
+    strategyType: 'pov'
+    interval?: number
+    povParams: {
+      mode: 'TradedVolume' | 'OppositeSideLiquidity' | 'SameSideLiquidity'
+      participationRate: string
+      referenceWindow?: string
+      depthReference?: number
+    }
+  }
 
 type TwapStrategyRequest = StrategyBase &
   SizeOrPositionValue & {
