@@ -12,12 +12,20 @@ import { BotService } from './rest-api/bot.js'
 import { BrokerService } from './rest-api/broker.js'
 import { CryptoLoanService } from './rest-api/crypto-loan.js'
 import { EarnService } from './rest-api/earn.js'
+import { EventService } from './rest-api/event.js'
+import { FiatService } from './rest-api/fiat.js'
 import { LendingService } from './rest-api/lending.js'
 import { MarketService } from './rest-api/market.js'
 import { P2pService } from './rest-api/p2p.js'
 import { PositionService } from './rest-api/position.js'
+import { PreUpgradeService } from './rest-api/pre-upgrade.js'
+import { ReferralService } from './rest-api/referral.js'
 import { RfqService } from './rest-api/rfq.js'
 import { SpotMarginService } from './rest-api/spot-margin.js'
+import { SpotXService } from './rest-api/spot-x.js'
+import { SpreadTradeService } from './rest-api/spread-trade.js'
+import { StrategyService } from './rest-api/strategy.js'
+import { TaxService } from './rest-api/tax.js'
 import { TradeService } from './rest-api/trade.js'
 import { UserService } from './rest-api/user.js'
 // gen-sdk-js:client-imports:end
@@ -45,12 +53,20 @@ export class BybitClient {
   public readonly broker: BrokerService
   public readonly cryptoLoan: CryptoLoanService
   public readonly earn: EarnService
+  public readonly event: EventService
+  public readonly fiat: FiatService
   public readonly lending: LendingService
   public readonly market: MarketService
   public readonly p2p: P2pService
   public readonly position: PositionService
+  public readonly preUpgrade: PreUpgradeService
+  public readonly referral: ReferralService
   public readonly rfq: RfqService
   public readonly spotMargin: SpotMarginService
+  public readonly spotX: SpotXService
+  public readonly spreadTrade: SpreadTradeService
+  public readonly strategy: StrategyService
+  public readonly tax: TaxService
   public readonly trade: TradeService
   public readonly user: UserService
   // gen-sdk-js:client-fields:end
@@ -72,12 +88,20 @@ export class BybitClient {
     this.broker = new BrokerService(this.http, this.options)
     this.cryptoLoan = new CryptoLoanService(this.http, this.options)
     this.earn = new EarnService(this.http, this.options)
+    this.event = new EventService(this.http, this.options)
+    this.fiat = new FiatService(this.http, this.options)
     this.lending = new LendingService(this.http, this.options)
     this.market = new MarketService(this.http, this.options)
     this.p2p = new P2pService(this.http, this.options)
     this.position = new PositionService(this.http, this.options)
+    this.preUpgrade = new PreUpgradeService(this.http, this.options)
+    this.referral = new ReferralService(this.http, this.options)
     this.rfq = new RfqService(this.http, this.options)
     this.spotMargin = new SpotMarginService(this.http, this.options)
+    this.spotX = new SpotXService(this.http, this.options)
+    this.spreadTrade = new SpreadTradeService(this.http, this.options)
+    this.strategy = new StrategyService(this.http, this.options)
+    this.tax = new TaxService(this.http, this.options)
     this.trade = new TradeService(this.http, this.options)
     this.user = new UserService(this.http, this.options)
     // gen-sdk-js:client-inits:end

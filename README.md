@@ -8,9 +8,9 @@
 
 Official lightweight TypeScript / JavaScript connector for the [Bybit V5 REST API](https://bybit-exchange.github.io/docs/v5/intro).
 
-`bybit-official-ts-sdk` is a thin, typed wrapper around the Bybit V5 HTTP endpoints. It ships as a single npm package with one service class per API group (`market`, `trade`, `account`, `position`, `asset`, `user`, `affiliate`, `broker`, `crypto-loan`, `institutional-loan`, `alpha`, `rfq`, `spot-margin`, `earn`, `p2p`, `bot`). Its goal is the same as [`pybit`](https://github.com/bybit-exchange/pybit) on the Python side: an easy-to-use, high-performance connector with a small dependency footprint.
+`bybit-official-ts-sdk` is a thin, typed wrapper around the Bybit V5 HTTP endpoints. It ships as a single npm package with one service class per API group (`market`, `trade`, `account`, `position`, `asset`, `user`, `affiliate`, `broker`, `crypto-loan`, `institutional-loan`, `alpha`, `rfq`, `spot-margin`, `earn`, `p2p`, `bot`, `event`, `fiat`, `pre-upgrade`, `referral`, `spot-x`, `spread-trade`, `strategy`, `tax`). Its goal is the same as [`pybit`](https://github.com/bybit-exchange/pybit) on the Python side: an easy-to-use, high-performance connector with a small dependency footprint.
 
-The client currently exposes REST endpoints across **16 service modules**, all reachable from a single `BybitClient`.
+The client currently exposes REST endpoints across **24 service modules**, all reachable from a single `BybitClient`.
 
 Capabilities in this release:
 
@@ -298,6 +298,14 @@ client.spotMargin    // SpotMarginService    — UTA spot margin
 client.earn          // EarnService          — earn, liquidity mining, RWA, PWM, hold-to-earn
 client.p2p           // P2pService           — P2P advertise / order / chat
 client.bot           // BotService           — DCA / grid / futures-combo / futures-grid / martingale
+client.event         // EventService         — Event Contract orders, positions, trades, settlements
+client.fiat          // FiatService          — fiat conversion balances, quotes, and trade history
+client.preUpgrade    // PreUpgradeService    — pre-upgrade account and trading history
+client.referral      // ReferralService      — referral campaigns, commissions, and invitations
+client.spotX         // SpotXService          — Launchpool, Puzzle, and Token Splash activities
+client.spreadTrade   // SpreadTradeService    — spread market data and order lifecycle
+client.strategy      // StrategyService      — TWAP, chase, iceberg, and POV strategies
+client.tax           // TaxService           — tax-report batch exports
 ```
 
 ### Wire-key conventions
