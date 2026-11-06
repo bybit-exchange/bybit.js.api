@@ -1,0 +1,23 @@
+CHANGELOG.md
+  s_f323b02ad70227::t_983806fdb4f8fd 59
+tests/types/strategy-contracts.ts
+  s_f323b02ad70227::t_273cc413c0d147 42-84,138-140
+src/rest-api/strategy.ts
+  s_f323b02ad70227::t_983806fdb4f8fd 30
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.2-bit.2+419f699",
+  "base_commit_sha": "13572f930db011d103bf6078b839585888b47582",
+  "prompts": {},
+  "sessions": {
+    "s_f323b02ad70227": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a1afab-2900-7431-b09a-0b2896dc1452",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "johnny.wang <johnny.wang@bybit.com>"
+    }
+  }
+}
