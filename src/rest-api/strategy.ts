@@ -27,6 +27,7 @@ type SizeOrPositionValue =
 type PovStopCondition =
   | (SizeOrPositionValue & { duration?: number })
   | { size?: never; positionValue?: never; duration: number }
+  | { size?: never; positionValue?: never; duration?: never; interval: 0 }
 
 type ChaseStrategyRequest = StrategyBase &
   SizeOrPositionValue & {

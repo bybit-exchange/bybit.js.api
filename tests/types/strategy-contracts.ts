@@ -39,6 +39,49 @@ const povByDuration: CreateStrategyRequest = {
   },
 }
 
+const oneTimePov: CreateStrategyRequest = {
+  category: 'UTA_USDT',
+  symbol: 'BTCUSDT',
+  side: 'Buy',
+  strategyType: 'pov',
+  interval: 0,
+  povParams: {
+    mode: 'TradedVolume',
+    participationRate: '25',
+    referenceWindow: '60',
+  },
+}
+
+// @ts-expect-error continuous POV requires a quantity or duration stop condition
+const continuousPovWithoutStopCondition: CreateStrategyRequest = {
+  category: 'UTA_USDT',
+  symbol: 'BTCUSDT',
+  side: 'Buy',
+  strategyType: 'pov',
+  interval: 5,
+  povParams: {
+    mode: 'TradedVolume',
+    participationRate: '25',
+    referenceWindow: '60',
+  },
+}
+
+// @ts-expect-error one-time POV quantity and value remain mutually exclusive
+const ambiguousOneTimePov: CreateStrategyRequest = {
+  category: 'UTA_USDT',
+  symbol: 'BTCUSDT',
+  side: 'Buy',
+  strategyType: 'pov',
+  interval: 0,
+  size: '1',
+  positionValue: '1000',
+  povParams: {
+    mode: 'TradedVolume',
+    participationRate: '25',
+    referenceWindow: '60',
+  },
+}
+
 const canceled: StrategyOrderStatus = '7'
 
 // @ts-expect-error status 1 is obsolete
@@ -92,6 +135,9 @@ void [
   twapByValue,
   icebergBySize,
   povByDuration,
+  oneTimePov,
+  continuousPovWithoutStopCondition,
+  ambiguousOneTimePov,
   canceled,
   obsolete,
   ambiguous,
