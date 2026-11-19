@@ -1,0 +1,33 @@
+package.json
+  s_fe0399bd5bbc9b::t_af3ab29a056ad6 3
+.github/workflows/publish.yml
+  s_bac830f8b6b8d2::t_f8a60373c5e95d 13,20,23-25,52
+CHANGELOG.md
+  s_fe0399bd5bbc9b::t_af3ab29a056ad6 3-9
+package-lock.json
+  s_fe0399bd5bbc9b::t_45c000df0275b1 3,9
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.2-bit.2+419f699",
+  "base_commit_sha": "20c2f90c97eb6780775e872a9cdbdfe6e29ebf39",
+  "prompts": {},
+  "sessions": {
+    "s_bac830f8b6b8d2": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a1affa-536e-7e63-a438-e1d60ce47e12",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "doris-xiao-bybit <doris.xiao@bybit.com>"
+    },
+    "s_fe0399bd5bbc9b": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a1f275-f7af-7b41-8c06-4ae5b5e87762",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "doris-xiao-bybit <doris.xiao@bybit.com>"
+    }
+  }
+}
