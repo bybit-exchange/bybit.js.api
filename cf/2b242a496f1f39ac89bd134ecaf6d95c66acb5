@@ -1,0 +1,41 @@
+tests/services.smoke.test.ts
+  s_1a927e25fbf8cd::t_7eaa54ae1b153f 281-284
+  s_1a927e25fbf8cd::t_12accfd1518b42 285-291
+src/rest-api/spot-margin.ts
+  s_1a927e25fbf8cd::t_e95a991f3029b5 398
+  s_1a927e25fbf8cd::t_12df742354e5eb 395-397
+  s_1a927e25fbf8cd::t_d8800198b666a7 399-401
+  s_1a927e25fbf8cd::t_372d567ea6ca16 348-394,402-407
+CHANGELOG.md
+  s_1a927e25fbf8cd::t_e95a991f3029b5 3
+  s_1a927e25fbf8cd::t_0f6bb762513998 4-6
+  s_1a927e25fbf8cd::t_7c6487585217ef 7-10
+package.json
+  s_91cb11d836d274::t_89a39713de44d2 3
+package-lock.json
+  s_1a927e25fbf8cd::t_a5ae7c84b54009 3,9
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.2-bit.2+419f699",
+  "base_commit_sha": "cf2b242a496f1f39ac89bd134ecaf6d95c66acb5",
+  "prompts": {},
+  "sessions": {
+    "s_1a927e25fbf8cd": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a216b8-db4f-7143-8faa-e23e10c4620a",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "doris-xiao-bybit <doris.xiao@bybit.com>"
+    },
+    "s_91cb11d836d274": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a216a6-a93b-74f2-9ec9-db4c3269784c",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "doris-xiao-bybit <doris.xiao@bybit.com>"
+    }
+  }
+}
