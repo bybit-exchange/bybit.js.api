@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.1.4] — 2026-11-26
+
+### Added
+- `SpotMarginService.queryFixedBorrowPenaltyInterest(...)`
+- `SpotMarginService.cancelFixedBorrowOrderPost(...)`
+- `SpotMarginService.getTradeAutoRepay(...)`
+- `SpotMarginService.setTradeAutoRepay(...)`
+
 ## [0.1.3] — 2026-11-19
 
 ### Changed

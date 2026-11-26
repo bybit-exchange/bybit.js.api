@@ -278,6 +278,17 @@ describe('every service method → one HTTP request', () => {
     expect([...SERVICES].sort()).toEqual(exposedServices)
   })
 
+  it('does not expose the deferred stocks API', () => {
+    expect(client).not.toHaveProperty('stocks')
+  })
+
+  it('restricts trade auto repay to the API-supported values', () => {
+    if (false) {
+      // @ts-expect-error Bybit only accepts "0" (disabled) or "1" (enabled).
+      void client.spotMargin.setTradeAutoRepay({ autoRepay: 'enabled' })
+    }
+  })
+
   it('exposes canonical names and retains generated compatibility aliases', () => {
     expect(typeof client.preUpgrade.getTransactionLog).toBe('function')
     expect(typeof client.preUpgrade.getDeliveryRecord).toBe('function')

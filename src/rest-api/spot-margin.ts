@@ -345,4 +345,64 @@ export class SpotMarginService {
     })
   }
 
+  /**
+   * Query Fixed-Rate Borrow Penalty Interest
+   * @see https://bybit-exchange.github.io/docs/v5/spot-margin-uta/fixedborrow-interest-accrued
+   */
+  async queryFixedBorrowPenaltyInterest(params: {
+    orderId?: string
+    orderCurrency?: string
+    limit?: string
+    cursor?: string
+  }): Promise<ApiResponse<unknown>> {
+    return requestJson(this.http, this.opts, {
+      method: 'GET',
+      path: '/v5/spot-margin-trade/fixedborrow-interest-accrued',
+      signed: true,
+      query: params,
+    })
+  }
+
+  /**
+   * Cancel Fixed-Rate Borrow Order
+   * @see https://bybit-exchange.github.io/docs/v5/spot-margin-uta/fixedborrow-order-cancel
+   */
+  async cancelFixedBorrowOrderPost(params: {
+    orderId: string
+  }): Promise<ApiResponse<unknown>> {
+    return requestJson(this.http, this.opts, {
+      method: 'POST',
+      path: '/v5/spot-margin-trade/fixedborrow-order-cancel',
+      signed: true,
+      body: params,
+    })
+  }
+
+  /**
+   * Get Trade Auto Repay
+   * @see https://bybit-exchange.github.io/docs/v5/spot-margin-uta/get-trade-auto-repay
+   */
+  async getTradeAutoRepay(): Promise<ApiResponse<unknown>> {
+    return requestJson(this.http, this.opts, {
+      method: 'GET',
+      path: '/v5/spot-margin-trade/get-trade-auto-repay',
+      signed: true,
+    })
+  }
+
+  /**
+   * Set Trade Auto Repay
+   * @see https://bybit-exchange.github.io/docs/v5/spot-margin-uta/set-trade-auto-repay
+   */
+  async setTradeAutoRepay(params: {
+    autoRepay: '0' | '1'
+  }): Promise<ApiResponse<unknown>> {
+    return requestJson(this.http, this.opts, {
+      method: 'POST',
+      path: '/v5/spot-margin-trade/set-trade-auto-repay',
+      signed: true,
+      body: params,
+    })
+  }
+
 }
