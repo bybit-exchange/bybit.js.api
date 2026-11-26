@@ -1,12 +1,19 @@
 # Changelog
 
-## [0.1.3] — 2026-11-26
+## [0.1.4] — 2026-11-26
 
 ### Added
 - `SpotMarginService.queryFixedBorrowPenaltyInterest(...)`
 - `SpotMarginService.cancelFixedBorrowOrderPost(...)`
 - `SpotMarginService.getTradeAutoRepay(...)`
 - `SpotMarginService.setTradeAutoRepay(...)`
+
+## [0.1.3] — 2026-11-19
+
+### Changed
+
+- Republish the `0.1.2` release contents after migrating npm authentication to
+  GitHub Actions trusted publishing with provenance.
 
 ## [0.1.2] — 2026-10-27
 
